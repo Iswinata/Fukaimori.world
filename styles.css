@@ -5,7 +5,7 @@
    layout fills any screen proportionally with no black bars.
    ============================================================ */
 :root {
-  --text-violet: #8800FF;   /* AN ARCHIVE + subtitle */
+  --text-violet: #e9d0ff;   /* AN ARCHIVE + subtitle */
   --brand-violet: #694EAB;  /* DROP POINT */
   --dot-red: #FF4444;       /* Ellipse 4 */
 }
