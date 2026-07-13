@@ -510,7 +510,187 @@ html, body {
 }
 
 
+/* ============================================================
+   ARCHIVE PAGE (archive.html)
+   Design base 1512 x 982. Reuses the same eclipse background,
+   keeps the logo + drop point, and removes the FUKAIMORI
+   wordmark. Positions are % of the viewport; sizes use vw so
+   the layout scales with the screen (same approach as landing).
+   ============================================================ */
+
+/* Soft entrance fade so the page eases in after the portal flash */
+.archive-canvas .arc-head,
+.archive-canvas .arc-gallery,
+.archive-canvas .arc-ring,
+.archive-canvas .arc-nav {
+  animation: arc-fade-in 0.9s ease-out both;
+}
+.archive-canvas .arc-gallery { animation-delay: 0.15s; }
+.archive-canvas .arc-nav { animation-delay: 0.3s; }
+@keyframes arc-fade-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Heading block (ARCHIVE + description) --- */
+.arc-head {
+  position: absolute;
+  left: 4.03%;    /* 61 / 1512 */
+  top: 11%;
+  z-index: 6;
+  max-width: 42%;
+}
+.arc-title {
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 7.12vw;      /* 107.682 / 1512 */
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  margin: 0;
+  /* Luminous tone so it reads on the dark eclipse background */
+  color: #EDE4DA;
+  text-shadow: var(--text-glow);
+}
+.arc-desc {
+  margin: 1.1vw 0 0;
+  width: 28.77%;          /* 435 / 1512 */
+  max-width: 435px;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 0.95vw;      /* 14 / 1512 */
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: #C9BEFF;
+  text-shadow: 0 1px 3px rgba(12, 4, 26, 0.7);
+}
+
+/* --- Gallery of four portrait cards --- */
+.arc-gallery {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+.arc-card {
+  position: absolute;
+  top: 37.58%;            /* 369 / 982 */
+  width: 19.36vw;         /* ~292.73 / 1512 */
+  height: 28.44vw;        /* ~430 / 1512 (keeps portrait ratio) */
+  pointer-events: auto;
+  border-radius: 4px;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  box-shadow: 0 14px 40px rgba(8, 3, 20, 0.5),
+              0 0 0 1px rgba(197, 188, 255, 0.18);
+}
+.arc-card-1 { left: 4.43%; }   /* 67 / 1512  */
+.arc-card-2 { left: 26.12%; }  /* 395 / 1512 */
+.arc-card-3 { left: 47.82%; }  /* 723 / 1512 */
+.arc-card-4 { left: 69.25%; }  /* 1047 / 1512 */
+
+/* Placeholder image fill (drop real photos in .arc-card-img later) */
+.arc-card-img {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(26, 14, 48, 0.15) 0%, rgba(12, 5, 28, 0.75) 100%),
+    radial-gradient(120% 90% at 50% 20%, rgba(150, 105, 255, 0.35), rgba(45, 24, 82, 0.6) 60%, rgba(12, 5, 28, 0.9) 100%);
+  background-size: cover;
+  background-position: center;
+}
+.arc-card-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.03) 0 2px,
+    rgba(255, 255, 255, 0) 2px 9px
+  );
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+/* Number caption tab at the bottom of each card */
+.arc-card-num {
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  transform: translateX(-50%);
+  min-width: 1.4vw;
+  padding: 0.15vw 0.5vw;
+  font-family: "Brawler", Georgia, serif;
+  font-size: 0.88vw;      /* ~13.25 / 1512 */
+  line-height: 1.2;
+  text-align: center;
+  color: #E9E2FF;
+  background: rgba(4, 4, 4, 0.75);
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+}
+.arc-card:hover,
+.arc-card:focus-within {
+  transform: translateY(-8px);
+  box-shadow: 0 22px 54px rgba(8, 3, 20, 0.6),
+              0 0 0 1px rgba(214, 159, 255, 0.55),
+              0 0 30px rgba(150, 105, 255, 0.4);
+}
+
+/* --- Decorative focus ring (Ellipse 1) --- */
+.arc-ring {
+  position: absolute;
+  left: 50%;
+  top: 52.65%;            /* 517 / 982 */
+  width: 10.38vw;         /* 157 / 1512 */
+  height: 10.38vw;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(233, 226, 255, 0.45);
+  border-radius: 50%;
+  box-shadow: 0 0 24px rgba(150, 105, 255, 0.35),
+              inset 0 0 24px rgba(197, 188, 255, 0.2);
+  z-index: 7;
+  pointer-events: none;
+  animation: arc-ring-pulse 4s ease-in-out infinite;
+}
+@keyframes arc-ring-pulse {
+  0%, 100% { opacity: 0.75; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.04); }
+}
+
+/* --- Navigation button (Group 2) bottom-right --- */
+.arc-nav {
+  position: absolute;
+  left: 92.13%;           /* 1393 / 1512 */
+  top: 57.94%;            /* 569 / 982 */
+  width: 3.64vw;          /* 55 / 1512 */
+  height: 3.64vw;
+  display: grid;
+  place-items: center;
+  border: 1.64px solid #786BC7;
+  border-radius: 50%;
+  background: rgba(20, 10, 40, 0.35);
+  z-index: 8;
+  transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+.arc-nav:hover,
+.arc-nav:focus-visible {
+  background: rgba(120, 107, 199, 0.25);
+  box-shadow: 0 0 22px rgba(150, 105, 255, 0.5);
+  transform: scale(1.06);
+  outline: none;
+}
+/* Chevron arrow (Vector 1) */
+.arc-nav-icon {
+  width: 1.35vw;          /* ~25 / 1512 */
+  height: 1.35vw;
+  border-top: 2.4px solid #B9AEF7;
+  border-right: 2.4px solid #B9AEF7;
+  transform: rotate(45deg) translate(-8%, 8%);
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   * { animation: none !important; }
 }
+
+

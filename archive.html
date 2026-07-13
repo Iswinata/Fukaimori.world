@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fukaimori — An Archive. Exploring the depths of humanity." />
+  <title>Fukaimori · Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Brawler&family=Cantarell:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="viewport">
+    <!-- Same background as the landing page -->
+    <div class="canvas archive-canvas" id="canvas">
+
+      <!-- Fallback cosmic scene (shown if the background image is missing) -->
+      <div class="scene" aria-hidden="true">
+        <div class="stars"></div>
+        <div class="sigil">
+          <svg class="ring ring-outer" viewBox="0 0 400 400" role="presentation">
+            <circle cx="200" cy="200" r="196" fill="none" stroke="url(#g)" stroke-width="1" opacity="0.5"/>
+            <circle cx="200" cy="200" r="176" fill="none" stroke="url(#g)" stroke-width="0.6" stroke-dasharray="2 6" opacity="0.6"/>
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#C5BCFF"/>
+                <stop offset="1" stop-color="#694EAB"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <svg class="ring ring-inner" viewBox="0 0 400 400" role="presentation">
+            <circle cx="200" cy="200" r="150" fill="none" stroke="url(#g)" stroke-width="0.8" opacity="0.7"/>
+            <g stroke="url(#g)" stroke-width="1" fill="none" opacity="0.85">
+              <polygon points="200,60 214,186 340,200 214,214 200,340 186,214 60,200 186,186"/>
+            </g>
+          </svg>
+          <div class="moon"><div class="moon-body"></div></div>
+        </div>
+      </div>
+
+      <!-- Real design background image -->
+      <div class="photo" aria-hidden="true"></div>
+
+      <!-- Drifting clouds / mist overlay -->
+      <div class="clouds" aria-hidden="true">
+        <span class="cloud cloud-1"></span>
+        <span class="cloud cloud-2"></span>
+        <span class="cloud cloud-3"></span>
+      </div>
+
+      <!-- Landing-page fog (rolling mist) -->
+      <div class="fog" aria-hidden="true">
+        <span class="fog-layer fog-a"></span>
+        <span class="fog-layer fog-b"></span>
+        <span class="fog-layer fog-c"></span>
+      </div>
+
+      <!-- Brand (top-left) — logo only, FUKAIMORI wordmark removed -->
+      <div class="brand">
+        <a class="brand-mark" href="index.html" aria-label="Fukaimori — back to entrance"></a>
+      </div>
+
+      <!-- Drop point (top-right) — kept -->
+      <div class="drop-point">
+        <span class="drop-text">DROP POINT</span>
+        <span class="drop-dot" aria-hidden="true"></span>
+      </div>
+
+      <!-- ============ Archive content ============ -->
+      <header class="arc-head">
+        <h1 class="arc-title">ARCHIVE</h1>
+        <p class="arc-desc">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Nulla mattis velit ac fermentum euismod. Fusce eget sapien nisl.
+        </p>
+      </header>
+
+      <!-- Gallery row of four portrait cards -->
+      <section class="arc-gallery" aria-label="Archive entries">
+        <article class="arc-card arc-card-1">
+          <div class="arc-card-img"></div>
+          <span class="arc-card-num">1</span>
+        </article>
+        <article class="arc-card arc-card-2">
+          <div class="arc-card-img"></div>
+          <span class="arc-card-num">2</span>
+        </article>
+        <article class="arc-card arc-card-3">
+          <div class="arc-card-img"></div>
+          <span class="arc-card-num">3</span>
+        </article>
+        <article class="arc-card arc-card-4">
+          <div class="arc-card-img"></div>
+          <span class="arc-card-num">4</span>
+        </article>
+      </section>
+
+      <!-- Decorative focus ring (Ellipse 1) -->
+      <div class="arc-ring" aria-hidden="true"></div>
+
+      <!-- Navigation button (Group 2) bottom-right -->
+      <a class="arc-nav" href="index.html" aria-label="Back to entrance">
+        <span class="arc-nav-icon" aria-hidden="true"></span>
+      </a>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
