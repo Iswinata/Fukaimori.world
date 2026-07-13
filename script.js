@@ -39,4 +39,49 @@
   } else if (canvas) {
     canvas.classList.add("no-logo");
   }
+
+  /* --------------------------------------------------------
+     Moon portal interaction
+       - hover / focus the moon => the moon glows and the fog
+         is drawn inward (absorbed), forming a portal
+       - click / Enter => play the enter transition, then
+         navigate to the next page
+     -------------------------------------------------------- */
+  var portal = document.getElementById("portal");
+  if (canvas && portal) {
+    // The next page to open when the portal is entered.
+    var NEXT_PAGE = portal.getAttribute("data-next") || "archive.html";
+
+    var activate = function () { canvas.classList.add("portal-active"); };
+    var deactivate = function () {
+      // Keep it active while entering so the animation is uninterrupted.
+      if (!canvas.classList.contains("portal-entering")) {
+        canvas.classList.remove("portal-active");
+      }
+    };
+
+    portal.addEventListener("mouseenter", activate);
+    portal.addEventListener("mouseleave", deactivate);
+    portal.addEventListener("focus", activate);
+    portal.addEventListener("blur", deactivate);
+
+    var entering = false;
+    var enter = function () {
+      if (entering) return;
+      entering = true;
+      canvas.classList.add("portal-active", "portal-entering");
+
+      var reduce = window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var delay = reduce ? 0 : 1000;
+
+      window.setTimeout(function () {
+        window.location.href = NEXT_PAGE;
+      }, delay);
+    };
+
+    portal.addEventListener("click", enter);
+  }
 })();
+
+
