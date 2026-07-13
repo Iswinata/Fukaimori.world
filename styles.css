@@ -589,6 +589,20 @@ html, body {
 .arc-card-3 { left: 47.82%; }  /* 723 / 1512 */
 .arc-card-4 { left: 69.25%; }  /* 1047 / 1512 */
 
+/* Real archive artwork, ordered by unlock number */
+.arc-card-1 .arc-card-img { background-image: url("Unlock 1.png"); }
+.arc-card-2 .arc-card-img { background-image: url("aw 2.png"); }
+.arc-card-3 .arc-card-img { background-image: url("aw 3.png"); }
+.arc-card-4 .arc-card-img { background-image: url("aw 4.png"); }
+.arc-card-1 .arc-card-img,
+.arc-card-2 .arc-card-img,
+.arc-card-3 .arc-card-img,
+.arc-card-4 .arc-card-img {
+  background-repeat: no-repeat;
+  background-color: #0c051c;
+}
+
+
 /* Placeholder image fill (drop real photos in .arc-card-img later) */
 .arc-card-img {
   position: absolute;
