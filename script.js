@@ -1,23 +1,42 @@
 /* ============================================================
    Fukaimori · An Archive
-   Layout is now fullscreen-fluid via CSS (vw / %), so no
-   JS scaling is needed. This only hides the background image
-   if it fails to load, letting the CSS fallback scene show.
+   Layout is fullscreen-fluid via CSS (vw / %). This script only
+   handles graceful fallbacks when image assets are missing:
+     - hide the .photo layer if BGLP.png fails to load
+     - draw a CSS logo (.no-logo) if Subtract.png fails to load
    ============================================================ */
 (function () {
   "use strict";
 
+  function urlFromBg(el) {
+    if (!el) return "";
+    var style = getComputedStyle(el);
+    var match = /url\((['"]?)(.*?)\1\)/.exec(style.backgroundImage || "");
+    return match ? match[2] : "";
+  }
+
+  // Background photo fallback
   var photo = document.querySelector(".photo");
-  if (!photo) return;
+  var photoUrl = urlFromBg(photo);
+  if (photo) {
+    if (photoUrl) {
+      var bg = new Image();
+      bg.onerror = function () { photo.style.display = "none"; };
+      bg.src = photoUrl;
+    } else {
+      photo.style.display = "none";
+    }
+  }
 
-  var style = getComputedStyle(photo);
-  var match = /url\((['"]?)(.*?)\1\)/.exec(style.backgroundImage || "");
-
-  if (match && match[2]) {
-    var probe = new Image();
-    probe.onerror = function () { photo.style.display = "none"; };
-    probe.src = match[2];
-  } else {
-    photo.style.display = "none";
+  // Logo fallback: if Subtract.png can't load, use the CSS-drawn mark
+  var canvas = document.getElementById("canvas");
+  var mark = document.querySelector(".brand-mark");
+  var logoUrl = urlFromBg(mark);
+  if (canvas && logoUrl) {
+    var logo = new Image();
+    logo.onerror = function () { canvas.classList.add("no-logo"); };
+    logo.src = logoUrl;
+  } else if (canvas) {
+    canvas.classList.add("no-logo");
   }
 })();

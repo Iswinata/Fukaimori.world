@@ -1,17 +1,15 @@
 /* ============================================================
    Fukaimori · An Archive
-   Fullscreen fluid rebuild from Figma (design base 1512 x 982)
-   All positions/sizes derived from Figma, expressed in % / vw
-   so the layout fills any screen with no black bars.
+   Fullscreen fluid rebuild from Figma (design base 1920 x 1080)
+   Figma px are converted to % (position) and vw (size) so the
+   layout fills any screen proportionally with no black bars.
    ============================================================ */
 :root {
-  --text-violet: #C5BCFF;   /* AN ARCHIVE + subtitle */
-  --brand-violet: #694EAB;  /* FUKAIMORI + DROP POINT */
-  --mark-outer: #5A3E8E;    /* Ellipse 11 */
-  --mark-sub: #5934A5;      /* Subtract crescent */
-  --mark-inner: #D9D9D9;    /* Ellipse 12 */
+  --text-violet: #D69FFF;   /* AN ARCHIVE + subtitle */
+  --brand-violet: #694EAB;  /* DROP POINT */
   --dot-red: #FF4444;       /* Ellipse 4 */
 }
+
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -28,30 +26,135 @@ html, body {
   background: #000;
 }
 
-/* The canvas now fills the entire viewport */
+/* The canvas fills the entire viewport */
 .canvas {
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: #000;
+  background: #FFFFFF;
   overflow: hidden;
   color: var(--text-violet);
 }
 
 /* ============================================================
-   Background image (BG LP.png) — fills the screen (cover)
+   Background image (BGLP.png) — fills the screen (cover)
    ============================================================ */
 .photo {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  background-image: url("BG LP.png");
+  background-image: url("BGLP.png");
   background-size: cover;
   background-position: center;
   z-index: 2;
 }
 /* If the image fails to load, the .scene fallback shows through */
+
+/* ============================================================
+   Drifting clouds / mist — soft blobs floating across the scene
+   ============================================================ */
+.clouds {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+.cloud {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(197, 188, 255, 0.20) 0%,
+    rgba(105, 78, 171, 0.12) 40%,
+    rgba(105, 78, 171, 0) 72%
+  );
+  filter: blur(32px);
+  opacity: 0.8;
+  will-change: transform;
+}
+.cloud-1 {
+  top: 26%; left: -30%;
+  width: 45vw; height: 24vw;
+  animation: drift-right 46s linear infinite;
+}
+.cloud-2 {
+  top: 48%; left: -40%;
+  width: 60vw; height: 30vw;
+  opacity: 0.55;
+  animation: drift-right 68s linear infinite;
+  animation-delay: -20s;
+}
+.cloud-3 {
+  top: 10%; left: -35%;
+  width: 38vw; height: 20vw;
+  opacity: 0.45;
+  animation: drift-right 58s linear infinite;
+  animation-delay: -38s;
+}
+@keyframes drift-right {
+  from { transform: translateX(0); }
+  to   { transform: translateX(180vw); }
+}
+
+/* ============================================================
+   Landing-page fog — rolling mist banks near the bottom
+   ============================================================ */
+.fog {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow: hidden;
+  pointer-events: none;
+  /* Heavier fog on first load, then eases down to the resting level */
+  animation: fog-intro 6s ease-out forwards;
+}
+@keyframes fog-intro {
+  0%   { opacity: 1; }
+  100% { opacity: 0.72; }
+}
+.fog-layer {
+  position: absolute;
+  left: -50%;
+  width: 200%;
+  height: 62%;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse 60% 100% at 20% 100%,
+    rgba(214, 200, 255, 0.30) 0%,
+    rgba(150, 105, 255, 0.18) 42%,
+    rgba(105, 78, 171, 0) 75%
+  ),
+  radial-gradient(
+    ellipse 55% 100% at 70% 100%,
+    rgba(214, 200, 255, 0.26) 0%,
+    rgba(150, 105, 255, 0.16) 42%,
+    rgba(105, 78, 171, 0) 75%
+  );
+  filter: blur(30px);
+  will-change: transform;
+}
+.fog-a { animation: fog-roll 40s ease-in-out infinite alternate; opacity: 1; }
+.fog-b {
+  height: 48%;
+  opacity: 0.75;
+  animation: fog-roll 55s ease-in-out infinite alternate-reverse;
+  animation-delay: -12s;
+}
+.fog-c {
+  height: 38%;
+  opacity: 0.6;
+  filter: blur(38px);
+  animation: fog-roll 72s ease-in-out infinite alternate;
+  animation-delay: -30s;
+}
+@keyframes fog-roll {
+  from { transform: translateX(-8%); }
+  to   { transform: translateX(8%); }
+}
+
 
 /* ============================================================
    Fallback cosmic scene (only visible if photo missing)
@@ -78,27 +181,20 @@ html, body {
   animation: twinkle 6s ease-in-out infinite alternate;
 }
 @keyframes twinkle { from { opacity: 0.5; } to { opacity: 1; } }
-
 .sigil {
-  position: absolute;
-  left: 50%;
-  top: 42%;
-  width: 28vw;
-  height: 28vw;
+  position: absolute; left: 50%; top: 42%;
+  width: 28vw; height: 28vw;
   transform: translate(-50%, -50%);
-  display: grid;
-  place-items: center;
+  display: grid; place-items: center;
   filter: drop-shadow(0 0 24px rgba(105, 78, 171, 0.45));
 }
 .ring { position: absolute; inset: 0; width: 100%; height: 100%; }
 .ring-outer { animation: spin 60s linear infinite; }
 .ring-inner { animation: spin 40s linear infinite reverse; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
 .moon { width: 34%; aspect-ratio: 1/1; display: grid; place-items: center; }
 .moon-body {
-  width: 100%; height: 100%;
-  border-radius: 50%;
+  width: 100%; height: 100%; border-radius: 50%;
   background: radial-gradient(circle at 62% 50%, #f3e9ff 0%, #C5BCFF 45%, #694EAB 100%);
   box-shadow: -10px 0 24px #9c6bff, 0 0 40px rgba(105,78,171,0.6), 0 0 80px rgba(105,78,171,0.4);
   -webkit-mask: radial-gradient(circle at 30% 50%, transparent 52%, #000 53%);
@@ -106,118 +202,143 @@ html, body {
 }
 
 /* ============================================================
-   Brand — top-left  (Figma left:61 top:50.49 of 1512x982)
+   Brand — top-left
+   Subtract 1 (logo): left 44 top 48 size 29 x 34  (base 1920x1080)
    ============================================================ */
-.brand {
-  position: absolute;
-  left: 4.03%;    /* 61 / 1512 */
-  top: 5.14%;     /* 50.49 / 982 */
-  z-index: 5;
-  display: flex;
-  align-items: center;
-}
-/* Logo mark (base 32.03px @1512 => 2.118vw) */
+.brand { position: absolute; inset: 0; z-index: 5; }
+
+/* Logo mark — Subtract.png */
 .brand-mark {
-  position: relative;
-  width: 2.118vw;
-  height: 2.118vw;
-  border-radius: 50%;
-  background: var(--mark-outer);
-  flex: none;
+  position: absolute;
+  left: 2.292%;       /* 44 / 1920 */
+  top: 4.444%;        /* 48 / 1080 */
+  width: 1.510vw;     /* 29 / 1920 */
+  height: 1.771vw;    /* 34 / 1920 */
+  background-image: url("Subtract.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
-.brand-mark::before {  /* crescent (Subtract) */
+/* CSS fallback logo (only shown when Subtract.png is missing) */
+.canvas.no-logo .brand-mark {
+  background-image: none;
+  border-radius: 50%;
+  background: linear-gradient(181.27deg, #5A3E8E 24.1%, #D4BDFF 86.22%);
+}
+.canvas.no-logo .brand-mark::before {
   content: "";
   position: absolute;
-  inset: 0;
-  width: 1.900vw;
-  height: 2.118vw;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
   border-radius: 50%;
-  background: var(--mark-sub);
+  background: linear-gradient(90deg, #5100F8 0%, #C0A1FF 100.92%);
   -webkit-mask: radial-gradient(circle at 78% 50%, transparent 46%, #000 47%);
           mask: radial-gradient(circle at 78% 50%, transparent 46%, #000 47%);
 }
-.brand-mark::after {   /* inner light disc (Ellipse 12) */
+.canvas.no-logo .brand-mark::after {
   content: "";
   position: absolute;
-  left: 0.591vw;
-  top: 0.246vw;
-  width: 1.626vw;
-  height: 1.626vw;
+  left: 14%; top: 10%;
+  width: 76%; height: 76%;
   border-radius: 50%;
-  background: var(--mark-inner);
+  background: #D9D9D9;
 }
+/* FUKAIMORI text: left 81 top 53, gradient clip */
 .brand-text {
   position: absolute;
-  left: 2.639vw;          /* 39.9px offset */
-  top: 0.246vw;
+  left: 4.219%;       /* 81 / 1920 */
+  top: 4.907%;        /* 53 / 1080 */
+  width: 8.125%;      /* 156 / 1920 */
   font-family: "Cantarell", system-ui, sans-serif;
   font-weight: 700;
-  font-size: 1.149vw;     /* 17.3724px @1512 */
-  line-height: 1.653vw;
+  font-size: 0.905vw; /* 17.3724 / 1920 */
+  line-height: 1.302vw;
   letter-spacing: 0.3em;
-  color: var(--brand-violet);
   white-space: nowrap;
+  background: linear-gradient(90deg, #694EAB 0%, #9569FF 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+          color: transparent;
 }
 
+
 /* ============================================================
-   Drop point — top-right (Figma left:1357 top:57)
+   Drop point — top-right  (Group 8: left 1744 top 54.61)
    ============================================================ */
 .drop-point {
   position: absolute;
-  left: 89.75%;   /* 1357 / 1512 */
-  top: 5.80%;     /* 57 / 982 */
+  left: 90.833%;   /* 1744 / 1920 */
+  top: 5.056%;     /* 54.61 / 1080 */
   z-index: 5;
 }
 .drop-text {
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 1.059vw;     /* 16.0135px @1512 */
-  line-height: 1.257vw;
+  font-size: 0.911vw;    /* 17.4985 / 1920 */
+  line-height: 1.094vw;  /* 21 / 1920 */
   color: var(--brand-violet);
   white-space: nowrap;
 }
+/* Ellipse 4: red dot at 1864,60 => offset 120,5.39 from group */
 .drop-dot {
   position: absolute;
-  left: 7.095vw;   /* 107.28px offset */
-  top: 0.383vw;
-  width: 0.511vw;
-  height: 0.511vw;
+  left: 6.25vw;     /* 120 / 1920 */
+  top: 0.281vw;     /* 5.39 / 1920 */
+  width: 0.521vw;   /* 10 / 1920 */
+  height: 0.521vw;
   border-radius: 50%;
   background: var(--dot-red);
-  box-shadow: 0 0 8px rgba(255, 68, 68, 0.7);
+  animation: pulse-dot 1.4s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 5px 1px rgba(255, 68, 68, 0.9),
+                0 0 12px 3px rgba(255, 68, 68, 0.6);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.25);
+    box-shadow: 0 0 12px 4px rgba(255, 68, 68, 1),
+                0 0 26px 8px rgba(255, 68, 68, 0.7);
+  }
 }
 
+
 /* ============================================================
-   Title block — bottom-center
+   Title block — bottom-center (base 1920x1080)
    ============================================================ */
 .title {
   position: absolute;
-  left: 40.96%;   /* 619.37 / 1512 */
-  top: 86.25%;    /* 847 / 982 */
-  width: 18.32%;  /* 277 / 1512 */
+  left: 42.41%;   /* 814.29 / 1920 */
+  top: 86.44%;    /* 933.58 / 1080 */
+  width: 15.36%;  /* 295 / 1920 */
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 1.977vw;     /* 29.8896px @1512 */
-  line-height: 2.381vw;
+  font-size: 1.663vw;    /* 31.9243 / 1920 */
+  line-height: 1.979vw;  /* 38 / 1920 */
   letter-spacing: 0.31em;
   text-align: center;
   color: var(--text-violet);
-  z-index: 5;
+  z-index: 6;
 }
 .subtitle {
   position: absolute;
-  left: 33.27%;   /* 503 / 1512 */
-  top: 91.24%;    /* 895.93 / 982 */
-  width: 33.44%;  /* 505.58 / 1512 */
+  left: 35.94%;   /* 690 / 1920 */
+  top: 91.49%;    /* 988.06 / 1080 */
+  width: 28.125%; /* 540 / 1920 */
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 1.113vw;     /* 16.8248px @1512 */
-  line-height: 1.323vw;
+  font-size: 0.936vw;    /* 17.9702 / 1920 */
+  line-height: 1.146vw;  /* 22 / 1920 */
   letter-spacing: 0.25em;
   text-align: center;
   color: var(--text-violet);
-  z-index: 5;
+  z-index: 6;
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; }
