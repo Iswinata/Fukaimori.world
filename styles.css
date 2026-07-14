@@ -600,21 +600,23 @@ html, body {
   text-align: center;
   color: #A99AFF;
   margin: 0;
+  white-space: nowrap;
 }
 
-/* RECOVERED SEQUENCE label (left 817, top 496.76, 218×27) */
+/* RECOVERED SEQUENCE label (left 819, top 496.76) — satu baris, sejajar kotak kiri */
 .dp-label {
   position: absolute;
-  left: 817px;
+  left: 819px;
   top: 496.76px;
-  width: 218px;
+  width: auto;
   height: 27px;
   z-index: 6;
   font-family: "Cantarell", system-ui, sans-serif;
   font-weight: 400;
   font-size: 18.748px;
   line-height: 27px;
-  text-align: center;
+  text-align: left;
+  white-space: nowrap;
   color: rgba(182, 178, 178, 0.83);
   margin: 0;
 }
@@ -1565,21 +1567,23 @@ html.reflow-active .viewport,
   text-align: center;
   color: #A99AFF;
   margin: 0;
+  white-space: nowrap;
 }
 
-/* RECOVERED SEQUENCE label (left 817, top 496.76, 218×27) */
+/* RECOVERED SEQUENCE label — satu baris, rata kiri sejajar kotak paling kiri (left 819) */
 .dp-label {
   position: absolute;
-  left: 817px;
+  left: 819px;
   top: 496.76px;
-  width: 218px;
+  width: auto;
   height: 27px;
   z-index: 6;
   font-family: "Cantarell", system-ui, sans-serif;
   font-weight: 400;
   font-size: 18.748px;
   line-height: 27px;
-  text-align: center;
+  text-align: left;
+  white-space: nowrap;
   color: rgba(182, 178, 178, 0.83);
   margin: 0;
 }
@@ -1646,28 +1650,31 @@ html.reflow-active .viewport,
   outline: none;
 }
 
-/* NEED ASSISTANCE? (Group 12: centered, top 752.12, 163×21) */
+/* NEED ASSISTANCE? — centered, top 752.12 */
 .dp-assist-q {
   position: absolute;
-  left: calc(50% - 163px / 2 + 3.35px);
+  left: 0;
+  right: 0;
   top: 752.12px;
-  width: 163px;
+  width: 100%;
   height: 21px;
   z-index: 6;
   font-family: "Maven Pro", system-ui, sans-serif;
   font-weight: 500;
   font-size: 17.8754px;
   line-height: 21px;
+  text-align: center;
   color: rgba(226, 214, 255, 0.59);
   margin: 0;
 }
 
-/* ACCESS ARCHIVE NOTES (Group 13: centered, top 779.99, 193×20) */
+/* ACCESS ARCHIVE NOTES + dot — centered horizontally, top 779.99 */
 .dp-assist-link {
   position: absolute;
-  left: calc(50% - 193px / 2 - 6.04px);
+  left: 0;
+  right: 0;
   top: 779.99px;
-  width: 213.11px;
+  width: 100%;
   height: 20px;
   z-index: 6;
   font-family: "Maven Pro", system-ui, sans-serif;
@@ -1675,28 +1682,52 @@ html.reflow-active .viewport,
   font-size: 16.695px;
   line-height: 20px;
   text-align: center;
+  white-space: nowrap;
   color: rgba(226, 214, 255, 0.59);
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 7px;
   transition: color 0.3s ease;
 }
 .dp-assist-link:hover { color: #C5BCFF; }
 
-/* Vector 2 arrow */
+/* Dot merah menyala → ungu menyala saat hover */
 .dp-assist-arrow {
   display: inline-block;
-  width: 13.36px;
-  height: 9.29px;
-  border-top: 1.47763px solid #877F99;
-  border-right: 1.47763px solid #877F99;
-  transform: rotate(45deg);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #FB0000;
   flex-shrink: 0;
-  transition: border-color 0.3s ease;
+  animation: dp-dot-pulse 1.3s ease-in-out infinite;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
 }
-.dp-assist-link:hover .dp-assist-arrow { border-color: #C5BCFF; }
+@keyframes dp-dot-pulse {
+  0%, 100% {
+    box-shadow: 0 0 3px 1px rgba(255, 68, 68, 0.55),
+                0 0 7px 2px rgba(255, 68, 68, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 5px 2px rgba(255, 68, 68, 0.7),
+                0 0 12px 4px rgba(255, 68, 68, 0.35);
+  }
+}
+.dp-assist-link:hover .dp-assist-arrow {
+  background: #9B41FF;
+  animation: dp-dot-pulse-purple 1.3s ease-in-out infinite;
+}
+@keyframes dp-dot-pulse-purple {
+  0%, 100% {
+    box-shadow: 0 0 3px 1px rgba(155, 65, 255, 0.55),
+                0 0 8px 2px rgba(155, 65, 255, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 6px 2px rgba(155, 65, 255, 0.7),
+                0 0 14px 4px rgba(155, 65, 255, 0.35);
+  }
+}
 
 /* Close button (Group 16: left 1345.82, top 203, 33.55×33.55) */
 .dp-close {
