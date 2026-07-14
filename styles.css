@@ -31,32 +31,55 @@ html, body {
   overflow: hidden;
 }
 
-/* Full-window stage — centers the scaled design canvas */
+/* Full-window stage — centers the scaled design canvas.
+   The design is scaled to CONTAIN (never cropped) so on aspect
+   ratios that differ from the 1920x1050 canvas there is leftover
+   space around it. Instead of black bars, we fill that space with
+   a blurred, darkened copy of the background image (::before) so
+   the scene appears to bleed edge-to-edge on any screen. */
 .viewport {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
   height: 100dvh; /* dynamic viewport height — avoids mobile browser-chrome gaps */
-  background: #000;
+  background: #05020a;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
+.viewport::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("BGLP.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(28px) brightness(0.55) saturate(1.05);
+  transform: scale(1.12); /* hide blurred edges */
+  pointer-events: none;
+}
+
 
 /* The design canvas is scaled as a single unit (via --scale, set
-   in script.js using a COVER ratio) so it ALWAYS fills the whole
-   viewport on every device and browser — no black bars — while
-   keeping its original proportions. The background photo is never
-   stretched and every element stays perfectly aligned; any
-   overflow at the edges is cropped by the centered viewport. */
+   in script.js using a CONTAIN ratio) so the WHOLE design ALWAYS
+   fits inside the viewport on every device, browser and aspect
+   ratio — nothing is ever cropped — while keeping its original
+   proportions. The background photo is never stretched and every
+   element stays perfectly aligned; any leftover space around the
+   canvas is filled by the viewport's blurred backdrop. */
+
 .canvas {
   --design-w: 1920px;
   --design-h: 1050px;   /* Slide 16:9 frame */
   position: relative;
+  z-index: 1;           /* sit above the viewport's blurred backdrop */
 
   flex: none;
+
   width: var(--design-w);
   height: var(--design-h);
   background: #FFFFFF;
@@ -68,9 +91,10 @@ html, body {
 
 
 .archive-canvas {
-  --design-w: 1512px;
-  --design-h: 982px;
+  --design-w: 1920px;
+  --design-h: 1050px;
 }
+
 
 
 
@@ -377,8 +401,9 @@ html, body {
 .title {
   position: absolute;
   left: 805.02px;
-  top: 906px;
+  top: 876px;             /* nudged up a little */
   width: 313px;
+
   height: 41px;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
@@ -394,8 +419,9 @@ html, body {
 .subtitle {
   position: absolute;
   left: 699px;
-  top: 961.31px;
+  top: 931.31px;          /* nudged up a little */
   width: 522px;
+
   height: 23px;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
@@ -576,16 +602,21 @@ html, body {
 
 /* ============================================================
    ARCHIVE PAGE (archive.html)
-   Design base 1512 x 982. Reuses the same eclipse background,
-   keeps the logo + drop point, and removes the FUKAIMORI
-   wordmark. Positions are % of the viewport; sizes use vw so
-   the layout scales with the screen (same approach as landing).
+   Design base 1920 x 1050 — same canvas/background as landing.
+   Coordinates below come straight from the Figma spec (the
+   spec's inner frame is offset by -132.49px, so every spec
+   `top` has 132.49 subtracted to land on this 1920x1050 canvas).
    ============================================================ */
 
+/* Logo + drop point (red dot) sit at the SAME spot as the
+   landing page — they inherit the base .brand-mark (top 74) and
+   .drop-point (top 80), so no override is needed here. */
+
 /* Soft entrance fade so the page eases in after the portal flash */
+
 .archive-canvas .arc-head,
+.archive-canvas .arc-desc,
 .archive-canvas .arc-gallery,
-.archive-canvas .arc-ring,
 .archive-canvas .arc-nav {
   animation: arc-fade-in 0.9s ease-out both;
 }
@@ -596,51 +627,46 @@ html, body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Heading block (ARCHIVE + description) --- */
+/* --- ARCHIVE heading (Figma: left 77.46, top 237.49 -> 105) --- */
 .arc-head {
   position: absolute;
-  left: 4.03%;    /* 61 / 1512 */
-  top: 9%;
+  left: 77.46px;
+  top: 105px;
+  width: 606px;
+  height: 164px;
   z-index: 6;
-  max-width: 92%;
 }
-
-
 .arc-title {
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 108px;      /* 107.682 in the 1512 design */
-  line-height: 1.05;
-
-
+  font-size: 136.739px;   /* exact Figma size */
+  line-height: 164px;
   letter-spacing: 0.02em;
   margin: 0;
-  /* Luminous tone so it reads on the dark eclipse background */
-  color: #EDE4DA;
+  /* Luminous violet-white glow — same treatment as AN ARCHIVE */
+  color: #C5BCFF;
   text-shadow: var(--text-glow);
 }
+
+
+/* --- Description (Figma: left 77.46, top 398.76 -> 266.27) --- */
 .arc-desc {
-  margin: 18px 0 0;
-  /* Single wide block that stretches to the right and wraps to
-     roughly two lines, so it never sits behind the first card. */
-  width: 1330px;          /* runs almost full width, across all cards */
-  max-width: 1360px;
+  position: absolute;
+  left: 77.46px;
+  top: 266.27px;
+  width: 552.38px;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 16px;        /* ~16 in the 1512 design */
-
-  line-height: 1.55;
+  font-size: 17.7778px;   /* exact Figma size */
+  line-height: 21px;
   letter-spacing: 0.02em;
-  color: #C9BEFF;
-  text-shadow: 0 1px 3px rgba(12, 4, 26, 0.7);
+  color: #786BC7;         /* Figma color */
+  z-index: 6;
 }
-.arc-desc p {
-  margin: 0;
-}
+.arc-desc p { margin: 0; }
 
 
-
-/* --- Gallery of four portrait cards --- */
+/* --- Gallery of four portrait cards (Figma: top 487.57 -> 355.08) --- */
 .arc-gallery {
   position: absolute;
   inset: 0;
@@ -649,9 +675,9 @@ html, body {
 }
 .arc-card {
   position: absolute;
-  top: 37.58%;            /* 369 / 982 */
-  width: 293px;           /* ~292.73 in the 1512 design */
-  height: 430px;          /* keeps portrait ratio */
+  top: 355.08px;          /* 487.57 - 132.49 */
+  width: 371.72px;        /* Figma card width */
+  height: 546.03px;       /* Figma card height */
 
   pointer-events: auto;
   border-radius: 4px;
@@ -661,11 +687,10 @@ html, body {
   box-shadow: 0 14px 40px rgba(8, 3, 20, 0.5),
               0 0 0 1px rgba(197, 188, 255, 0.18);
 }
-.arc-card-1 { left: 4.43%; cursor: pointer; }   /* 67 / 1512  */
-
-.arc-card-2 { left: 26.12%; }  /* 395 / 1512 */
-.arc-card-3 { left: 47.82%; }  /* 723 / 1512 */
-.arc-card-4 { left: 69.25%; }  /* 1047 / 1512 */
+.arc-card-1 { left: 77px;   width: 363.76px; height: 549.84px; cursor: pointer; }
+.arc-card-2 { left: 495px; }
+.arc-card-3 { left: 921px; }
+.arc-card-4 { left: 1347px; }
 
 /* Real archive artwork — fills the card, keeps portrait crop */
 .arc-card-img {
@@ -678,6 +703,22 @@ html, body {
   background-color: #0c051c;
   display: block;
 }
+
+/* Small card number (2 / 3 / 4) near the lower area of each card */
+.arc-card-num {
+  position: absolute;
+  left: 53%;
+  top: 73%;
+  z-index: 3;
+  font-family: "Brawler", Georgia, serif;
+  font-size: 16.8294px;
+  line-height: 21px;
+  color: #525252;
+  background: #040404;
+  padding: 0 2px;
+  pointer-events: none;
+}
+
 
 .arc-card:hover,
 .arc-card:focus-within {
@@ -745,22 +786,23 @@ html, body {
   50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.04); }
 }
 
-/* --- Navigation button (Group 2) bottom-right --- */
+/* --- Navigation button (Group 2: left 1773, top 725.49 -> 593) --- */
 .arc-nav {
   position: absolute;
-  left: 92.13%;           /* 1393 / 1512 */
-  top: 57.94%;            /* 569 / 982 */
-  width: 55px;
-  height: 55px;
+  left: 1773px;
+  top: 593px;             /* 725.49 - 132.49 */
+  width: 69.84px;         /* Figma size */
+  height: 69.84px;
 
   display: grid;
   place-items: center;
-  border: 1.64px solid #786BC7;
+  border: 2.08px solid #786BC7;
   border-radius: 50%;
   background: rgba(20, 10, 40, 0.35);
   z-index: 8;
   transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
 }
+
 .arc-nav:hover,
 .arc-nav:focus-visible {
   background: rgba(120, 107, 199, 0.25);
@@ -971,9 +1013,11 @@ html, body {
 
 /* ============================================================
    RESPONSIVE — WIDE / LANDSCAPE SCREENS
-   The design canvas is scaled proportionally (COVER, via
-   --scale set in script.js) so it fills the whole viewport
-   with no black bars and no distortion.
+   The design canvas is scaled proportionally (CONTAIN, via
+   --scale set in script.js) so the whole design fits inside the
+   viewport with no cropping and no distortion; any leftover
+   space is covered by the viewport's blurred backdrop.
+
 
    RESPONSIVE — PHONES / PORTRAIT / SHORT WINDOWS (.reflow)
    On small or portrait screens a wide landscape design would

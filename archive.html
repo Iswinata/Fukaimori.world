@@ -12,28 +12,16 @@
 </head>
 <body>
   <div class="viewport">
-    <!-- Same background as the landing page -->
+    <!-- Same 1920x1050 canvas + background as the landing page -->
     <div class="canvas archive-canvas" id="canvas">
 
       <!-- Fallback cosmic scene (shown if the background image is missing) -->
       <div class="scene" aria-hidden="true">
         <div class="stars"></div>
-        <div class="sigil">
-            <defs>
-              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#C5BCFF"/>
-                <stop offset="1" stop-color="#694EAB"/>
-              </linearGradient>
-            </defs>
-          </svg>
-              <polygon points="200,60 214,186 340,200 214,214 200,340 186,214 60,200 186,186"/>
-            </g>
-          </svg>
-          <div class="moon"><div class="moon-body"></div></div>
-        </div>
+        <div class="sigil"><div class="moon"><div class="moon-body"></div></div></div>
       </div>
 
-      <!-- Real design background image -->
+      <!-- Real design background image (BGLP.png — same as landing) -->
       <div class="photo" aria-hidden="true"></div>
 
       <!-- Drifting clouds / mist overlay -->
@@ -43,19 +31,19 @@
         <span class="cloud cloud-3"></span>
       </div>
 
-      <!-- Landing-page fog (rolling mist) -->
+      <!-- Rolling fog -->
       <div class="fog" aria-hidden="true">
         <span class="fog-layer fog-a"></span>
         <span class="fog-layer fog-b"></span>
         <span class="fog-layer fog-c"></span>
       </div>
 
-      <!-- Brand (top-left) — logo only, FUKAIMORI wordmark removed -->
+      <!-- Brand (top-left) — logo only -->
       <div class="brand">
         <a class="brand-mark" href="index.html" aria-label="Fukaimori — back to entrance"></a>
       </div>
 
-      <!-- Drop point (top-right) — kept -->
+      <!-- Drop point (top-right) -->
       <div class="drop-point">
         <span class="drop-text">DROP POINT</span>
         <span class="drop-dot" aria-hidden="true"></span>
@@ -64,15 +52,11 @@
       <!-- ============ Archive content ============ -->
       <header class="arc-head">
         <h1 class="arc-title">ARCHIVE</h1>
-        <div class="arc-desc">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis
-          </p>
-            velit ac fermentum euismod Fusce eget sapien nisl.
-          </p>
-        </div>
       </header>
 
+      <div class="arc-desc">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis velit ac fermentum euismod. Fusce eget sapien nisl.</p>
+      </div>
 
       <!-- Gallery row of four portrait cards -->
       <section class="arc-gallery" aria-label="Archive entries">
@@ -82,15 +66,17 @@
 
         <article class="arc-card arc-card-2">
           <img class="arc-card-img" src="aw 2.png" alt="Archive entry 2" />
+          <span class="arc-card-num" aria-hidden="true">2</span>
         </article>
         <article class="arc-card arc-card-3">
           <img class="arc-card-img" src="aw 3.png" alt="Archive entry 3" />
+          <span class="arc-card-num" aria-hidden="true">3</span>
         </article>
         <article class="arc-card arc-card-4">
           <img class="arc-card-img" src="aw 4.png" alt="Archive entry 4" />
+          <span class="arc-card-num" aria-hidden="true">4</span>
         </article>
       </section>
-
 
       <!-- Navigation button (Group 2) bottom-right -->
       <a class="arc-nav" href="index.html" aria-label="Back to entrance">

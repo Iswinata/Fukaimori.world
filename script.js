@@ -9,14 +9,17 @@
   "use strict";
 
   /* --------------------------------------------------------
-     Fill-the-screen scaler (COVER): the design canvas has a
-     fixed size (e.g. 1920x1080 or 1512x982). We scale it as a
-     single unit by the LARGER axis ratio so it always fills the
-     whole viewport on every device/browser — no black bars — while
-     keeping the original proportions, so the background photo is
-     never stretched and every element stays aligned. Overflow at
-     the edges is simply cropped by the viewport.
+     Fit-the-screen scaler (CONTAIN): the design canvas has a
+     fixed size (1920x1050). We scale it as a single unit by the
+     SMALLER axis ratio so the WHOLE design always fits inside the
+     viewport on every device/browser/aspect-ratio — nothing is
+     ever cropped — while keeping the original proportions (the
+     background photo is never stretched and every element stays
+     aligned). Any leftover space around the canvas is filled by
+     the viewport's matching dark background, so there are no
+     jarring black bars.
      -------------------------------------------------------- */
+
   (function setupScaler() {
     var stageCanvas = document.getElementById("canvas");
     if (!stageCanvas) return;
@@ -46,10 +49,12 @@
       }
       stageCanvas.classList.remove("reflow");
       var d = designSize();
-      // Cover scale: the bigger of the two ratios guarantees the
-      // canvas fully covers the viewport without distorting it.
-      var scale = Math.max(window.innerWidth / d.w, window.innerHeight / d.h);
+      // Contain scale: the smaller of the two ratios guarantees the
+      // whole canvas fits inside the viewport (no cropping) without
+      // distorting it. Leftover space is covered by the viewport bg.
+      var scale = Math.min(window.innerWidth / d.w, window.innerHeight / d.h);
       stageCanvas.style.setProperty("--scale", String(scale));
+
     }
 
     applyScale();
