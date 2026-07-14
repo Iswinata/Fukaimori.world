@@ -9,10 +9,13 @@
   "use strict";
 
   /* --------------------------------------------------------
-     Scale-to-fit: the design canvas has a fixed size (e.g.
-     1920x1080 or 1512x982). We scale it down/up as a single
-     unit so it fills any laptop / phone / browser window
-     proportionally, with no black bars and everything aligned.
+     Fill-the-screen scaler (COVER): the design canvas has a
+     fixed size (e.g. 1920x1080 or 1512x982). We scale it as a
+     single unit by the LARGER axis ratio so it always fills the
+     whole viewport on every device/browser — no black bars — while
+     keeping the original proportions, so the background photo is
+     never stretched and every element stays aligned. Overflow at
+     the edges is simply cropped by the viewport.
      -------------------------------------------------------- */
   (function setupScaler() {
     var stageCanvas = document.getElementById("canvas");
@@ -27,19 +30,25 @@
       return { w: w, h: h };
     }
 
-    // On narrow screens the archive page reflows into a scrollable
-    // grid (see the max-width: 900px media query), so we must NOT
-    // apply the scale transform there.
-    var reflow = window.matchMedia("(max-width: 900px)");
+    // On phones / portrait tablets / very short windows, a wide
+    // landscape design scaled to cover would crop too much to be
+    // usable. There we drop the transform and let CSS reflow the
+    // page into a fluid, scrollable mobile layout (.reflow class).
+    var reflowMQ = window.matchMedia(
+      "(max-width: 820px), (orientation: portrait), (max-height: 480px)"
+    );
 
     function applyScale() {
-      var isArchive = stageCanvas.classList.contains("archive-canvas");
-      if (isArchive && reflow.matches) {
+      if (reflowMQ.matches) {
+        stageCanvas.classList.add("reflow");
         stageCanvas.style.removeProperty("--scale");
         return;
       }
+      stageCanvas.classList.remove("reflow");
       var d = designSize();
-      var scale = Math.min(window.innerWidth / d.w, window.innerHeight / d.h);
+      // Cover scale: the bigger of the two ratios guarantees the
+      // canvas fully covers the viewport without distorting it.
+      var scale = Math.max(window.innerWidth / d.w, window.innerHeight / d.h);
       stageCanvas.style.setProperty("--scale", String(scale));
     }
 
@@ -48,14 +57,81 @@
     window.addEventListener("orientationchange", applyScale);
     // Recompute once fonts/images settle in case the viewport shifts.
     window.addEventListener("load", applyScale);
-    if (reflow.addEventListener) {
-      reflow.addEventListener("change", applyScale);
-    } else if (reflow.addListener) {
-      reflow.addListener(applyScale);
+    if (reflowMQ.addEventListener) {
+      reflowMQ.addEventListener("change", applyScale);
+    } else if (reflowMQ.addListener) {
+      reflowMQ.addListener(applyScale);
     }
   })();
 
+
+
+
+  /* --------------------------------------------------------
+     Parallax: ONLY the background photo shifts subtly with the
+     pointer (and device tilt) to give the landing scene a sense
+     of depth. Clouds and fog are intentionally left out.
+     -------------------------------------------------------- */
+  (function setupParallax() {
+    var stage = document.getElementById("canvas");
+    if (!stage) return;
+
+    var photoEl = stage.querySelector(".photo");
+    if (!photoEl) return;
+
+    // Skip parallax when the user prefers reduced motion.
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduce.matches) return;
+
+    // Target and current offsets (-1..1), eased for smoothness.
+    var tx = 0, ty = 0, cx = 0, cy = 0;
+    var raf = null;
+
+    function render() {
+      // Ease current toward target.
+      cx += (tx - cx) * 0.08;
+      cy += (ty - cy) * 0.08;
+
+      // Background drifts slightly; scale keeps edges covered.
+      photoEl.style.transform =
+        "translate(" + (cx * 16) + "px," + (cy * 12) + "px) scale(1.04)";
+
+      if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) {
+        raf = requestAnimationFrame(render);
+      } else {
+        raf = null;
+      }
+    }
+
+
+    function schedule() {
+      if (raf === null) raf = requestAnimationFrame(render);
+    }
+
+    window.addEventListener("pointermove", function (e) {
+      // Normalize pointer to -1..1 around the viewport center.
+      tx = (e.clientX / window.innerWidth) * 2 - 1;
+      ty = (e.clientY / window.innerHeight) * 2 - 1;
+      schedule();
+    });
+
+    // Ease back to center when the pointer leaves the window.
+    window.addEventListener("pointerout", function () {
+      tx = 0; ty = 0; schedule();
+    });
+
+    // Device tilt (mobile) drives parallax too.
+    window.addEventListener("deviceorientation", function (e) {
+      if (e.gamma == null || e.beta == null) return;
+      tx = Math.max(-1, Math.min(1, e.gamma / 45));
+      ty = Math.max(-1, Math.min(1, (e.beta - 45) / 45));
+      schedule();
+    });
+  })();
+
+
   function urlFromBg(el) {
+
 
     if (!el) return "";
     var style = getComputedStyle(el);

@@ -13,7 +13,12 @@
                0 0 16px rgba(197, 188, 255, 0.65),
                0 0 34px rgba(150, 105, 255, 0.5),
                0 1px 2px rgba(18, 6, 38, 0.55);
+  /* Soft, thin violet glow for the AN ARCHIVE / subtitle text */
+  --text-glow-soft: 0 0 3px rgba(197, 188, 255, 0.55),
+                    0 0 8px rgba(150, 105, 255, 0.4),
+                    0 0 16px rgba(105, 78, 171, 0.28);
 }
+
 
 
 
@@ -40,13 +45,17 @@ html, body {
   overflow: hidden;
 }
 
-/* The design canvas keeps its native proportions and is scaled
-   as a single unit (via --scale, set in script.js) so every
-   element stays perfectly aligned on any screen or browser. */
+/* The design canvas is scaled as a single unit (via --scale, set
+   in script.js using a COVER ratio) so it ALWAYS fills the whole
+   viewport on every device and browser — no black bars — while
+   keeping its original proportions. The background photo is never
+   stretched and every element stays perfectly aligned; any
+   overflow at the edges is cropped by the centered viewport. */
 .canvas {
   --design-w: 1920px;
-  --design-h: 1080px;
+  --design-h: 1050px;   /* Slide 16:9 frame */
   position: relative;
+
   flex: none;
   width: var(--design-w);
   height: var(--design-h);
@@ -56,6 +65,8 @@ html, body {
   transform: scale(var(--scale, 1));
   transform-origin: center center;
 }
+
+
 .archive-canvas {
   --design-w: 1512px;
   --design-h: 982px;
@@ -68,18 +79,19 @@ html, body {
    ============================================================ */
 .photo {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  left: 0;
+  top: 0;
+  width: 1920px;          /* exact BGLP.png size */
+  height: 1050px;         /* exact BGLP.png size */
   background-image: url("BGLP.png");
-  /* Fill any laptop / desktop screen proportionally (was a fixed 1920x1040) */
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 2;
-
-
+  will-change: transform;
 }
+
+
 /* If the image fails to load, the .scene fallback shows through */
 
 /* ============================================================
@@ -168,25 +180,27 @@ html, body {
   filter: blur(30px);
   will-change: transform;
 }
-.fog-a { animation: fog-roll 18s ease-in-out infinite alternate; opacity: 1; }
+/* Fast-moving mist: layers sweep quickly across the screen */
+.fog-a { animation: fog-roll 7s ease-in-out infinite alternate; opacity: 1; }
 .fog-b {
   height: 48%;
   opacity: 0.75;
-  animation: fog-roll 24s ease-in-out infinite alternate-reverse;
-  animation-delay: -8s;
+  animation: fog-roll 9s ease-in-out infinite alternate-reverse;
+  animation-delay: -3s;
 }
 .fog-c {
   height: 38%;
   opacity: 0.6;
   filter: blur(38px);
-  animation: fog-roll 30s ease-in-out infinite alternate;
-  animation-delay: -14s;
+  animation: fog-roll 5.5s ease-in-out infinite alternate;
+  animation-delay: -2s;
 }
 
 @keyframes fog-roll {
-  from { transform: translateX(-8%); }
-  to   { transform: translateX(8%); }
+  from { transform: translateX(-16%); }
+  to   { transform: translateX(16%); }
 }
+
 
 
 /* ============================================================
@@ -241,15 +255,17 @@ html, body {
    ============================================================ */
 .brand { position: absolute; inset: 0; z-index: 5; }
 
-/* Logo mark — Subtract.png */
+/* Logo mark — Subtract.png (nudged down a little) */
 .brand-mark {
   position: absolute;
-  left: 2.292%;       /* 44 / 1920 */
-  top: 4.444%;        /* 48 / 1080 */
-  width: 29px;
-  height: 34px;
+  left: 51px;
+  top: 74px;
+  width: 36.01px;
+  height: 40.7px;
+
 
   background-image: url("Subtract.png");
+
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -278,21 +294,20 @@ html, body {
   border-radius: 50%;
   background: #D9D9D9;
 }
-/* FUKAIMORI text: left 81 top 53, gradient clip */
+/* FUKAIMORI text (nudged down a little to sit with the logo) */
 .brand-text {
   position: absolute;
-  left: 4.219%;       /* 81 / 1920 */
-  top: 4.907%;        /* 53 / 1080 */
-  width: 8.125%;      /* 156 / 1920 */
+  left: 95.14px;
+  top: 80px;
+  width: 197px;
+
   font-family: "Cantarell", system-ui, sans-serif;
   font-weight: 700;
-  font-size: 17px; /* 17.3724 in the 1920 design */
-  line-height: 1.4;
-
-
-  letter-spacing: 0.3em;
+  font-size: 20.19px;
+  line-height: 29px;
+  letter-spacing: 0.4em;
   white-space: nowrap;
-  background: linear-gradient(90deg, #694EAB 0%, #9569FF 100%);
+  background: linear-gradient(90deg, #4616BC 0%, #9367FF 100%);
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -301,35 +316,44 @@ html, body {
 
 
 /* ============================================================
-   Drop point — top-right  (Group 8: left 1744 top 54.61)
+   Drop point — top-right  (Group 8: left 1688 top 56)
    ============================================================ */
 .drop-point {
   position: absolute;
-  left: 90.833%;   /* 1744 / 1920 */
-  top: 5.056%;     /* 54.61 / 1080 */
+  left: 1688px;
+  top: 80px;
+  width: 180.88px;
+  height: 30px;
   z-index: 5;
 }
+
 .drop-text {
-  font-family: "Bona Nova", Georgia, serif;
-  font-weight: 400;
-  font-size: 17px;    /* 17.4985 in the 1920 design */
-  line-height: 1.2;
-  color: var(--brand-violet);
+  font-family: "Cantarell", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 21.24px;
+  line-height: 30px;
+  letter-spacing: 0;
   white-space: nowrap;
+  background: linear-gradient(90deg, #3300AF 2.88%, #A37DFF 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+          color: transparent;
 }
 
-/* Ellipse 4: red dot at 1864,60 => offset 120,5.39 from group */
+/* Ellipse 4: red blinking dot at 1858.64,66 => offset from group */
 .drop-dot {
   position: absolute;
-  left: 120px;
-  top: 5.39px;
-  width: 10px;
-  height: 10px;
+  left: 170.64px;   /* 1858.64 - 1688 */
+  top: 10px;        /* 66 - 56 */
+  width: 10.24px;
+  height: 10.24px;
 
   border-radius: 50%;
-  background: var(--dot-red);
-  animation: pulse-dot 1.4s ease-in-out infinite;
+  background: #FB0000;
+  animation: pulse-dot 1.3s ease-in-out infinite;
 }
+
 @keyframes pulse-dot {
   0%, 100% {
     opacity: 1;
@@ -349,41 +373,43 @@ html, body {
 /* ============================================================
    Title block — bottom-center (base 1920x1080)
    ============================================================ */
+/* AN ARCHIVE (Figma: left 805.02 top 906, 313x41) — thin violet glow */
 .title {
   position: absolute;
-  left: 42.41%;   /* 814.29 / 1920 */
-  top: 86.44%;    /* 933.58 / 1080 */
-  width: 15.36%;  /* 295 / 1920 */
+  left: 805.02px;
+  top: 906px;
+  width: 313px;
+  height: 41px;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 32px;    /* 31.9243 in the 1920 design */
-  line-height: 1.2;
+  font-size: 33.79px;
+  line-height: 41px;
   letter-spacing: 0.31em;
-
-
   text-align: center;
-  color: var(--text-violet);
-  text-shadow: var(--text-glow);
+  color: #C5BCFF;
+  text-shadow: var(--text-glow-soft);
   z-index: 6;
 }
+/* EXPLORING THE DEPTHS OF HUMANITY (Figma: left 699 top 961.31, 522x23) */
 .subtitle {
-
   position: absolute;
-  left: 35.94%;   /* 690 / 1920 */
-  top: 91.49%;    /* 988.06 / 1080 */
-  width: 28.125%; /* 540 / 1920 */
+  left: 699px;
+  top: 961.31px;
+  width: 522px;
+  height: 23px;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 18px;    /* 17.9702 in the 1920 design */
-  line-height: 1.3;
+  font-size: 19.02px;
+  line-height: 23px;
   letter-spacing: 0.25em;
-
-
+  white-space: nowrap;   /* keep on a single line */
   text-align: center;
-  color: var(--text-violet);
-  text-shadow: var(--text-glow);
+
+  color: #C5BCFF;
+  text-shadow: var(--text-glow-soft);
   z-index: 6;
 }
+
 
 
 /* ============================================================
@@ -392,18 +418,16 @@ html, body {
    (absorbed into the moon), and a portal ring opens up as an
    invitation to enter the next page.
    ============================================================ */
-  /* Centered on the crescent moon of BGLP.png (measured: 50% x, 49.5% y) */
+/* Circle sitting right on the moon (Ellipse 14: left 863 top 460, 195x195) */
 .portal {
   position: absolute;
-  left: 50%;
-  top: 49.5%;
-  width: 250px;   /* 13% of 1920 */
-  height: 250px;
-  transform: translate(-50%, -50%);
-
-
-
+  left: 863px;
+  top: 460px;
+  width: 195px;
+  height: 195px;
+  transform: none;
   z-index: 7;
+
   cursor: pointer;
   border: 0;
   padding: 0;
@@ -477,19 +501,26 @@ html, body {
   pointer-events: none;
 }
 
-/* --- Active state (applied on click only; hover effect removed) --- */
+/* --- Hover / focus: the moon lights up, inviting you to enter --- */
+.portal:hover .portal-glow,
+.portal:focus-visible .portal-glow,
 .canvas.portal-active .portal-glow {
   opacity: 1;
   transform: scale(1);
 }
+.portal:hover .portal-ring,
+.portal:focus-visible .portal-ring,
 .canvas.portal-active .portal-ring {
   opacity: 1;
   transform: scale(1) rotate(0deg);
   animation: portal-spin 8s linear infinite;
 }
+.portal:hover .portal-hint,
+.portal:focus-visible .portal-hint,
 .canvas.portal-active .portal-hint {
   opacity: 0.9;
 }
+
 
 @keyframes portal-spin {
   to { transform: scale(1) rotate(360deg); }
@@ -938,153 +969,202 @@ html, body {
    clipped content.
    ============================================================ */
 
-/* --- Keep the moon portal comfortably tappable on any screen --- */
-.portal {
-  /* min 120px so it stays a usable target, max 260px on big screens */
-  width: clamp(120px, 13vw, 260px);
-  height: clamp(120px, 13vw, 260px);
+/* ============================================================
+   RESPONSIVE — WIDE / LANDSCAPE SCREENS
+   The design canvas is scaled proportionally (COVER, via
+   --scale set in script.js) so it fills the whole viewport
+   with no black bars and no distortion.
+
+   RESPONSIVE — PHONES / PORTRAIT / SHORT WINDOWS (.reflow)
+   On small or portrait screens a wide landscape design would
+   be cropped too much, so script.js adds the .reflow class and
+   the rules below turn the page into a fluid, scrollable mobile
+   layout that adapts to any device.
+   ============================================================ */
+
+/* Let the page scroll when it has reflowed to a mobile layout */
+html:has(.canvas.reflow),
+body:has(.canvas.reflow) {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+}
+.viewport:has(.canvas.reflow) {
+  position: static;
+  display: block;
+  height: auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: visible;
 }
 
-/* ------------------------------------------------------------
-   TABLETS & SMALL LAPTOPS  (<= 1024px)
-   Bump the tiny vw-based elements up so they don't disappear.
-   ------------------------------------------------------------ */
-@media (max-width: 1024px) {
-  .brand-mark {
-    width: 22px;
-    height: 26px;
-  }
-  .drop-dot {
-    left: 90px;
-    top: 6px;
-    width: 8px;
-    height: 8px;
-  }
-  .arc-nav {
-    width: 46px;
-    height: 46px;
-  }
-  .arc-nav-icon {
-    width: 16px;
-    height: 16px;
-  }
+/* The canvas flows naturally and grows with its content */
+.canvas.reflow {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  transform: none;
+  overflow: visible;
+  background: transparent;
 }
 
-/* ------------------------------------------------------------
-   ARCHIVE PAGE on narrow / portrait screens (<= 900px)
-   The four cards are absolutely positioned for a wide row. On
-   smaller screens we let the page scroll and reflow the cards
-   into a responsive grid so nothing gets crushed.
-   ------------------------------------------------------------ */
-@media (max-width: 900px) {
-  /* Allow the archive page to grow and scroll */
-  body:has(.archive-canvas) {
-    overflow: auto;
-  }
-  .viewport:has(.archive-canvas) {
-    position: static;
-  }
-  .viewport:has(.archive-canvas),
-  .archive-canvas {
-    height: auto;
-    min-height: 100vh;
-    min-height: 100dvh;
-    overflow: visible;
-    display: block;
-  }
-  /* No transform scaling in the reflowed layout */
-  .archive-canvas {
-    transform: none;
-  }
-
-
-  /* The eclipse background stays fixed behind the scrolling content */
-  .archive-canvas .photo,
-  .archive-canvas .scene,
-  .archive-canvas .clouds,
-  .archive-canvas .fog {
-    position: fixed;
-  }
-
-  /* Heading flows from the top */
-  .archive-canvas .arc-head {
-    position: static;
-    max-width: none;
-    padding: 22vh 6vw 0;   /* clear the fixed logo / drop point */
-  }
-  .archive-canvas .arc-desc {
-    width: auto;
-    max-width: 100%;
-  }
-
-  /* Gallery becomes a normal, scrollable grid */
-  .archive-canvas .arc-gallery {
-    position: static;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 4vw;
-    padding: 6vw 6vw 12vh;
-    pointer-events: auto;
-  }
-  .archive-canvas .arc-card {
-    position: static;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 293 / 430;   /* keep the portrait proportion */
-  }
-
-  /* Decorative center ring only made sense in the wide layout */
-  .archive-canvas .arc-ring {
-    display: none;
-  }
-
-  /* Pin the back button to the bottom-right corner while scrolling */
-  .archive-canvas .arc-nav {
-    position: fixed;
-    left: auto;
-    right: 6vw;
-    top: auto;
-    bottom: 5vh;
-  }
+/* Keep the eclipse background fixed behind the scrolling content */
+.canvas.reflow .photo,
+.canvas.reflow .scene,
+.canvas.reflow .clouds,
+.canvas.reflow .fog {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
 }
 
-/* ------------------------------------------------------------
-   PHONES  (<= 560px)
-   Single column of cards and a bit more breathing room.
-   ------------------------------------------------------------ */
-@media (max-width: 560px) {
-  .archive-canvas .arc-gallery {
+/* ---------- Landing page (index.html) reflow ---------- */
+.canvas.reflow:not(.archive-canvas) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5vh;
+  padding: 16vh 8vw 12vh;
+  text-align: center;
+}
+
+/* Brand pinned top-left, laid out inline */
+.canvas.reflow .brand {
+  position: fixed;
+  inset: auto;
+  top: 2.5vh;
+  left: 6vw;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.canvas.reflow .brand-mark {
+  position: static;
+  left: auto;
+  top: auto;
+  width: 24px;
+  height: 28px;
+}
+.canvas.reflow .brand-text {
+  position: static;
+  left: auto;
+  top: auto;
+  width: auto;
+  font-size: 15px;
+}
+
+/* Drop point pinned top-right */
+.canvas.reflow .drop-point {
+  position: fixed;
+  left: auto;
+  right: 6vw;
+  top: 3vh;
+  z-index: 10;
+}
+.canvas.reflow .drop-dot {
+  left: auto;
+  right: -18px;
+}
+
+/* Moon portal centered and comfortably tappable */
+.canvas.reflow .portal {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  width: min(55vw, 240px);
+  height: min(55vw, 240px);
+}
+.canvas.reflow .portal-hint {
+  bottom: -22%;
+}
+
+/* Title + subtitle flow below the moon */
+.canvas.reflow .title {
+  position: static;
+  left: auto;
+  top: auto;
+  width: auto;
+  max-width: 90vw;
+  font-size: clamp(26px, 8vw, 44px);
+}
+.canvas.reflow .subtitle {
+  position: static;
+  left: auto;
+  top: auto;
+  width: auto;
+  max-width: 92vw;
+  font-size: clamp(14px, 4.2vw, 20px);
+}
+
+/* ---------- Archive page (archive.html) reflow ---------- */
+.canvas.reflow.archive-canvas {
+  display: block;
+  padding: 13vh 6vw 14vh;
+}
+.canvas.reflow .arc-head {
+  position: static;
+  left: auto;
+  top: auto;
+  max-width: none;
+  margin-bottom: 5vh;
+}
+.canvas.reflow .arc-title {
+  font-size: clamp(46px, 15vw, 108px);
+}
+.canvas.reflow .arc-desc {
+  width: auto;
+  max-width: 100%;
+}
+.canvas.reflow .arc-gallery {
+  position: static;
+  inset: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4vw;
+  pointer-events: auto;
+}
+.canvas.reflow .arc-card {
+  position: static;
+  left: auto;
+  top: auto;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 293 / 430;
+}
+.canvas.reflow .arc-ring {
+  display: none;
+}
+.canvas.reflow .arc-nav {
+  position: fixed;
+  left: auto;
+  top: auto;
+  right: 6vw;
+  bottom: 4vh;
+  z-index: 12;
+}
+
+/* Single column of cards on the narrowest phones */
+@media (max-width: 520px) {
+  .canvas.reflow .arc-gallery {
     grid-template-columns: 1fr;
     gap: 6vw;
   }
-  .archive-canvas .arc-head {
-    padding: 20vh 7vw 0;
-  }
-
-  /* Widen the landing title / subtitle so the text isn't squeezed */
-  .title {
-    left: 5%;
-    width: 90%;
-  }
-  .subtitle {
-    left: 5%;
-    width: 90%;
-  }
-}
-
-/* ------------------------------------------------------------
-   SHORT LANDSCAPE (e.g. phones turned sideways, height <= 500px)
-   Nudge the landing text up so it isn't cut off.
-   ------------------------------------------------------------ */
-@media (max-height: 500px) and (orientation: landscape) {
-  .title  { top: 78%; }
-  .subtitle { top: 88%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
 
   * { animation: none !important; }
 }
+
+
 
 
 
