@@ -26,24 +26,41 @@ html, body {
   overflow: hidden;
 }
 
-/* Full-window stage */
+/* Full-window stage — centers the scaled design canvas */
 .viewport {
+  position: fixed;
+  inset: 0;
   width: 100vw;
   height: 100vh;
   height: 100dvh; /* dynamic viewport height — avoids mobile browser-chrome gaps */
   background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-/* The canvas fills the entire viewport */
+/* The design canvas keeps its native proportions and is scaled
+   as a single unit (via --scale, set in script.js) so every
+   element stays perfectly aligned on any screen or browser. */
 .canvas {
+  --design-w: 1920px;
+  --design-h: 1080px;
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
+  flex: none;
+  width: var(--design-w);
+  height: var(--design-h);
   background: #FFFFFF;
   overflow: hidden;
   color: var(--text-violet);
+  transform: scale(var(--scale, 1));
+  transform-origin: center center;
 }
+.archive-canvas {
+  --design-w: 1512px;
+  --design-h: 982px;
+}
+
 
 
 /* ============================================================
@@ -91,27 +108,28 @@ html, body {
 }
 .cloud-1 {
   top: 26%; left: -30%;
-  width: 45vw; height: 24vw;
+  width: 864px; height: 460px;
   animation: drift-right 46s linear infinite;
 }
 .cloud-2 {
   top: 48%; left: -40%;
-  width: 60vw; height: 30vw;
+  width: 1152px; height: 576px;
   opacity: 0.55;
   animation: drift-right 68s linear infinite;
   animation-delay: -20s;
 }
 .cloud-3 {
   top: 10%; left: -35%;
-  width: 38vw; height: 20vw;
+  width: 730px; height: 384px;
   opacity: 0.45;
   animation: drift-right 58s linear infinite;
   animation-delay: -38s;
 }
 @keyframes drift-right {
   from { transform: translateX(0); }
-  to   { transform: translateX(180vw); }
+  to   { transform: translateX(3456px); }
 }
+
 
 /* ============================================================
    Landing-page fog — rolling mist banks near the bottom
@@ -198,7 +216,8 @@ html, body {
 @keyframes twinkle { from { opacity: 0.5; } to { opacity: 1; } }
 .sigil {
   position: absolute; left: 50%; top: 42%;
-  width: 28vw; height: 28vw;
+  width: 538px; height: 538px;
+
   transform: translate(-50%, -50%);
   display: grid; place-items: center;
   filter: drop-shadow(0 0 24px rgba(105, 78, 171, 0.45));
@@ -227,8 +246,9 @@ html, body {
   position: absolute;
   left: 2.292%;       /* 44 / 1920 */
   top: 4.444%;        /* 48 / 1080 */
-  width: 1.510vw;     /* 29 / 1920 */
-  height: 1.771vw;    /* 34 / 1920 */
+  width: 29px;
+  height: 34px;
+
   background-image: url("Subtract.png");
   background-size: contain;
   background-position: center;
@@ -266,8 +286,9 @@ html, body {
   width: 8.125%;      /* 156 / 1920 */
   font-family: "Cantarell", system-ui, sans-serif;
   font-weight: 700;
-  font-size: clamp(11px, 0.905vw, 20px); /* 17.3724 / 1920, clamped for small/large screens */
+  font-size: 17px; /* 17.3724 in the 1920 design */
   line-height: 1.4;
+
 
   letter-spacing: 0.3em;
   white-space: nowrap;
@@ -291,7 +312,7 @@ html, body {
 .drop-text {
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: clamp(11px, 0.911vw, 20px);    /* 17.4985 / 1920, clamped */
+  font-size: 17px;    /* 17.4985 in the 1920 design */
   line-height: 1.2;
   color: var(--brand-violet);
   white-space: nowrap;
@@ -300,10 +321,11 @@ html, body {
 /* Ellipse 4: red dot at 1864,60 => offset 120,5.39 from group */
 .drop-dot {
   position: absolute;
-  left: 6.25vw;     /* 120 / 1920 */
-  top: 0.281vw;     /* 5.39 / 1920 */
-  width: 0.521vw;   /* 10 / 1920 */
-  height: 0.521vw;
+  left: 120px;
+  top: 5.39px;
+  width: 10px;
+  height: 10px;
+
   border-radius: 50%;
   background: var(--dot-red);
   animation: pulse-dot 1.4s ease-in-out infinite;
@@ -334,9 +356,10 @@ html, body {
   width: 15.36%;  /* 295 / 1920 */
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: clamp(20px, 1.663vw, 40px);    /* 31.9243 / 1920, clamped */
+  font-size: 32px;    /* 31.9243 in the 1920 design */
   line-height: 1.2;
   letter-spacing: 0.31em;
+
 
   text-align: center;
   color: var(--text-violet);
@@ -351,9 +374,10 @@ html, body {
   width: 28.125%; /* 540 / 1920 */
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: clamp(12px, 0.936vw, 22px);    /* 17.9702 / 1920, clamped */
+  font-size: 18px;    /* 17.9702 in the 1920 design */
   line-height: 1.3;
   letter-spacing: 0.25em;
+
 
   text-align: center;
   color: var(--text-violet);
@@ -373,9 +397,10 @@ html, body {
   position: absolute;
   left: 50%;
   top: 49.5%;
-  width: 13vw;
-  height: 13vw;
+  width: 250px;   /* 13% of 1920 */
+  height: 250px;
   transform: translate(-50%, -50%);
+
 
 
   z-index: 7;
@@ -415,7 +440,8 @@ html, body {
   position: absolute;
   inset: 4%;
   border-radius: 50%;
-  border: 0.15vw solid rgba(214, 159, 255, 0.65);
+  border: 3px solid rgba(214, 159, 255, 0.65);
+
   box-shadow:
     0 0 24px rgba(150, 105, 255, 0.5),
     inset 0 0 30px rgba(197, 188, 255, 0.4);
@@ -429,7 +455,8 @@ html, body {
   position: absolute;
   inset: 12%;
   border-radius: 50%;
-  border: 0.08vw dashed rgba(214, 159, 255, 0.55);
+  border: 1.5px dashed rgba(214, 159, 255, 0.55);
+
 }
 
 /* "Enter" hint that fades in under the portal */
@@ -439,8 +466,9 @@ html, body {
   bottom: -14%;
   transform: translateX(-50%);
   font-family: "Bona Nova", Georgia, serif;
-  font-size: 0.8vw;
+  font-size: 15px;
   letter-spacing: 0.4em;
+
   color: var(--text-violet);
   text-shadow: var(--text-glow);
   white-space: nowrap;
@@ -550,8 +578,9 @@ html, body {
 .arc-title {
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: clamp(48px, 7.12vw, 150px);      /* 107.682 / 1512, clamped */
+  font-size: 108px;      /* 107.682 in the 1512 design */
   line-height: 1.05;
+
 
   letter-spacing: 0.02em;
   margin: 0;
@@ -560,14 +589,15 @@ html, body {
   text-shadow: var(--text-glow);
 }
 .arc-desc {
-  margin: 1.2vw 0 0;
+  margin: 18px 0 0;
   /* Single wide block that stretches to the right and wraps to
      roughly two lines, so it never sits behind the first card. */
-  width: 88vw;            /* runs almost full width, across all cards */
+  width: 1330px;          /* runs almost full width, across all cards */
   max-width: 1360px;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: clamp(13px, 1.06vw, 20px);   /* ~16 / 1512, clamped */
+  font-size: 16px;        /* ~16 in the 1512 design */
+
   line-height: 1.55;
   letter-spacing: 0.02em;
   color: #C9BEFF;
@@ -589,8 +619,9 @@ html, body {
 .arc-card {
   position: absolute;
   top: 37.58%;            /* 369 / 982 */
-  width: 19.36vw;         /* ~292.73 / 1512 */
-  height: 28.44vw;        /* ~430 / 1512 (keeps portrait ratio) */
+  width: 293px;           /* ~292.73 in the 1512 design */
+  height: 430px;          /* keeps portrait ratio */
+
   pointer-events: auto;
   border-radius: 4px;
   overflow: hidden;
@@ -666,8 +697,9 @@ html, body {
   position: absolute;
   left: 50%;
   top: 52.65%;            /* 517 / 982 */
-  width: 10.38vw;         /* 157 / 1512 */
-  height: 10.38vw;
+  width: 157px;
+  height: 157px;
+
   transform: translate(-50%, -50%);
   border: 1px solid rgba(233, 226, 255, 0.45);
   border-radius: 50%;
@@ -687,8 +719,9 @@ html, body {
   position: absolute;
   left: 92.13%;           /* 1393 / 1512 */
   top: 57.94%;            /* 569 / 982 */
-  width: 3.64vw;          /* 55 / 1512 */
-  height: 3.64vw;
+  width: 55px;
+  height: 55px;
+
   display: grid;
   place-items: center;
   border: 1.64px solid #786BC7;
@@ -706,8 +739,9 @@ html, body {
 }
 /* Chevron arrow (Vector 1) */
 .arc-nav-icon {
-  width: 1.35vw;          /* ~25 / 1512 */
-  height: 1.35vw;
+  width: 24px;            /* ~25 in the 1512 design */
+  height: 24px;
+
   border-top: 2.4px solid #B9AEF7;
   border-right: 2.4px solid #B9AEF7;
   transform: rotate(45deg) translate(-8%, 8%);
@@ -947,13 +981,22 @@ html, body {
   body:has(.archive-canvas) {
     overflow: auto;
   }
+  .viewport:has(.archive-canvas) {
+    position: static;
+  }
   .viewport:has(.archive-canvas),
   .archive-canvas {
     height: auto;
     min-height: 100vh;
     min-height: 100dvh;
     overflow: visible;
+    display: block;
   }
+  /* No transform scaling in the reflowed layout */
+  .archive-canvas {
+    transform: none;
+  }
+
 
   /* The eclipse background stays fixed behind the scrolling content */
   .archive-canvas .photo,

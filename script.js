@@ -8,7 +8,55 @@
 (function () {
   "use strict";
 
+  /* --------------------------------------------------------
+     Scale-to-fit: the design canvas has a fixed size (e.g.
+     1920x1080 or 1512x982). We scale it down/up as a single
+     unit so it fills any laptop / phone / browser window
+     proportionally, with no black bars and everything aligned.
+     -------------------------------------------------------- */
+  (function setupScaler() {
+    var stageCanvas = document.getElementById("canvas");
+    if (!stageCanvas) return;
+
+    // Read the design size from the CSS custom properties, with a
+    // sensible fallback if they aren't set yet.
+    function designSize() {
+      var cs = getComputedStyle(stageCanvas);
+      var w = parseFloat(cs.getPropertyValue("--design-w")) || 1920;
+      var h = parseFloat(cs.getPropertyValue("--design-h")) || 1080;
+      return { w: w, h: h };
+    }
+
+    // On narrow screens the archive page reflows into a scrollable
+    // grid (see the max-width: 900px media query), so we must NOT
+    // apply the scale transform there.
+    var reflow = window.matchMedia("(max-width: 900px)");
+
+    function applyScale() {
+      var isArchive = stageCanvas.classList.contains("archive-canvas");
+      if (isArchive && reflow.matches) {
+        stageCanvas.style.removeProperty("--scale");
+        return;
+      }
+      var d = designSize();
+      var scale = Math.min(window.innerWidth / d.w, window.innerHeight / d.h);
+      stageCanvas.style.setProperty("--scale", String(scale));
+    }
+
+    applyScale();
+    window.addEventListener("resize", applyScale);
+    window.addEventListener("orientationchange", applyScale);
+    // Recompute once fonts/images settle in case the viewport shifts.
+    window.addEventListener("load", applyScale);
+    if (reflow.addEventListener) {
+      reflow.addEventListener("change", applyScale);
+    } else if (reflow.addListener) {
+      reflow.addListener(applyScale);
+    }
+  })();
+
   function urlFromBg(el) {
+
     if (!el) return "";
     var style = getComputedStyle(el);
     var match = /url\((['"]?)(.*?)\1\)/.exec(style.backgroundImage || "");
