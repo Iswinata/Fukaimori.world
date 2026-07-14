@@ -41,13 +41,20 @@
       "(max-width: 820px), (orientation: portrait), (max-height: 480px)"
     );
 
+    // Root element gets a matching flag so the CSS can switch the
+    // page into its scrollable mobile layout WITHOUT relying on the
+    // :has() selector (which older Safari / Firefox don't support).
+    var root = document.documentElement;
+
     function applyScale() {
       if (reflowMQ.matches) {
         stageCanvas.classList.add("reflow");
+        root.classList.add("reflow-active");
         stageCanvas.style.removeProperty("--scale");
         return;
       }
       stageCanvas.classList.remove("reflow");
+      root.classList.remove("reflow-active");
       var d = designSize();
       // Contain scale: the smaller of the two ratios guarantees the
       // whole canvas fits inside the viewport (no cropping) without

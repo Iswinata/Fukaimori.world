@@ -54,8 +54,9 @@ html, body {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url("BGLP.png");
+  background-image: url("BGLP.png?v=2");
   background-size: cover;
+
   background-position: center;
   background-repeat: no-repeat;
   filter: blur(28px) brightness(0.55) saturate(1.05);
@@ -73,8 +74,9 @@ html, body {
    canvas is filled by the viewport's blurred backdrop. */
 
 .canvas {
-  --design-w: 1920px;
-  --design-h: 1050px;   /* Slide 16:9 frame */
+  --design-w: 2168px;
+  --design-h: 1050px;   /* wide frame */
+
   position: relative;
   z-index: 1;           /* sit above the viewport's blurred backdrop */
 
@@ -82,7 +84,8 @@ html, body {
 
   width: var(--design-w);
   height: var(--design-h);
-  background: #FFFFFF;
+  background: #05020a;
+
   overflow: hidden;
   color: var(--text-violet);
   transform: scale(var(--scale, 1));
@@ -91,9 +94,10 @@ html, body {
 
 
 .archive-canvas {
-  --design-w: 1920px;
+  --design-w: 2168px;
   --design-h: 1050px;
 }
+
 
 
 
@@ -105,10 +109,12 @@ html, body {
   position: absolute;
   left: 0;
   top: 0;
-  width: 1920px;          /* exact BGLP.png size */
+  width: 2168px;          /* exact BGLP.png size */
   height: 1050px;         /* exact BGLP.png size */
-  background-image: url("BGLP.png");
+  background-image: url("BGLP.png?v=2");
+
   background-size: 100% 100%;
+
   background-position: center;
   background-repeat: no-repeat;
   z-index: 2;
@@ -344,8 +350,9 @@ html, body {
    ============================================================ */
 .drop-point {
   position: absolute;
-  left: 1688px;
+  left: 1936px;   /* re-pinned to the right edge of the 2168px canvas */
   top: 80px;
+
   width: 180.88px;
   height: 30px;
   z-index: 5;
@@ -400,8 +407,9 @@ html, body {
 /* AN ARCHIVE (Figma: left 805.02 top 906, 313x41) — thin violet glow */
 .title {
   position: absolute;
-  left: 805.02px;
+  left: 927.5px;          /* re-centered on the 2168px canvas */
   top: 876px;             /* nudged up a little */
+
   width: 313px;
 
   height: 41px;
@@ -418,8 +426,9 @@ html, body {
 /* EXPLORING THE DEPTHS OF HUMANITY (Figma: left 699 top 961.31, 522x23) */
 .subtitle {
   position: absolute;
-  left: 699px;
+  left: 823px;            /* re-centered on the 2168px canvas */
   top: 931.31px;          /* nudged up a little */
+
   width: 522px;
 
   height: 23px;
@@ -447,8 +456,9 @@ html, body {
 /* Circle sitting right on the moon (Ellipse 14: left 863 top 460, 195x195) */
 .portal {
   position: absolute;
-  left: 863px;
+  left: 986.5px;          /* re-centered on the 2168px canvas */
   top: 460px;
+
   width: 195px;
   height: 195px;
   transform: none;
@@ -789,8 +799,9 @@ html, body {
 /* --- Navigation button (Group 2: left 1773, top 725.49 -> 593) --- */
 .arc-nav {
   position: absolute;
-  left: 1773px;
+  left: 2021px;           /* re-pinned to the right edge of the 2168px canvas */
   top: 593px;             /* 725.49 - 132.49 */
+
   width: 69.84px;         /* Figma size */
   height: 69.84px;
 
@@ -1026,13 +1037,25 @@ html, body {
    layout that adapts to any device.
    ============================================================ */
 
-/* Let the page scroll when it has reflowed to a mobile layout */
+/* Let the page scroll when it has reflowed to a mobile layout.
+   Two selector sets are provided for maximum browser coverage:
+     1. .reflow-active — a class script.js adds to <html>; works in
+        every browser (the reliable primary path).
+     2. :has(.canvas.reflow) — a progressive enhancement for
+        browsers that support :has(); harmless where they don't. */
+html.reflow-active,
+html.reflow-active body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+}
 html:has(.canvas.reflow),
 body:has(.canvas.reflow) {
   overflow-x: hidden;
   overflow-y: auto;
   height: auto;
 }
+html.reflow-active .viewport,
 .viewport:has(.canvas.reflow) {
   position: static;
   display: block;
@@ -1078,12 +1101,12 @@ body:has(.canvas.reflow) {
   text-align: center;
 }
 
-/* Brand pinned top-left, laid out inline */
+/* Brand pinned top-left, laid out inline (respects notch safe area) */
 .canvas.reflow .brand {
   position: fixed;
   inset: auto;
-  top: 2.5vh;
-  left: 6vw;
+  top: calc(2.5vh + env(safe-area-inset-top, 0px));
+  left: calc(6vw + env(safe-area-inset-left, 0px));
   z-index: 10;
   display: flex;
   align-items: center;
@@ -1104,12 +1127,12 @@ body:has(.canvas.reflow) {
   font-size: 15px;
 }
 
-/* Drop point pinned top-right */
+/* Drop point pinned top-right (respects notch safe area) */
 .canvas.reflow .drop-point {
   position: fixed;
   left: auto;
-  right: 6vw;
-  top: 3vh;
+  right: calc(6vw + env(safe-area-inset-right, 0px));
+  top: calc(3vh + env(safe-area-inset-top, 0px));
   z-index: 10;
 }
 .canvas.reflow .drop-dot {
@@ -1190,8 +1213,8 @@ body:has(.canvas.reflow) {
   position: fixed;
   left: auto;
   top: auto;
-  right: 6vw;
-  bottom: 4vh;
+  right: calc(6vw + env(safe-area-inset-right, 0px));
+  bottom: calc(4vh + env(safe-area-inset-bottom, 0px));
   z-index: 12;
 }
 
