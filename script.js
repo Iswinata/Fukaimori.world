@@ -84,67 +84,6 @@
 
 
 
-  /* --------------------------------------------------------
-     Parallax: ONLY the background photo shifts subtly with the
-     pointer (and device tilt) to give the landing scene a sense
-     of depth. Clouds and fog are intentionally left out.
-     -------------------------------------------------------- */
-  (function setupParallax() {
-    var stage = document.getElementById("canvas");
-    if (!stage) return;
-
-    var photoEl = stage.querySelector(".photo");
-    if (!photoEl) return;
-
-    // Skip parallax when the user prefers reduced motion.
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (reduce.matches) return;
-
-    // Target and current offsets (-1..1), eased for smoothness.
-    var tx = 0, ty = 0, cx = 0, cy = 0;
-    var raf = null;
-
-    function render() {
-      // Ease current toward target.
-      cx += (tx - cx) * 0.08;
-      cy += (ty - cy) * 0.08;
-
-      // Background drifts slightly; scale keeps edges covered.
-      photoEl.style.transform =
-        "translate(" + (cx * 16) + "px," + (cy * 12) + "px) scale(1.04)";
-
-      if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) {
-        raf = requestAnimationFrame(render);
-      } else {
-        raf = null;
-      }
-    }
-
-    function schedule() {
-      if (raf === null) raf = requestAnimationFrame(render);
-    }
-
-    window.addEventListener("pointermove", function (e) {
-      // Normalize pointer to -1..1 around the viewport center.
-      tx = (e.clientX / window.innerWidth) * 2 - 1;
-      ty = (e.clientY / window.innerHeight) * 2 - 1;
-      schedule();
-    });
-
-    // Ease back to center when the pointer leaves the window.
-    window.addEventListener("pointerout", function () {
-      tx = 0; ty = 0; schedule();
-    });
-
-    // Device tilt (mobile) drives parallax too.
-    window.addEventListener("deviceorientation", function (e) {
-      if (e.gamma == null || e.beta == null) return;
-      tx = Math.max(-1, Math.min(1, e.gamma / 45));
-      ty = Math.max(-1, Math.min(1, (e.beta - 45) / 45));
-      schedule();
-    });
-  })();
-
 
   function urlFromBg(el) {
 
