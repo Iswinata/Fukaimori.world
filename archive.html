@@ -74,9 +74,10 @@
 
       <!-- Gallery row of four portrait cards -->
       <section class="arc-gallery" aria-label="Archive entries">
-        <article class="arc-card arc-card-1">
+        <article class="arc-card arc-card-1" data-entry="seshomaru" tabindex="0" role="button" aria-label="Open archive file AW-01">
           <img class="arc-card-img" src="Unlock 1.png" alt="Archive entry 1" />
         </article>
+
         <article class="arc-card arc-card-2">
           <img class="arc-card-img" src="aw 2.png" alt="Archive entry 2" />
         </article>
@@ -97,6 +98,55 @@
     </div>
   </div>
 
+  <!-- ============ Archive file pop-up (opens when card 1 is clicked) ============ -->
+  <div class="arc-modal" id="arc-modal" aria-hidden="true">
+    <div class="arc-modal-backdrop" data-close></div>
+    <div class="arc-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="arc-modal-name">
+      <button class="arc-modal-close" type="button" data-close aria-label="Close">
+        <span aria-hidden="true"></span>
+      </button>
+
+      <div class="arc-modal-media">
+        <img src="Unlock 1.png" alt="Seshomaru — AW-01" />
+        <span class="arc-modal-tag">AW - 01</span>
+      </div>
+
+      <div class="arc-modal-body">
+        <p class="arc-modal-kicker">FILE OPENED</p>
+        <p class="arc-modal-code">AW - 01</p>
+        <h2 class="arc-modal-name" id="arc-modal-name">SESHOMARU</h2>
+        <p class="arc-modal-role">THE DEMON</p>
+
+        <div class="arc-modal-field">
+          <p class="arc-modal-label">THEME</p>
+          <p class="arc-modal-value">FULL DEMON 🌙</p>
+        </div>
+
+        <div class="arc-modal-field">
+          <p class="arc-modal-label">QUESTION</p>
+          <p class="arc-modal-text">
+            Lorem ipsum dolor sit amet, consectetur? adipiscing elit. Nulla mattis
+            velit ac fermentum euismod. Fusce eget sapien nisl.?
+          </p>
+        </div>
+
+        <div class="arc-modal-field">
+          <p class="arc-modal-label">PHILOSOPHY</p>
+          <p class="arc-modal-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis
+            velit ac fermentum euismod. Fusce eget sapien nisl.
+          </p>
+        </div>
+
+        <div class="arc-modal-cta">
+          <p class="arc-modal-own">OWN THE ARCHIVE</p>
+          <p class="arc-modal-status">CURRENTLY AVAILABLE</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
+
 </body>
 </html>

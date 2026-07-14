@@ -538,10 +538,11 @@ html, body {
 .arc-head {
   position: absolute;
   left: 4.03%;    /* 61 / 1512 */
-  top: 11%;
+  top: 9%;
   z-index: 6;
-  max-width: 62%;
+  max-width: 92%;
 }
+
 
 .arc-title {
   font-family: "Bona Nova", Georgia, serif;
@@ -556,17 +557,15 @@ html, body {
   text-shadow: var(--text-glow);
 }
 .arc-desc {
-  margin: 1.1vw 0 0;
-  /* Two paragraphs laid out side by side, extending to the right */
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.6vw;
-  width: 56vw;            /* extends toward the right side of the page */
-  max-width: 900px;
+  margin: 1.2vw 0 0;
+  /* Single wide block that stretches to the right and wraps to
+     roughly two lines, so it never sits behind the first card. */
+  width: 88vw;            /* runs almost full width, across all cards */
+  max-width: 1360px;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 0.95vw;      /* 14 / 1512 */
-  line-height: 1.5;
+  font-size: clamp(13px, 1.06vw, 20px);   /* ~16 / 1512, clamped */
+  line-height: 1.55;
   letter-spacing: 0.02em;
   color: #C9BEFF;
   text-shadow: 0 1px 3px rgba(12, 4, 26, 0.7);
@@ -574,6 +573,7 @@ html, body {
 .arc-desc p {
   margin: 0;
 }
+
 
 
 /* --- Gallery of four portrait cards --- */
@@ -596,7 +596,8 @@ html, body {
   box-shadow: 0 14px 40px rgba(8, 3, 20, 0.5),
               0 0 0 1px rgba(197, 188, 255, 0.18);
 }
-.arc-card-1 { left: 4.43%; }   /* 67 / 1512  */
+.arc-card-1 { left: 4.43%; cursor: pointer; }   /* 67 / 1512  */
+
 .arc-card-2 { left: 26.12%; }  /* 395 / 1512 */
 .arc-card-3 { left: 47.82%; }  /* 723 / 1512 */
 .arc-card-4 { left: 69.25%; }  /* 1047 / 1512 */
@@ -709,9 +710,193 @@ html, body {
   transform: rotate(45deg) translate(-8%, 8%);
 }
 
+/* ============================================================
+   Archive file pop-up (Seshomaru — AW-01)
+   Opens when the first card is clicked. Mirrors the Figma
+   dialog: full-screen dim backdrop + a wide panel split into
+   a portrait image (left) and metadata (right).
+   ============================================================ */
+.arc-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3vh 2vw;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+.arc-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+.arc-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(22, 7, 38, 0.58);
+  backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+.arc-modal-dialog {
+  position: relative;
+  display: grid;
+  grid-template-columns: 42% 1fr;
+  width: min(89vw, 1346px);
+  height: min(84vh, 671px);
+  background: #2B2B2B;
+  border: 1.13px solid #786BC7;
+  border-radius: 4px;
+  box-shadow: 0 30px 90px rgba(6, 2, 16, 0.7);
+  overflow: hidden;
+  transform: translateY(18px) scale(0.98);
+  transition: transform 0.4s ease;
+}
+.arc-modal.is-open .arc-modal-dialog {
+  transform: translateY(0) scale(1);
+}
+
+/* Close (×) top-right */
+.arc-modal-close {
+  position: absolute;
+  top: 2.2%;
+  right: 2%;
+  width: 2.2vw;
+  height: 2.2vw;
+  min-width: 26px;
+  min-height: 26px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 3;
+}
+.arc-modal-close span,
+.arc-modal-close::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  background: #786BC7;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.arc-modal-close span {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.arc-modal-close:hover span,
+.arc-modal-close:hover::before {
+  background: #B9AEF7;
+}
+
+/* Left: portrait image */
+.arc-modal-media {
+  position: relative;
+  overflow: hidden;
+  background: #14061f;
+}
+.arc-modal-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+.arc-modal-tag {
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  transform: translateX(-50%);
+  font-family: "Bona Nova", Georgia, serif;
+  font-size: clamp(11px, 1vw, 16px);
+  letter-spacing: 0.35em;
+  color: rgba(255, 243, 197, 0.85);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Right: metadata */
+.arc-modal-body {
+  position: relative;
+  padding: 4% 5% 4% 4.5%;
+  overflow-y: auto;
+  color: #969074;
+  font-family: "Bona Nova", Georgia, serif;
+}
+.arc-modal-kicker {
+  font-size: clamp(11px, 1.02vw, 16px);
+  letter-spacing: 0.14em;
+  color: rgba(255, 243, 197, 0.59);
+  margin: 0;
+}
+.arc-modal-code {
+  font-size: clamp(11px, 1.02vw, 16px);
+  letter-spacing: 0.2em;
+  color: rgba(255, 243, 197, 0.59);
+  margin: 0.2em 0 0.4em;
+}
+.arc-modal-name {
+  font-size: clamp(30px, 3.94vw, 60px);
+  line-height: 1.1;
+  font-weight: 400;
+  color: rgba(255, 243, 197, 0.7);
+  margin: 0;
+}
+.arc-modal-role {
+  font-size: clamp(15px, 1.4vw, 22px);
+  letter-spacing: 0.06em;
+  color: #786BC7;
+  margin: 0.3em 0 1.4em;
+}
+.arc-modal-field {
+  margin: 0 0 1.3em;
+}
+.arc-modal-label {
+  font-size: clamp(12px, 1.17vw, 18px);
+  letter-spacing: 0.06em;
+  color: rgba(170, 155, 93, 0.75);
+  margin: 0 0 0.35em;
+}
+.arc-modal-value {
+  font-size: clamp(12px, 1.17vw, 18px);
+  color: rgba(255, 243, 197, 0.7);
+  margin: 0;
+}
+.arc-modal-text {
+  font-size: clamp(12px, 1.2vw, 18px);
+  line-height: 1.35;
+  color: #969074;
+  margin: 0;
+  max-width: 34em;
+}
+.arc-modal-cta {
+  margin-top: 1.6em;
+}
+.arc-modal-own {
+  font-size: clamp(18px, 2.2vw, 33px);
+  color: rgba(184, 156, 111, 0.95);
+  margin: 0 0 0.25em;
+}
+.arc-modal-status {
+  font-size: clamp(12px, 1.17vw, 18px);
+  letter-spacing: 0.05em;
+  color: #A499E4;
+  margin: 0;
+}
+
+/* Stack the dialog on narrow screens */
+@media (max-width: 720px) {
+  .arc-modal-dialog {
+    grid-template-columns: 1fr;
+    grid-template-rows: 45% 1fr;
+    height: min(90vh, 760px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   * { animation: none !important; }
 }
+
 
 

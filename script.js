@@ -55,6 +55,56 @@
     });
   }
 
+  /* --------------------------------------------------------
+     Archive file pop-up
+       - clicking the first card (AW-01 / Seshomaru) opens a
+         modal with the file details
+       - close via the × button, the backdrop, or the Esc key
+     -------------------------------------------------------- */
+  var modal = document.getElementById("arc-modal");
+  var trigger = document.querySelector('.arc-card[data-entry="seshomaru"]');
+
+  if (modal && trigger) {
+    var lastFocused = null;
+
+    function openModal() {
+      lastFocused = document.activeElement;
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      var closeBtn = modal.querySelector(".arc-modal-close");
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      if (lastFocused && typeof lastFocused.focus === "function") {
+        lastFocused.focus();
+      }
+    }
+
+    trigger.addEventListener("click", openModal);
+    trigger.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openModal();
+      }
+    });
+
+    // Close on backdrop / × button (any element marked data-close)
+    modal.addEventListener("click", function (e) {
+      if (e.target.closest("[data-close]")) closeModal();
+    });
+
+    // Close on Escape
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("is-open")) {
+        closeModal();
+      }
+    });
+  }
+
 })();
+
 
 
