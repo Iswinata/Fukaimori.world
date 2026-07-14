@@ -274,6 +274,40 @@
   })();
 
   /* --------------------------------------------------------
+     Drop Point — sequence input auto-advance & backspace
+     -------------------------------------------------------- */
+  (function initSeqInput() {
+    var boxes = document.querySelectorAll(".dp-seq-box");
+    if (!boxes.length) return;
+
+    boxes.forEach(function (box, i) {
+      box.addEventListener("input", function () {
+        var val = box.value;
+        if (val.length >= 1) {
+          box.value = val[val.length - 1].toUpperCase();
+          if (i < boxes.length - 1) boxes[i + 1].focus();
+        }
+      });
+      box.addEventListener("keydown", function (e) {
+        if (e.key === "Backspace" && !box.value && i > 0) {
+          boxes[i - 1].focus();
+          boxes[i - 1].value = "";
+        }
+      });
+      box.addEventListener("paste", function (e) {
+        e.preventDefault();
+        var text = (e.clipboardData || window.clipboardData).getData("text").toUpperCase();
+        var chars = text.replace(/\s/g, "").split("");
+        chars.forEach(function (ch, j) {
+          if (i + j < boxes.length) boxes[i + j].value = ch;
+        });
+        var next = Math.min(i + chars.length, boxes.length - 1);
+        boxes[next].focus();
+      });
+    });
+  })();
+
+  /* --------------------------------------------------------
      Archive file pop-up
        - clicking the first card (AW-01 / Seshomaru) opens a
          modal with the file details

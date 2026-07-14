@@ -229,10 +229,10 @@ html, body {
   }
 }
 
-/* Hover — gelombang ripple pelan: pseudo-element rings mengembang keluar */
+/* Hover — denyut lebih cepat + gelombang ripple */
 .moon-link:hover,
 .moon-link:focus-visible {
-  animation: bglps-pulse 3s ease-in-out infinite;
+  animation: bglps-pulse 1.2s ease-in-out infinite;
 }
 .moon-link:hover::before,
 .moon-link:hover::after,
@@ -426,15 +426,18 @@ html, body {
 
 /* ============================================================
    Drop point — top-right  (Group 8: left 1688 top 56)
+   Now an <a> link — hover: dot turns purple, text glows
    ============================================================ */
 .drop-point {
   position: absolute;
-  left: 1936px;   /* re-pinned to the right edge of the 2168px canvas */
-  top: 50px;      /* raised higher */
-
+  left: 1936px;
+  top: 50px;
   width: 180.88px;
   height: 30px;
   z-index: 5;
+  text-decoration: none;
+  display: block;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .drop-text {
@@ -449,19 +452,33 @@ html, body {
           background-clip: text;
   -webkit-text-fill-color: transparent;
           color: transparent;
+  transition: filter 0.35s ease;
 }
 
-/* Ellipse 4: red blinking dot at 1858.64,66 => offset from group */
+.drop-point:hover .drop-text,
+.drop-point:focus-visible .drop-text {
+  filter: drop-shadow(0 0 6px rgba(200, 160, 255, 0.95))
+          drop-shadow(0 0 18px rgba(160, 100, 255, 0.8))
+          drop-shadow(0 0 36px rgba(130, 70, 255, 0.6));
+}
+
+/* Ellipse 4: red blinking dot — turns purple on hover */
 .drop-dot {
   position: absolute;
-  left: 170.64px;   /* 1858.64 - 1688 */
-  top: 10px;        /* 66 - 56 */
+  left: 170.64px;
+  top: 10px;
   width: 10.24px;
   height: 10.24px;
-
   border-radius: 50%;
   background: #FB0000;
   animation: pulse-dot 1.3s ease-in-out infinite;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.drop-point:hover .drop-dot,
+.drop-point:focus-visible .drop-dot {
+  background: #9B41FF;
+  animation: pulse-dot-purple 1.3s ease-in-out infinite;
 }
 
 @keyframes pulse-dot {
@@ -478,6 +495,292 @@ html, body {
                 0 0 26px 8px rgba(255, 68, 68, 0.7);
   }
 }
+
+@keyframes pulse-dot-purple {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 6px 2px rgba(155, 65, 255, 0.9),
+                0 0 14px 4px rgba(155, 65, 255, 0.6);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.3);
+    box-shadow: 0 0 14px 5px rgba(155, 65, 255, 1),
+                0 0 30px 10px rgba(155, 65, 255, 0.7);
+  }
+}
+
+.drop-point:focus-visible {
+  outline: 2px solid rgba(155, 65, 255, 0.7);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   DROP POINT PAGE (droppoint.html) — koordinat absolut Figma
+   Canvas: 2168 × 1080
+   ============================================================ */
+
+/* dp-canvas inherits .canvas sizing */
+.dp-canvas {
+  background: #05020a;
+}
+
+/* Dark overlay — Rectangle 12 (full canvas, rgba 0,0,0,0.4) */
+.dp-overlay {
+  position: absolute;
+  left: 0; top: 0;
+  width: 2168px;
+  height: 1080px;
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+/* Portrait image (BGDP: left 765, top 188, 638×800) */
+.dp-portrait-img {
+  position: absolute;
+  left: 765px;
+  top: 188px;
+  width: 638px;
+  height: 800px;
+  z-index: 4;
+  background-image: url("Gemini_Generated_Image_l9y6yel9y6yel9y6 (1)-Photoroom.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Portrait panel border overlay (Rectangle 14: centered, 638×800, top 188) */
+.dp-portrait {
+  position: absolute;
+  left: calc(50% - 638px / 2 + 0.12px);
+  top: 188px;
+  width: 638px;
+  height: 800px;
+  z-index: 5;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(3,3,3,0.36) 54.81%, rgba(105,105,105,0) 100%);
+  border: 1px solid #9B8BFF;
+  box-shadow: 0 0 24.4px 9px rgba(185, 65, 255, 0.25);
+  pointer-events: none;
+}
+
+/* DROP POINT heading (Group 11: centered left 944, top 338, 279×54) */
+.dp-heading {
+  position: absolute;
+  left: calc(50% - 279px / 2 - 0.5px);
+  top: 338px;
+  width: 279px;
+  height: 54px;
+  z-index: 6;
+  font-family: "Bona Nova", Georgia, serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 44.7474px;
+  line-height: 54px;
+  color: #694EAB;
+  margin: 0;
+}
+
+/* "Submit your recovered sequence" (centered, top 385, 447×43) */
+.dp-sub {
+  position: absolute;
+  left: calc(50% - 447px / 2 - 0.5px);
+  top: 385px;
+  width: 447px;
+  height: 43px;
+  z-index: 6;
+  font-family: "Cantarell", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 30.717px;
+  line-height: 43px;
+  text-align: center;
+  color: #A99AFF;
+  margin: 0;
+}
+
+/* RECOVERED SEQUENCE label (left 817, top 496.76, 218×27) */
+.dp-label {
+  position: absolute;
+  left: 817px;
+  top: 496.76px;
+  width: 218px;
+  height: 27px;
+  z-index: 6;
+  font-family: "Cantarell", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 18.748px;
+  line-height: 27px;
+  text-align: center;
+  color: rgba(182, 178, 178, 0.83);
+  margin: 0;
+}
+
+/* 6-box input row (Group 48: centered, top 531.46, 532.94×75.49) */
+.dp-seq {
+  position: absolute;
+  left: calc(50% - 532.94px / 2 + 1.47px);  /* = 819px */
+  top: 531.46px;
+  width: 532.94px;
+  height: 75.49px;
+  z-index: 6;
+  display: flex;
+  gap: 0;
+}
+/* Individual boxes at exact Figma left positions:
+   819, 910.49, 1001.98, 1093.47, 1184.96, 1276.45
+   Gap between each = 910.49 - 819 - 75.49 = 16px */
+.dp-seq-box {
+  width: 75.49px;
+  height: 75.49px;
+  box-sizing: border-box;
+  border: 1.26382px solid #786BC7;
+  background: transparent;
+  color: #C5BCFF;
+  font-family: "Cantarell", system-ui, sans-serif;
+  font-size: 28px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  caret-color: transparent;
+  flex-shrink: 0;
+}
+.dp-seq-box + .dp-seq-box {
+  margin-left: 15.5px;   /* 910.49 - 819 - 75.49 ≈ 16 */
+}
+.dp-seq-box:focus {
+  border-color: #B9AEF7;
+  box-shadow: 0 0 10px 2px rgba(155, 65, 255, 0.45);
+}
+
+/* VERIFY button (Rectangle 16: left 958, top 636, 258.99×75.49) */
+.dp-verify {
+  position: absolute;
+  left: 958px;
+  top: 636px;
+  width: 258.99px;
+  height: 75.49px;
+  z-index: 6;
+  box-sizing: border-box;
+  background: rgba(55, 22, 255, 0.19);
+  border: 1.26382px solid #786BC7;
+  color: #786BC7;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 25.3649px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+.dp-verify:hover,
+.dp-verify:focus-visible {
+  background: rgba(100, 60, 255, 0.35);
+  color: #C5BCFF;
+  box-shadow: 0 0 20px 4px rgba(155, 65, 255, 0.45);
+  outline: none;
+}
+
+/* NEED ASSISTANCE? (Group 12: centered, top 752.12, 163×21) */
+.dp-assist-q {
+  position: absolute;
+  left: calc(50% - 163px / 2 + 3.35px);
+  top: 752.12px;
+  width: 163px;
+  height: 21px;
+  z-index: 6;
+  font-family: "Maven Pro", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 17.8754px;
+  line-height: 21px;
+  color: rgba(226, 214, 255, 0.59);
+  margin: 0;
+}
+
+/* ACCESS ARCHIVE NOTES (Group 13: centered, top 779.99, 193×20) */
+.dp-assist-link {
+  position: absolute;
+  left: calc(50% - 193px / 2 - 6.04px);
+  top: 779.99px;
+  width: 213.11px;
+  height: 20px;
+  z-index: 6;
+  font-family: "Maven Pro", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 16.695px;
+  line-height: 20px;
+  text-align: center;
+  color: rgba(226, 214, 255, 0.59);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+.dp-assist-link:hover { color: #C5BCFF; }
+
+/* Vector 2 arrow (left 1181.22, top 785.8, 13.36×9.29) */
+.dp-assist-arrow {
+  display: inline-block;
+  width: 13.36px;
+  height: 9.29px;
+  border-top: 1.47763px solid #877F99;
+  border-right: 1.47763px solid #877F99;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  transition: border-color 0.3s ease;
+}
+.dp-assist-link:hover .dp-assist-arrow { border-color: #C5BCFF; }
+
+/* Close button (Group 16: left 1345.82, top 203, 33.55×33.55)
+   Vector 3 & 4: border 3px solid #9769FF, cross shape via rotate */
+.dp-close {
+  position: absolute;
+  left: 1345.82px;
+  top: 203px;
+  width: 33.55px;
+  height: 33.55px;
+  z-index: 9;
+  display: block;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.dp-close-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 33.55px;
+  background: #9769FF;
+  border-radius: 1.5px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.dp-close-line-1 { transform: translate(-50%, -50%) rotate(45deg); }
+.dp-close-line-2 { transform: translate(-50%, -50%) rotate(-45deg); }
+.dp-close:hover .dp-close-line {
+  background: #C5BCFF;
+  box-shadow: 0 0 10px rgba(197, 188, 255, 0.8);
+}
+
+/* Entrance animation */
+.dp-canvas .dp-portrait,
+.dp-canvas .dp-heading,
+.dp-canvas .dp-sub,
+.dp-canvas .dp-label,
+.dp-canvas .dp-seq,
+.dp-canvas .dp-verify,
+.dp-canvas .dp-assist-q,
+.dp-canvas .dp-assist-link,
+.dp-canvas .dp-close {
+  animation: arc-fade-in 0.8s ease-out both;
+}
+.dp-canvas .dp-seq    { animation-delay: 0.05s; }
+.dp-canvas .dp-verify { animation-delay: 0.1s; }
+.dp-canvas .dp-close  { animation-delay: 0.15s; }
 
 
 /* ============================================================
@@ -1179,6 +1482,267 @@ html.reflow-active .viewport,
 
   * { animation: none !important; }
 }
+
+/* ============================================================
+   DROP POINT PAGE (droppoint.html) — koordinat absolut Figma
+   Canvas: 2168 × 1080
+   ============================================================ */
+
+.dp-canvas {
+  background: #05020a;
+}
+
+/* Dark overlay full canvas */
+.dp-overlay {
+  position: absolute;
+  left: 0; top: 0;
+  width: 2168px;
+  height: 1080px;
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+/* Group 59: BGDP portrait image (left 765, top 188, 638×800) */
+.dp-portrait-img {
+  position: absolute;
+  left: 765px;
+  top: 188px;
+  width: 638px;
+  height: 800px;
+  z-index: 4;
+  background-image: url("BGDP.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Rectangle 14: border + gradient overlay (centered, top 188, 638×800) */
+.dp-portrait {
+  position: absolute;
+  left: calc(50% - 638px / 2 + 0.12px);
+  top: 188px;
+  width: 638px;
+  height: 800px;
+  z-index: 5;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(3,3,3,0.36) 54.81%, rgba(105,105,105,0) 100%);
+  border: 1px solid #9B8BFF;
+  box-shadow: 0 0 24.4px 9px rgba(185, 65, 255, 0.25);
+  pointer-events: none;
+}
+
+/* DROP POINT heading (Group 11: centered, top 338, 279×54) */
+.dp-heading {
+  position: absolute;
+  left: calc(50% - 279px / 2 - 0.5px);
+  top: 338px;
+  width: 279px;
+  height: 54px;
+  z-index: 6;
+  font-family: "Bona Nova", Georgia, serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 44.7474px;
+  line-height: 54px;
+  color: #694EAB;
+  margin: 0;
+}
+
+/* "Submit your recovered sequence" (centered, top 385, 447×43) */
+.dp-sub {
+  position: absolute;
+  left: calc(50% - 447px / 2 - 0.5px);
+  top: 385px;
+  width: 447px;
+  height: 43px;
+  z-index: 6;
+  font-family: "Cantarell", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 30.717px;
+  line-height: 43px;
+  text-align: center;
+  color: #A99AFF;
+  margin: 0;
+}
+
+/* RECOVERED SEQUENCE label (left 817, top 496.76, 218×27) */
+.dp-label {
+  position: absolute;
+  left: 817px;
+  top: 496.76px;
+  width: 218px;
+  height: 27px;
+  z-index: 6;
+  font-family: "Cantarell", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 18.748px;
+  line-height: 27px;
+  text-align: center;
+  color: rgba(182, 178, 178, 0.83);
+  margin: 0;
+}
+
+/* 6-box input row (left 819, top 531.46, 532.94×75.49) */
+.dp-seq {
+  position: absolute;
+  left: 819px;
+  top: 531.46px;
+  width: 532.94px;
+  height: 75.49px;
+  z-index: 6;
+  display: flex;
+  gap: 0;
+}
+.dp-seq-box {
+  width: 75.49px;
+  height: 75.49px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  border: 1.26382px solid #786BC7;
+  background: transparent;
+  color: #C5BCFF;
+  font-family: "Cantarell", system-ui, sans-serif;
+  font-size: 28px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  caret-color: transparent;
+}
+.dp-seq-box + .dp-seq-box {
+  margin-left: 15.5px;
+}
+.dp-seq-box:focus {
+  border-color: #B9AEF7;
+  box-shadow: 0 0 10px 2px rgba(155, 65, 255, 0.45);
+}
+
+/* VERIFY button (Rectangle 16: left 958, top 636, 258.99×75.49) */
+.dp-verify {
+  position: absolute;
+  left: 958px;
+  top: 636px;
+  width: 258.99px;
+  height: 75.49px;
+  z-index: 6;
+  box-sizing: border-box;
+  background: rgba(55, 22, 255, 0.19);
+  border: 1.26382px solid #786BC7;
+  color: #786BC7;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 25.3649px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+.dp-verify:hover,
+.dp-verify:focus-visible {
+  background: rgba(100, 60, 255, 0.35);
+  color: #C5BCFF;
+  box-shadow: 0 0 20px 4px rgba(155, 65, 255, 0.45);
+  outline: none;
+}
+
+/* NEED ASSISTANCE? (Group 12: centered, top 752.12, 163×21) */
+.dp-assist-q {
+  position: absolute;
+  left: calc(50% - 163px / 2 + 3.35px);
+  top: 752.12px;
+  width: 163px;
+  height: 21px;
+  z-index: 6;
+  font-family: "Maven Pro", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 17.8754px;
+  line-height: 21px;
+  color: rgba(226, 214, 255, 0.59);
+  margin: 0;
+}
+
+/* ACCESS ARCHIVE NOTES (Group 13: centered, top 779.99, 193×20) */
+.dp-assist-link {
+  position: absolute;
+  left: calc(50% - 193px / 2 - 6.04px);
+  top: 779.99px;
+  width: 213.11px;
+  height: 20px;
+  z-index: 6;
+  font-family: "Maven Pro", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 16.695px;
+  line-height: 20px;
+  text-align: center;
+  color: rgba(226, 214, 255, 0.59);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: color 0.3s ease;
+}
+.dp-assist-link:hover { color: #C5BCFF; }
+
+/* Vector 2 arrow */
+.dp-assist-arrow {
+  display: inline-block;
+  width: 13.36px;
+  height: 9.29px;
+  border-top: 1.47763px solid #877F99;
+  border-right: 1.47763px solid #877F99;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  transition: border-color 0.3s ease;
+}
+.dp-assist-link:hover .dp-assist-arrow { border-color: #C5BCFF; }
+
+/* Close button (Group 16: left 1345.82, top 203, 33.55×33.55) */
+.dp-close {
+  position: absolute;
+  left: 1345.82px;
+  top: 203px;
+  width: 33.55px;
+  height: 33.55px;
+  z-index: 9;
+  display: block;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.dp-close-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 33.55px;
+  background: #9769FF;
+  border-radius: 1.5px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.dp-close-line-1 { transform: translate(-50%, -50%) rotate(45deg); }
+.dp-close-line-2 { transform: translate(-50%, -50%) rotate(-45deg); }
+.dp-close:hover .dp-close-line {
+  background: #C5BCFF;
+  box-shadow: 0 0 10px rgba(197, 188, 255, 0.8);
+}
+
+/* Entrance animation */
+.dp-canvas .dp-portrait-img,
+.dp-canvas .dp-portrait,
+.dp-canvas .dp-heading,
+.dp-canvas .dp-sub,
+.dp-canvas .dp-label,
+.dp-canvas .dp-seq,
+.dp-canvas .dp-verify,
+.dp-canvas .dp-assist-q,
+.dp-canvas .dp-assist-link,
+.dp-canvas .dp-close {
+  animation: arc-fade-in 0.8s ease-out both;
+}
+.dp-canvas .dp-seq    { animation-delay: 0.05s; }
+.dp-canvas .dp-verify { animation-delay: 0.1s; }
+.dp-canvas .dp-close  { animation-delay: 0.15s; }
 
 
 

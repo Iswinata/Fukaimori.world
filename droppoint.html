@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#05020a" />
+  <meta name="description" content="Fukaimori — Drop Point. Submit your recovered sequence." />
+  <title>Fukaimori · Drop Point</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Cantarell:wght@400;700&family=Maven+Pro:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="viewport">
+    <div class="canvas dp-canvas" id="canvas">
+
+      <!-- Background photo -->
+      <div class="photo" aria-hidden="true"></div>
+
+      <!-- Dark overlay — Rectangle 12 -->
+      <div class="dp-overlay" aria-hidden="true"></div>
+
+      <!-- Feather particles -->
+      <canvas class="starfield" aria-hidden="true"></canvas>
+
+      <!-- Page transition -->
+      <div class="page-transition" aria-hidden="true"></div>
+
+      <!-- Group 59: BGDP portrait image (left 765, top 188, 638×800) -->
+      <div class="dp-portrait-img" aria-hidden="true"></div>
+
+      <!-- Rectangle 14: border + gradient overlay (centered, top 188, 638×800) -->
+      <div class="dp-portrait" aria-hidden="true"></div>
+
+      <!-- Group 11: DROP POINT heading (centered left 944, top 338, 279×54) -->
+      <h1 class="dp-heading">DROP POINT</h1>
+
+      <!-- Submit your recovered sequence (centered, top 385, 447×43) -->
+      <p class="dp-sub">Submit your recovered sequence</p>
+
+      <!-- RECOVERED SEQUENCE label (left 817, top 496.76, 218×27) -->
+      <p class="dp-label">RECOVERED SEQUENCE</p>
+
+      <!-- 6 input boxes (Rectangles 15–35, top 531.46) -->
+      <div class="dp-seq" role="group" aria-label="Enter recovered sequence">
+        <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 1" autocomplete="off" />
+        <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 2" autocomplete="off" />
+        <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 3" autocomplete="off" />
+        <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 4" autocomplete="off" />
+        <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 5" autocomplete="off" />
+        <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 6" autocomplete="off" />
+      </div>
+
+      <!-- Rectangle 16: VERIFY button (left 958, top 636, 258.99×75.49) -->
+      <button class="dp-verify" type="button">VERIFY</button>
+
+      <!-- Group 12: NEED ASSISTANCE? (centered, top 752.12) -->
+      <p class="dp-assist-q">NEED ASSISTANCE?</p>
+
+      <!-- Group 13: ACCESS ARCHIVE NOTES (centered, top 779.99) -->
+      <a class="dp-assist-link" href="#" aria-label="Access archive notes">
+        ACCESS ARCHIVE NOTES
+        <span class="dp-assist-arrow" aria-hidden="true"></span>
+      </a>
+
+      <!-- Group 16: Close × (left 1345.82, top 203, 33.55×33.55) -->
+      <a class="dp-close" href="index.html" data-transition aria-label="Close Drop Point">
+        <span class="dp-close-line dp-close-line-1" aria-hidden="true"></span>
+        <span class="dp-close-line dp-close-line-2" aria-hidden="true"></span>
+      </a>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
