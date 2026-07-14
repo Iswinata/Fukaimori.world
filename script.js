@@ -56,11 +56,14 @@
       stageCanvas.classList.remove("reflow");
       root.classList.remove("reflow-active");
       var d = designSize();
-      // Contain scale: the smaller of the two ratios guarantees the
-      // whole canvas fits inside the viewport (no cropping) without
-      // distorting it. Leftover space is covered by the viewport bg.
-      var scale = Math.min(window.innerWidth / d.w, window.innerHeight / d.h);
-      stageCanvas.style.setProperty("--scale", String(scale));
+      // FILL scale: scale each axis independently so the canvas
+      // stretches to the EXACT viewport size. The whole design is
+      // always visible edge-to-edge — nothing is ever cropped and
+      // there are no blurred bars — on any laptop / desktop screen.
+      var scaleX = window.innerWidth / d.w;
+      var scaleY = window.innerHeight / d.h;
+      stageCanvas.style.setProperty("--scale-x", String(scaleX));
+      stageCanvas.style.setProperty("--scale-y", String(scaleY));
 
     }
 
