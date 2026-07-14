@@ -30,6 +30,7 @@ html, body {
 .viewport {
   width: 100vw;
   height: 100vh;
+  height: 100dvh; /* dynamic viewport height — avoids mobile browser-chrome gaps */
   background: #000;
 }
 
@@ -38,10 +39,12 @@ html, body {
   position: relative;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: #FFFFFF;
   overflow: hidden;
   color: var(--text-violet);
 }
+
 
 /* ============================================================
    Background image (BGLP.png) — fills the screen (cover)
@@ -893,10 +896,153 @@ html, body {
   }
 }
 
+/* ============================================================
+   RESPONSIVE LAYOUT
+   The design is authored for wide (landscape) screens. These
+   breakpoints keep it usable on laptops, tablets and phones —
+   in both portrait and landscape — without black bars or
+   clipped content.
+   ============================================================ */
+
+/* --- Keep the moon portal comfortably tappable on any screen --- */
+.portal {
+  /* min 120px so it stays a usable target, max 260px on big screens */
+  width: clamp(120px, 13vw, 260px);
+  height: clamp(120px, 13vw, 260px);
+}
+
+/* ------------------------------------------------------------
+   TABLETS & SMALL LAPTOPS  (<= 1024px)
+   Bump the tiny vw-based elements up so they don't disappear.
+   ------------------------------------------------------------ */
+@media (max-width: 1024px) {
+  .brand-mark {
+    width: 22px;
+    height: 26px;
+  }
+  .drop-dot {
+    left: 90px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+  }
+  .arc-nav {
+    width: 46px;
+    height: 46px;
+  }
+  .arc-nav-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ------------------------------------------------------------
+   ARCHIVE PAGE on narrow / portrait screens (<= 900px)
+   The four cards are absolutely positioned for a wide row. On
+   smaller screens we let the page scroll and reflow the cards
+   into a responsive grid so nothing gets crushed.
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+  /* Allow the archive page to grow and scroll */
+  body:has(.archive-canvas) {
+    overflow: auto;
+  }
+  .viewport:has(.archive-canvas),
+  .archive-canvas {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  /* The eclipse background stays fixed behind the scrolling content */
+  .archive-canvas .photo,
+  .archive-canvas .scene,
+  .archive-canvas .clouds,
+  .archive-canvas .fog {
+    position: fixed;
+  }
+
+  /* Heading flows from the top */
+  .archive-canvas .arc-head {
+    position: static;
+    max-width: none;
+    padding: 22vh 6vw 0;   /* clear the fixed logo / drop point */
+  }
+  .archive-canvas .arc-desc {
+    width: auto;
+    max-width: 100%;
+  }
+
+  /* Gallery becomes a normal, scrollable grid */
+  .archive-canvas .arc-gallery {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4vw;
+    padding: 6vw 6vw 12vh;
+    pointer-events: auto;
+  }
+  .archive-canvas .arc-card {
+    position: static;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 293 / 430;   /* keep the portrait proportion */
+  }
+
+  /* Decorative center ring only made sense in the wide layout */
+  .archive-canvas .arc-ring {
+    display: none;
+  }
+
+  /* Pin the back button to the bottom-right corner while scrolling */
+  .archive-canvas .arc-nav {
+    position: fixed;
+    left: auto;
+    right: 6vw;
+    top: auto;
+    bottom: 5vh;
+  }
+}
+
+/* ------------------------------------------------------------
+   PHONES  (<= 560px)
+   Single column of cards and a bit more breathing room.
+   ------------------------------------------------------------ */
+@media (max-width: 560px) {
+  .archive-canvas .arc-gallery {
+    grid-template-columns: 1fr;
+    gap: 6vw;
+  }
+  .archive-canvas .arc-head {
+    padding: 20vh 7vw 0;
+  }
+
+  /* Widen the landing title / subtitle so the text isn't squeezed */
+  .title {
+    left: 5%;
+    width: 90%;
+  }
+  .subtitle {
+    left: 5%;
+    width: 90%;
+  }
+}
+
+/* ------------------------------------------------------------
+   SHORT LANDSCAPE (e.g. phones turned sideways, height <= 500px)
+   Nudge the landing text up so it isn't cut off.
+   ------------------------------------------------------------ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .title  { top: 78%; }
+  .subtitle { top: 88%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   * { animation: none !important; }
 }
+
 
 
 
