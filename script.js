@@ -42,33 +42,19 @@
 
   /* --------------------------------------------------------
      Moon portal interaction
-       - click / Enter => play the enter transition, then
-         navigate to the next page
-       (hover effect removed by request)
+       - click / Enter => navigate directly to the next page
+       (hover effect and enter animation removed by request)
      -------------------------------------------------------- */
   var portal = document.getElementById("portal");
   if (canvas && portal) {
     // The next page to open when the portal is entered.
     var NEXT_PAGE = portal.getAttribute("data-next") || "archive.html";
 
-    var entering = false;
-
-    var enter = function () {
-      if (entering) return;
-      entering = true;
-      canvas.classList.add("portal-active", "portal-entering");
-
-      var reduce = window.matchMedia &&
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var delay = reduce ? 0 : 1000;
-
-      window.setTimeout(function () {
-        window.location.href = NEXT_PAGE;
-      }, delay);
-    };
-
-    portal.addEventListener("click", enter);
+    portal.addEventListener("click", function () {
+      window.location.href = NEXT_PAGE;
+    });
   }
+
 })();
 
 
