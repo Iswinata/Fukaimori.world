@@ -455,12 +455,6 @@ html, body {
   transition: filter 0.35s ease;
 }
 
-.drop-point:hover .drop-text,
-.drop-point:focus-visible .drop-text {
-  filter: drop-shadow(0 0 6px rgba(200, 160, 255, 0.95))
-          drop-shadow(0 0 18px rgba(160, 100, 255, 0.8))
-          drop-shadow(0 0 36px rgba(130, 70, 255, 0.6));
-}
 
 /* Ellipse 4: red blinking dot — turns purple on hover */
 .drop-dot {
@@ -894,58 +888,62 @@ html, body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* --- ARCHIVE heading (Figma: left 77.46, top 237.49 -> 105) --- */
-.arc-head {
+/* --- Layout wrapper: heading + gallery center di canvas --- */
+.arc-layout {
   position: absolute;
-  left: 77.46px;
-  top: 105px;
-  width: 606px;
-  height: 164px;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  /* rata kiri */
+}
+
+/* --- ARCHIVE heading --- */
+.arc-head {
+  margin: 0;
+  padding: 0;
 }
 .arc-title {
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 136.739px;   /* exact Figma size */
-  line-height: 164px;
+  font-size: 136.739px;
+  line-height: 1.2;
   letter-spacing: 0.02em;
   margin: 0;
-  /* Luminous violet-white glow — same treatment as AN ARCHIVE */
   color: #C5BCFF;
   text-shadow: var(--text-glow);
+  white-space: nowrap;
 }
 
-
-/* --- Description (Figma: left 77.46, top 398.76 -> 266.27) --- */
+/* --- Description --- */
 .arc-desc {
-  position: absolute;
-  left: 77.46px;
-  top: 266.27px;
-  width: 552.38px;
+  margin: 4px 0 0;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 17.7778px;   /* exact Figma size */
+  font-size: 17.7778px;
   line-height: 21px;
   letter-spacing: 0.02em;
-  color: #786BC7;         /* Figma color */
-  z-index: 6;
+  color: #786BC7;
+  max-width: 552px;
 }
 .arc-desc p { margin: 0; }
 
-
-/* --- Gallery of four portrait cards (Figma: top 487.57 -> 355.08) --- */
+/* --- Gallery row: 4 kartu sejajar, rata kiri sesuai heading --- */
 .arc-gallery {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  pointer-events: none;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+  pointer-events: auto;
 }
 .arc-card {
-  position: absolute;
-  top: 390px;             /* Figma spec */
-  width: 371.72px;        /* Figma card width (cards 2-4) */
-  height: 546.03px;       /* Figma card height (cards 2-4) */
-
+  position: relative;
+  width: 380px;
+  height: 570px;
+  flex-shrink: 0;
   pointer-events: auto;
   border-radius: 4px;
   overflow: hidden;
@@ -954,13 +952,8 @@ html, body {
   box-shadow: 0 14px 40px rgba(8, 3, 20, 0.5),
               0 0 0 1px rgba(197, 188, 255, 0.18);
 }
-/* Figma spec (2168 canvas) — Group 54 centered at left: calc(50% - 1953.34px/2 + 0.67px).
-   Card tops are aligned at 331px with a consistent row.
-   All four cards share the same top so the row is perfectly level. */
-.arc-card-1 { left: 108px;     top: 331px; width: 400px;    height: 604px;    cursor: pointer; }
-.arc-card-2 { left: 613.96px;  top: 331px; width: 410.65px; height: 603.22px; }
-.arc-card-3 { left: 1135.13px; top: 331px; width: 410.65px; height: 603.22px; }
-.arc-card-4 { left: 1650.68px; top: 331px; width: 410.65px; height: 603.22px; }
+.arc-card-1 { cursor: pointer; }
+.arc-card-2, .arc-card-3, .arc-card-4 { }
 
 /* Real archive artwork — fills the card, keeps portrait crop */
 .arc-card-img {
@@ -1758,22 +1751,67 @@ html.reflow-active .viewport,
   box-shadow: 0 0 10px rgba(197, 188, 255, 0.8);
 }
 
-/* Entrance animation */
-.dp-canvas .dp-portrait-img,
-.dp-canvas .dp-portrait,
-.dp-canvas .dp-heading,
-.dp-canvas .dp-sub,
-.dp-canvas .dp-label,
-.dp-canvas .dp-seq,
-.dp-canvas .dp-verify,
-.dp-canvas .dp-assist-q,
-.dp-canvas .dp-assist-link,
-.dp-canvas .dp-close {
-  animation: arc-fade-in 0.8s ease-out both;
+/* ============================================================
+   Drop Point — animasi masuk (stagger + blur-fade dari bawah)
+   Setiap elemen muncul berurutan, halus dan keren.
+   ============================================================ */
+
+@keyframes dp-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
-.dp-canvas .dp-seq    { animation-delay: 0.05s; }
-.dp-canvas .dp-verify { animation-delay: 0.1s; }
-.dp-canvas .dp-close  { animation-delay: 0.15s; }
+
+@keyframes dp-enter-portrait {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.dp-canvas .dp-portrait-img {
+  animation: dp-enter-portrait 1s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+.dp-canvas .dp-portrait {
+  animation: dp-enter-portrait 1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+.dp-canvas .dp-heading {
+  animation: dp-enter 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+.dp-canvas .dp-sub {
+  animation: dp-enter 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+}
+.dp-canvas .dp-label {
+  animation: dp-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
+}
+.dp-canvas .dp-seq {
+  animation: dp-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+.dp-canvas .dp-verify {
+  animation: dp-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.58s both;
+}
+.dp-canvas .dp-assist-q {
+  animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both;
+}
+.dp-canvas .dp-assist-link {
+  animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both;
+}
+.dp-canvas .dp-close {
+  animation: dp-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
 
 
 

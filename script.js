@@ -121,13 +121,35 @@
   }
 
   /* --------------------------------------------------------
-     Page transition — radial wipe from moon center
+     Page transition — radial wipe, origin adapts per page:
+       - landing & archive: dari bulan (49.9% 45.7%)
+       - droppoint: dari tengah canvas (50% 50%)
      On click: expand dark overlay → navigate.
-     On load: overlay starts full → collapse away.
+     On load:  overlay starts full → collapse away.
      -------------------------------------------------------- */
   (function initPageTransition() {
     var overlay = document.querySelector(".page-transition");
     if (!overlay) return;
+
+    // Deteksi apakah ini halaman droppoint
+    var isDropPoint = document.querySelector(".dp-canvas") !== null;
+
+    // Set origin CSS variable sesuai halaman
+    if (isDropPoint) {
+      // Droppoint: origin dari tengah portrait / tengah canvas
+      overlay.style.setProperty("--pt-x", "50%");
+      overlay.style.setProperty("--pt-y", "50%");
+      overlay.style.background = [
+        "radial-gradient(",
+        "  circle at 50% 50%,",
+        "  rgba(130, 60, 220, 0.95) 0%,",
+        "  rgba(80, 20, 160, 0.97) 25%,",
+        "  rgba(30, 8, 70, 0.98) 55%,",
+        "  #05020a 80%",
+        ")"
+      ].join("");
+      overlay.style.clipPath = "circle(0% at 50% 50%)";
+    }
 
     // On page LOAD — play the collapse (enter) animation
     overlay.classList.add("is-entering");
@@ -136,8 +158,10 @@
       overlay.removeEventListener("animationend", onEntered);
     });
 
-    // Intercept all links with data-transition (and .arc-nav back link too)
-    var links = document.querySelectorAll("a[data-transition], .arc-nav[href]");
+    // Intercept all nav links (data-transition, arc-nav, dp-close, dp-assist-link)
+    var links = document.querySelectorAll(
+      "a[data-transition], .arc-nav[href], .dp-close[href], .dp-assist-link[href]"
+    );
     links.forEach(function (link) {
       link.addEventListener("click", function (e) {
         var href = link.getAttribute("href");
