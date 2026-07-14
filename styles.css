@@ -285,11 +285,11 @@ html, body {
    ============================================================ */
 .brand { position: absolute; inset: 0; z-index: 5; }
 
-/* Logo mark — Subtract.png (nudged down a little) */
+/* Logo mark — Subtract.png (raised higher) */
 .brand-mark {
   position: absolute;
   left: 51px;
-  top: 74px;
+  top: 44px;
   width: 36.01px;
   height: 40.7px;
 
@@ -324,11 +324,11 @@ html, body {
   border-radius: 50%;
   background: #D9D9D9;
 }
-/* FUKAIMORI text (nudged down a little to sit with the logo) */
+/* FUKAIMORI text (raised to sit with the logo) */
 .brand-text {
   position: absolute;
   left: 95.14px;
-  top: 80px;
+  top: 50px;
   width: 197px;
 
   font-family: "Cantarell", system-ui, sans-serif;
@@ -351,7 +351,7 @@ html, body {
 .drop-point {
   position: absolute;
   left: 1936px;   /* re-pinned to the right edge of the 2168px canvas */
-  top: 80px;
+  top: 50px;      /* raised higher */
 
   width: 180.88px;
   height: 30px;
@@ -685,9 +685,9 @@ html, body {
 }
 .arc-card {
   position: absolute;
-  top: 355.08px;          /* 487.57 - 132.49 */
-  width: 371.72px;        /* Figma card width */
-  height: 546.03px;       /* Figma card height */
+  top: 390px;             /* Figma spec */
+  width: 371.72px;        /* Figma card width (cards 2-4) */
+  height: 546.03px;       /* Figma card height (cards 2-4) */
 
   pointer-events: auto;
   border-radius: 4px;
@@ -697,10 +697,14 @@ html, body {
   box-shadow: 0 14px 40px rgba(8, 3, 20, 0.5),
               0 0 0 1px rgba(197, 188, 255, 0.18);
 }
-.arc-card-1 { left: 77px;   width: 363.76px; height: 549.84px; cursor: pointer; }
-.arc-card-2 { left: 495px; }
-.arc-card-3 { left: 921px; }
-.arc-card-4 { left: 1347px; }
+/* Figma spec (1920 canvas): card 1 at 51, then 528 / 1013 / 1498
+   with ~113px gaps. The group spans 51 -> 1869.72 (width 1818.72).
+   Shifted by +123.64 to center that same group on the 2168 canvas
+   (left/right margins become (2168 - 1818.72) / 2 = 174.64). */
+.arc-card-1 { left: 174.64px;  width: 363.76px; height: 549.84px; cursor: pointer; }
+.arc-card-2 { left: 651.64px; }
+.arc-card-3 { left: 1136.64px; }
+.arc-card-4 { left: 1621.64px; }
 
 /* Real archive artwork — fills the card, keeps portrait crop */
 .arc-card-img {
