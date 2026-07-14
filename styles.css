@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    Fukaimori · An Archive
    Fullscreen fluid rebuild from Figma (design base 1920 x 1080)
    Figma px are converted to % (position) and vw (size) so the
@@ -54,7 +54,7 @@ html, body {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url("BGLP.png?v=2");
+  background-image: url("BGLP.png");
   background-size: cover;
 
   background-position: center;
@@ -99,6 +99,39 @@ html, body {
 }
 
 
+/* ============================================================
+   LANDING PAGE (index.html) — new framed layout
+   Figma "Frame 212": 2168 x 1080 canvas.
+     • BGLP.png (1920 x 1080) sits centered, offset 124px from
+       the left, so 124px black bars frame the left & right edges.
+     • A circle (BGLP 2.png, 200 x 201) rests in the center and
+       glows softly on hover to enter the archive.
+   ============================================================ */
+.landing-canvas {
+  --design-w: 2168px;
+  --design-h: 1080px;
+  background: #05020a;
+}
+
+/* Background fills full 2168x1080 canvas (no black bars) */
+.landing-canvas .photo {
+  left: 0;
+  top: 0;
+  width: 2168px;
+  height: 1080px;
+  background-image: url("BGLP.png");
+  background-size: 100% 100%;
+}
+
+
+
+/* The blurred backdrop is not needed on the framed landing page —
+   the black side bars are intentional, so hide the bleed. */
+.landing-canvas ~ * .viewport::before {
+  display: none;
+}
+
+
 
 
 
@@ -109,12 +142,10 @@ html, body {
   position: absolute;
   left: 0;
   top: 0;
-  width: 2168px;          /* exact BGLP.png size */
-  height: 1050px;         /* exact BGLP.png size */
-  background-image: url("BGLP.png?v=2");
-
+  width: 2168px;
+  height: 1080px;
+  background-image: url("BGLP.png");
   background-size: 100% 100%;
-
   background-position: center;
   background-repeat: no-repeat;
   z-index: 2;
@@ -408,7 +439,7 @@ html, body {
 .title {
   position: absolute;
   left: 927.5px;          /* re-centered on the 2168px canvas */
-  top: 876px;             /* nudged up a little */
+  top: 940px;             /* moved down */
 
   width: 313px;
 
@@ -427,7 +458,7 @@ html, body {
 .subtitle {
   position: absolute;
   left: 823px;            /* re-centered on the 2168px canvas */
-  top: 931.31px;          /* nudged up a little */
+  top: 995px;             /* moved down to match title */
 
   width: 522px;
 
@@ -456,11 +487,11 @@ html, body {
 /* Circle sitting right on the moon (Ellipse 14: left 863 top 460, 195x195) */
 .portal {
   position: absolute;
-  left: 986.5px;          /* re-centered on the 2168px canvas */
-  top: 460px;
+  left: 985px;            /* Figma: left 985 */
+  top: 486px;             /* Figma: top 486 */
 
-  width: 195px;
-  height: 195px;
+  width: 200px;
+  height: 201px;
   transform: none;
   z-index: 7;
 
@@ -537,25 +568,6 @@ html, body {
   pointer-events: none;
 }
 
-/* --- Hover / focus: the moon lights up, inviting you to enter --- */
-.portal:hover .portal-glow,
-.portal:focus-visible .portal-glow,
-.canvas.portal-active .portal-glow {
-  opacity: 1;
-  transform: scale(1);
-}
-.portal:hover .portal-ring,
-.portal:focus-visible .portal-ring,
-.canvas.portal-active .portal-ring {
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
-  animation: portal-spin 8s linear infinite;
-}
-.portal:hover .portal-hint,
-.portal:focus-visible .portal-hint,
-.canvas.portal-active .portal-hint {
-  opacity: 0.9;
-}
 
 
 @keyframes portal-spin {
@@ -697,14 +709,13 @@ html, body {
   box-shadow: 0 14px 40px rgba(8, 3, 20, 0.5),
               0 0 0 1px rgba(197, 188, 255, 0.18);
 }
-/* Figma spec (1920 canvas): card 1 at 51, then 528 / 1013 / 1498
-   with ~113px gaps. The group spans 51 -> 1869.72 (width 1818.72).
-   Shifted by +123.64 to center that same group on the 2168 canvas
-   (left/right margins become (2168 - 1818.72) / 2 = 174.64). */
-.arc-card-1 { left: 174.64px;  width: 363.76px; height: 549.84px; cursor: pointer; }
-.arc-card-2 { left: 651.64px; }
-.arc-card-3 { left: 1136.64px; }
-.arc-card-4 { left: 1621.64px; }
+/* Figma spec (2168 canvas) — Group 54 centered at left: calc(50% - 1953.34px/2 + 0.67px).
+   Card tops are aligned at 331px with a consistent row.
+   All four cards share the same top so the row is perfectly level. */
+.arc-card-1 { left: 108px;     top: 331px; width: 400px;    height: 604px;    cursor: pointer; }
+.arc-card-2 { left: 613.96px;  top: 331px; width: 410.65px; height: 603.22px; }
+.arc-card-3 { left: 1135.13px; top: 331px; width: 410.65px; height: 603.22px; }
+.arc-card-4 { left: 1650.68px; top: 331px; width: 410.65px; height: 603.22px; }
 
 /* Real archive artwork — fills the card, keeps portrait crop */
 .arc-card-img {

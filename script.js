@@ -118,7 +118,6 @@
       }
     }
 
-
     function schedule() {
       if (raf === null) raf = requestAnimationFrame(render);
     }
