@@ -637,24 +637,8 @@ html, body {
   mix-blend-mode: screen;
   opacity: 0.5;
 }
-/* Number caption tab at the bottom of each card */
-.arc-card-num {
-  position: absolute;
-  left: 50%;
-  bottom: 3%;
-  transform: translateX(-50%);
-  min-width: 1.4vw;
-  padding: 0.15vw 0.5vw;
-  font-family: "Brawler", Georgia, serif;
-  font-size: 0.88vw;      /* ~13.25 / 1512 */
-  line-height: 1.2;
-  text-align: center;
-  color: #E9E2FF;
-  background: rgba(4, 4, 4, 0.75);
-  border-radius: 2px;
-  letter-spacing: 0.05em;
-}
 .arc-card:hover,
+
 .arc-card:focus-within {
   transform: translateY(-8px);
   box-shadow: 0 22px 54px rgba(8, 3, 20, 0.6),
