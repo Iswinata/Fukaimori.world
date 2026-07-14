@@ -58,16 +58,17 @@
         <span class="fog-layer fog-c"></span>
       </div>
 
-      <!-- Moon portal (hover the moon at the center of the background) -->
-      <button class="portal" id="portal" type="button"
-              aria-label="Enter — the fog is drawn into the moon">
-        <span class="portal-glow" aria-hidden="true"></span>
-        <span class="portal-ring" aria-hidden="true"></span>
-        <span class="portal-hint">ENTER</span>
-      </button>
+      <!-- Animated star field canvas -->
+      <canvas class="starfield" aria-hidden="true"></canvas>
 
-      <!-- Portal enter transition flash -->
-      <div class="portal-transition" aria-hidden="true"></div>
+      <!-- BGLP 2 moon overlay (background layer) -->
+      <div class="moon-photo" aria-hidden="true"></div>
+
+      <!-- BGLPS portal hitbox — click to enter archive, denyut ungu -->
+      <a class="moon-link" href="archive.html" aria-label="Enter the archive" data-transition></a>
+
+      <!-- Page transition overlay -->
+      <div class="page-transition" aria-hidden="true"></div>
 
       <!-- Brand (top-left) -->
 

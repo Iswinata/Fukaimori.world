@@ -121,19 +121,157 @@
   }
 
   /* --------------------------------------------------------
-     Moon portal interaction
-       - click / Enter => navigate directly to the next page
-       (hover effect and enter animation removed by request)
+     Page transition — radial wipe from moon center
+     On click: expand dark overlay → navigate.
+     On load: overlay starts full → collapse away.
      -------------------------------------------------------- */
-  var portal = document.getElementById("portal");
-  if (canvas && portal) {
-    // The next page to open when the portal is entered.
-    var NEXT_PAGE = portal.getAttribute("data-next") || "archive.html";
+  (function initPageTransition() {
+    var overlay = document.querySelector(".page-transition");
+    if (!overlay) return;
 
-    portal.addEventListener("click", function () {
-      window.location.href = NEXT_PAGE;
+    // On page LOAD — play the collapse (enter) animation
+    overlay.classList.add("is-entering");
+    overlay.addEventListener("animationend", function onEntered() {
+      overlay.classList.remove("is-entering");
+      overlay.removeEventListener("animationend", onEntered);
     });
-  }
+
+    // Intercept all links with data-transition (and .arc-nav back link too)
+    var links = document.querySelectorAll("a[data-transition], .arc-nav[href]");
+    links.forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        var href = link.getAttribute("href");
+        if (!href || href === "#") return;
+        e.preventDefault();
+        overlay.classList.remove("is-entering");
+        overlay.classList.add("is-leaving");
+        overlay.addEventListener("animationend", function onLeft() {
+          overlay.removeEventListener("animationend", onLeft);
+          window.location.href = href;
+        });
+      });
+    });
+  })();
+
+  /* --------------------------------------------------------
+     Glowing feather particles — no stars, only feathers.
+     Warna ungu menyala, banyak, berterbangan acak.
+     -------------------------------------------------------- */
+  (function initFeathers() {
+    var cvs = document.querySelector(".starfield");
+    if (!cvs) return;
+
+    var ctx = cvs.getContext("2d");
+    var W, H;
+    var feathers = [];
+    var NUM = 65;  // banyak bulu
+
+    // Palette ungu menyala
+    var palette = [
+      [180, 100, 255],
+      [210, 140, 255],
+      [150,  70, 230],
+      [220, 160, 255],
+      [130,  50, 210],
+      [255, 200, 255],
+      [170,  90, 255]
+    ];
+
+    function resize() {
+      var parent = cvs.parentElement;
+      W = cvs.width  = parent ? parent.offsetWidth  : window.innerWidth;
+      H = cvs.height = parent ? parent.offsetHeight : window.innerHeight;
+    }
+
+    function randomFeather() {
+      var drift = Math.random() * Math.PI * 2;
+      var len   = Math.random() * 28 + 10;   // 10–38px
+      var col   = palette[Math.floor(Math.random() * palette.length)];
+      return {
+        x:            Math.random() * (W || 2168),
+        y:            Math.random() * (H || 1080),
+        angle:        Math.random() * Math.PI * 2,
+        drift:        drift,
+        spin:         (Math.random() - 0.5) * 0.018,
+        speed:        Math.random() * 0.22 + 0.05,
+        len:          len,
+        width:        Math.random() * 1.6 + 0.5,
+        col:          col,
+        baseAlpha:    Math.random() * 0.55 + 0.35,
+        twinklePeriod: Math.random() * 180 + 80,
+        twinklePhase:  Math.random() * Math.PI * 2
+      };
+    }
+
+    function initAll() {
+      feathers = [];
+      for (var i = 0; i < NUM; i++) feathers.push(randomFeather());
+    }
+
+    var frame = 0;
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      frame++;
+
+      for (var j = 0; j < feathers.length; j++) {
+        var f = feathers[j];
+
+        // Move
+        f.x += Math.cos(f.drift) * f.speed;
+        f.y += Math.sin(f.drift) * f.speed;
+        f.angle += f.spin;
+
+        // Wrap
+        if (f.x < -f.len) f.x = W + f.len;
+        if (f.x > W + f.len) f.x = -f.len;
+        if (f.y < -f.len) f.y = H + f.len;
+        if (f.y > H + f.len) f.y = -f.len;
+
+        // Twinkle
+        var tw = Math.sin(frame / f.twinklePeriod * Math.PI * 2 + f.twinklePhase);
+        var fa = Math.max(0.08, Math.min(0.95, f.baseAlpha + tw * 0.3));
+
+        ctx.save();
+        ctx.translate(f.x, f.y);
+        ctx.rotate(f.angle);
+
+        // Outer glow
+        var grad = ctx.createLinearGradient(-f.len / 2, 0, f.len / 2, 0);
+        grad.addColorStop(0,   "rgba(" + f.col + ",0)");
+        grad.addColorStop(0.25,"rgba(" + f.col + "," + (fa * 0.5).toFixed(2) + ")");
+        grad.addColorStop(0.5, "rgba(" + f.col + "," + fa.toFixed(2) + ")");
+        grad.addColorStop(0.75,"rgba(" + f.col + "," + (fa * 0.5).toFixed(2) + ")");
+        grad.addColorStop(1,   "rgba(" + f.col + ",0)");
+
+        ctx.shadowColor = "rgba(" + f.col + "," + (fa * 0.9).toFixed(2) + ")";
+        ctx.shadowBlur  = 10;
+        ctx.beginPath();
+        ctx.moveTo(-f.len / 2, 0);
+        ctx.lineTo(f.len / 2, 0);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth   = f.width * 2.5;
+        ctx.stroke();
+
+        // Bright core streak
+        ctx.shadowBlur = 3;
+        ctx.beginPath();
+        ctx.moveTo(-f.len / 3, 0);
+        ctx.lineTo(f.len / 3, 0);
+        ctx.strokeStyle = "rgba(" + f.col + "," + Math.min(1, fa + 0.25).toFixed(2) + ")";
+        ctx.lineWidth   = f.width * 0.7;
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    initAll();
+    draw();
+    window.addEventListener("resize", function () { resize(); initAll(); });
+  })();
 
   /* --------------------------------------------------------
      Archive file pop-up
