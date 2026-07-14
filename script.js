@@ -38,7 +38,7 @@
     // usable. There we drop the transform and let CSS reflow the
     // page into a fluid, scrollable mobile layout (.reflow class).
     var reflowMQ = window.matchMedia(
-      "(max-width: 820px), (orientation: portrait), (max-height: 480px)"
+      "(max-width: 1024px), (orientation: portrait), (max-height: 500px)"
     );
 
     // Root element gets a matching flag so the CSS can switch the
@@ -62,8 +62,10 @@
       // there are no blurred bars — on any laptop / desktop screen.
       var scaleX = window.innerWidth / d.w;
       var scaleY = window.innerHeight / d.h;
-      stageCanvas.style.setProperty("--scale-x", String(scaleX));
-      stageCanvas.style.setProperty("--scale-y", String(scaleY));
+      // Use CONTAIN: pick the smaller scale so nothing is ever cropped.
+      var scale  = Math.min(scaleX, scaleY);
+      stageCanvas.style.setProperty("--scale-x", String(scale));
+      stageCanvas.style.setProperty("--scale-y", String(scale));
 
     }
 
