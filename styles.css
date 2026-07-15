@@ -674,10 +674,10 @@ html, body {
   100% { transform: translateX(0); }
 }
 
-/* VERIFY button — tepat di tengah portrait frame (center 1084px, lebar 223px) */
+/* VERIFY button — tepat di tengah kolom input boxes (center 825.53 + 516.94/2 = 1084px) */
 .dp-verify {
   position: absolute;
-  left: calc(765px + 319px - 111.5px); /* = 972.5px, center portrait */
+  left: calc(825.53px + 516.94px / 2 - 223px / 2); /* center of dp-seq column */
   top: 696px;
   width: 223px;
   height: 65px;
@@ -746,11 +746,11 @@ html, body {
   text-shadow: 0 0 8px rgba(155, 65, 255, 0.7), 0 0 18px rgba(155, 65, 255, 0.4);
 }
 
-/* Ellipse 14: red dot — absolute position (left 1167, top 825, 9×9) */
+/* Ellipse 14: red dot — sejajar vertikal dengan ACCESS ARCHIVE NOTES */
 .dp-assist-dot {
   position: absolute;
   left: 1167px;
-  top: 825px;
+  top: calc(820px + 17px / 2 - 9px / 2); /* vertically aligned with dp-assist-link */
   width: 9px;
   height: 9px;
   z-index: 6;
