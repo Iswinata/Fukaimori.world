@@ -759,23 +759,16 @@ html, body {
   z-index: 6;
   border-radius: 50%;
   background: #FF1010;
-  animation: dp-dot-pulse 1.3s ease-in-out infinite;
-  transition: background 0.35s ease, animation 0s;
-}
-@keyframes dp-dot-pulse {
-  0%, 100% { box-shadow: 0 0 3px 1px rgba(255,17,17,0.6), 0 0 7px 2px rgba(255,17,17,0.3); }
-  50%      { box-shadow: 0 0 6px 2px rgba(255,17,17,0.8), 0 0 14px 4px rgba(255,17,17,0.4); }
+  animation: none;
+  box-shadow: 0 0 3px 1px rgba(255,17,17,0.6), 0 0 7px 2px rgba(255,17,17,0.3);
+  transition: background 0.35s ease, box-shadow 0.35s ease;
 }
 
 /* Purple glow on hover — triggered by hovering the link (sibling) */
 .dp-assist-link:hover ~ .dp-assist-dot,
 .dp-assist-link:focus-visible ~ .dp-assist-dot {
   background: #9B41FF;
-  animation: dp-dot-pulse-purple 1.3s ease-in-out infinite;
-}
-@keyframes dp-dot-pulse-purple {
-  0%, 100% { box-shadow: 0 0 4px 2px rgba(155,65,255,0.7), 0 0 10px 4px rgba(155,65,255,0.4); }
-  50%      { box-shadow: 0 0 8px 4px rgba(155,65,255,0.9), 0 0 20px 8px rgba(155,65,255,0.55); }
+  box-shadow: 0 0 4px 2px rgba(155,65,255,0.7), 0 0 10px 4px rgba(155,65,255,0.4);
 }
 
 /* Close button: × (left 1362, top 203, 28×28)
@@ -1923,7 +1916,7 @@ html.reflow-active .viewport,
 .dp-canvas .dp-verify        { animation: dp-enter 0.6s  cubic-bezier(0.22, 1, 0.36, 1) 0.58s both; }
 .dp-canvas .dp-assist-q      { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both; }
 .dp-canvas .dp-assist-link   { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both; }
-.dp-canvas .dp-assist-dot    { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both, dp-dot-pulse 1.3s ease-in-out 1.25s infinite; }
+.dp-canvas .dp-assist-dot    { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both; }
 .dp-canvas .dp-close         { animation: dp-enter 0.5s  cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
 
 
