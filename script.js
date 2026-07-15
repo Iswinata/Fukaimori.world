@@ -278,7 +278,8 @@
   })();
 
   /* --------------------------------------------------------
-     Drop Point — sequence input auto-advance & backspace
+     Drop Point — sequence input auto-advance, backspace,
+     VERIFY button validation (correct: CR7SIU)
      -------------------------------------------------------- */
   (function initSeqInput() {
     var boxes = document.querySelectorAll(".dp-seq-box");
@@ -297,6 +298,11 @@
           boxes[i - 1].focus();
           boxes[i - 1].value = "";
         }
+        // Allow Enter to trigger verify
+        if (e.key === "Enter") {
+          var btn = document.querySelector(".dp-verify");
+          if (btn) btn.click();
+        }
       });
       box.addEventListener("paste", function (e) {
         e.preventDefault();
@@ -309,6 +315,44 @@
         boxes[next].focus();
       });
     });
+
+    // VERIFY button
+    var verifyBtn = document.querySelector(".dp-verify");
+    var grantedPanel = document.getElementById("dp-granted");
+    var seqRow = document.querySelector(".dp-seq");
+    var SECRET = "CR7SIU";
+
+    if (verifyBtn && grantedPanel) {
+      verifyBtn.addEventListener("click", function () {
+        var entered = Array.from(boxes).map(function (b) { return b.value; }).join("");
+        if (entered === SECRET) {
+          // Correct — show ACCESS GRANTED
+          grantedPanel.classList.add("is-visible");
+          grantedPanel.setAttribute("aria-hidden", "false");
+          // Hide the input form so it doesn't show through
+          var formEls = document.querySelectorAll(
+            ".dp-heading, .dp-sub, .dp-label, .dp-seq, .dp-verify, .dp-assist-q, .dp-assist-link"
+          );
+          formEls.forEach(function (el) { el.style.opacity = "0"; el.style.pointerEvents = "none"; });
+        } else {
+          // Wrong — shake + red flash, then clear
+          if (seqRow) {
+            seqRow.classList.remove("shake");
+            // Force reflow to restart animation
+            void seqRow.offsetWidth;
+            seqRow.classList.add("shake");
+          }
+          boxes.forEach(function (b) {
+            b.classList.add("wrong");
+            setTimeout(function () { b.classList.remove("wrong"); }, 600);
+          });
+          setTimeout(function () {
+            boxes.forEach(function (b) { b.value = ""; });
+            if (boxes[0]) boxes[0].focus();
+          }, 650);
+        }
+      });
+    }
   })();
 
   /* --------------------------------------------------------

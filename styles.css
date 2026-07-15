@@ -1573,6 +1573,247 @@ html.reflow-active .viewport,
 }
 
 /* ============================================================
+   ACCESS GRANTED screen — shown after correct sequence CR7SIU
+   All coordinates from Figma spec (canvas 2168×1080)
+   ============================================================ */
+.dp-granted {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.dp-granted.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Full-canvas background for granted screen (BGLP.png) */
+.dp-granted-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background-image: url("BGLP.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Dark overlay on granted screen (rgba 0,0,0,0.4) */
+.dp-granted-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 21;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+/* BGLP 2 moon overlay (left 943, top 356.99, 296.41×300.5) */
+.dp-granted-moon {
+  position: absolute;
+  left: 943px;
+  top: 356.99px;
+  width: 296.41px;
+  height: 300.5px;
+  z-index: 22;
+  background-image: url("BGLP 2.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+}
+
+/* BGDP portrait (left 765, top 188, 638×800) */
+.dp-granted-portrait {
+  position: absolute;
+  left: 765px;
+  top: 188px;
+  width: 638px;
+  height: 800px;
+  z-index: 23;
+  background-image: url("BGDP.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* logosuc circular portrait (left 901.31, top 373.42, 367.96×367.96) */
+.dp-granted-img {
+  position: absolute;
+  left: 901.31px;
+  top: 373.42px;
+  width: 367.96px;
+  height: 367.96px;
+  z-index: 24;
+  background-image: url("logosuc.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Ellipse 13: glowing ring (left 967.62, top 430.62, 234.04×234.04) */
+.dp-granted-ring {
+  position: absolute;
+  left: 967.62px;
+  top: 430.62px;
+  width: 234.04px;
+  height: 234.04px;
+  z-index: 22;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 1.30022px solid #694EAB;
+  box-shadow: 0 0 72.8124px 14.3024px #694EAB;
+  pointer-events: none;
+  animation: granted-ring-pulse 3s ease-in-out infinite;
+}
+@keyframes granted-ring-pulse {
+  0%, 100% { box-shadow: 0 0 50px 10px #694EAB; }
+  50%       { box-shadow: 0 0 90px 22px #9B41FF; }
+}
+
+/* Rectangle 14: border overlay for portrait slot (same as dp-portrait) */
+.dp-granted-border {
+  position: absolute;
+  left: calc(50% - 638px / 2 + 0.12px);
+  top: 188px;
+  width: 638px;
+  height: 800px;
+  z-index: 23;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(3,3,3,0.36) 54.81%, rgba(105,105,105,0) 100%);
+  border: 1px solid #9B8BFF;
+  box-shadow: 0 0 24.4px 9px rgba(185, 65, 255, 0.25);
+  pointer-events: none;
+}
+
+/* ACCESS GRANTED (left 929.91, top 285, 307×41) */
+.dp-granted-title {
+  position: absolute;
+  left: 929.91px;
+  top: 285px;
+  width: 307px;
+  height: 41px;
+  z-index: 24;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 34.5832px;
+  line-height: 41px;
+  color: rgba(194, 169, 255, 0.59);
+  margin: 0;
+  white-space: nowrap;
+  animation: granted-fade-in 0.8s ease-out 0.2s both;
+}
+
+/* THE TRUTH ACKNOWLEDGES YOU (centered, top 331.69, 446×32) */
+.dp-granted-sub {
+  position: absolute;
+  left: calc(50% - 446px / 2);
+  top: 331.69px;
+  width: 446px;
+  height: 32px;
+  z-index: 24;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 26.3919px;
+  line-height: 32px;
+  text-align: center;
+  color: #A99AFF;
+  margin: 0;
+  white-space: nowrap;
+  animation: granted-fade-in 0.8s ease-out 0.35s both;
+}
+
+/* Group 39: outer border box (centered, top 750, 430×141) */
+.dp-granted-box {
+  position: absolute;
+  left: calc(50% - 430px / 2 - 1px);
+  top: 750px;
+  width: 430px;
+  height: 141px;
+  z-index: 24;
+  box-sizing: border-box;
+  border: 1.93736px solid #786BC7;
+  pointer-events: none;
+  animation: granted-fade-in 0.8s ease-out 0.5s both;
+}
+
+/* YOU MAY CLAIM WHAT IS YOURS. (centered, top 776.58, 313×23) */
+.dp-granted-claim-sub {
+  position: absolute;
+  left: calc(50% - 313px / 2 - 0.19px);
+  top: 776.58px;
+  width: 313px;
+  height: 23px;
+  z-index: 25;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 19.2792px;
+  line-height: 23px;
+  text-align: center;
+  color: #A99AFF;
+  margin: 0;
+  white-space: nowrap;
+  animation: granted-fade-in 0.8s ease-out 0.55s both;
+}
+
+/* CLAIM REWARD button (centered, top 817, 373.16×49.41) */
+.dp-granted-btn {
+  position: absolute;
+  left: calc(50% - 373.16px / 2 - 1.31px);
+  top: 817px;
+  width: 373.16px;
+  height: 49.41px;
+  z-index: 25;
+  box-sizing: border-box;
+  background: rgba(55, 22, 255, 0.19);
+  border: 1.20554px solid #786BC7;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 25.8389px;
+  line-height: 31px;
+  text-align: center;
+  color: #786BC7;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  animation: granted-fade-in 0.8s ease-out 0.65s both;
+}
+.dp-granted-btn:hover,
+.dp-granted-btn:focus-visible {
+  background: rgba(100, 60, 255, 0.35);
+  color: #C5BCFF;
+  box-shadow: 0 0 20px 4px rgba(155, 65, 255, 0.45);
+  outline: none;
+}
+
+/* Wrong code shake animation */
+@keyframes dp-shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX(8px); }
+  60%       { transform: translateX(-6px); }
+  80%       { transform: translateX(6px); }
+}
+.dp-seq.shake {
+  animation: dp-shake 0.45s ease;
+}
+/* Red flash on boxes when wrong */
+.dp-seq-box.wrong {
+  border-color: #FF4444;
+  box-shadow: 0 0 10px 2px rgba(255, 68, 68, 0.5);
+}
+
+@keyframes granted-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
    DROP POINT PAGE (droppoint.html) — koordinat absolut Figma
    Canvas: 2168 × 1080
    ============================================================ */
