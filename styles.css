@@ -56,12 +56,15 @@ html, body {
   z-index: 0;
   background-image: url("BGLP.png");
   background-size: cover;
-
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(28px) brightness(0.55) saturate(1.05);
-  transform: scale(1.12); /* hide blurred edges */
   pointer-events: none;
+}
+
+/* Halaman archive: blurred backdrop (bukan landing) */
+.viewport:has(.archive-canvas)::before {
+  filter: blur(28px) brightness(0.55) saturate(1.05);
+  transform: scale(1.12);
 }
 
 
@@ -105,25 +108,8 @@ html, body {
   background: transparent;
 }
 
-/* Background — fixed ke viewport, cover penuh semua device */
+/* Background landing page: .photo di-hide, biar viewport::before yang cover penuh */
 .landing-canvas .photo {
-  position: fixed;
-  inset: 0;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  background-image: url("BGLP.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 2;
-}
-
-/* Sembunyikan blurred backdrop hanya di landing page karena .photo sudah cover penuh */
-.landing-canvas ~ .viewport::before,
-.viewport:has(.landing-canvas)::before {
   display: none;
 }
 
