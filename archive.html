@@ -13,7 +13,7 @@
 </head>
 <body>
   <div class="viewport">
-    <!-- Same 1920x1050 canvas + background as the landing page -->
+    <!-- 2168×1080 canvas — white background per Figma spec -->
     <div class="canvas archive-canvas" id="canvas">
 
       <!-- Fallback cosmic scene (shown if the background image is missing) -->
@@ -22,32 +22,22 @@
         <div class="sigil"><div class="moon"><div class="moon-body"></div></div></div>
       </div>
 
-      <!-- Real design background image (BGLP.png — same as landing) -->
+      <!-- Background image — same as landing page (BGLP.png, cover) -->
       <div class="photo" aria-hidden="true"></div>
 
-      <!-- Drifting clouds / mist overlay -->
-      <div class="clouds" aria-hidden="true">
-        <span class="cloud cloud-1"></span>
-        <span class="cloud cloud-2"></span>
-        <span class="cloud cloud-3"></span>
-      </div>
+      <!-- BGLP 2 moon overlay (background layer) -->
+      <div class="moon-photo" aria-hidden="true"></div>
 
-      <!-- Rolling fog -->
-      <div class="fog" aria-hidden="true">
-        <span class="fog-layer fog-a"></span>
-        <span class="fog-layer fog-b"></span>
-        <span class="fog-layer fog-c"></span>
-      </div>
+      <!-- Moon portal — click to go back to landing page -->
+      <a class="moon-link arc-moon-link" href="index.html" data-transition aria-label="Back to entrance"></a>
 
       <!-- Page transition overlay -->
       <div class="page-transition" aria-hidden="true"></div>
 
-      <!-- Brand (top-left) — logo only -->
-      <div class="brand">
-        <a class="brand-mark" href="index.html" aria-label="Fukaimori — back to entrance"></a>
-      </div>
+      <!-- Brand mark only (no text) — click to return to landing page -->
+      <a class="brand-mark arc-brand-mark" href="index.html" data-transition aria-label="Fukaimori — back to entrance"></a>
 
-      <!-- Drop point (top-right) — link ke droppoint.html -->
+      <!-- Drop point (top-right) -->
       <a class="drop-point" href="droppoint.html" data-transition aria-label="Go to Drop Point">
         <span class="drop-text">DROP POINT</span>
         <span class="drop-dot" aria-hidden="true"></span>
@@ -55,28 +45,43 @@
 
       <!-- ============ Archive content ============ -->
       <div class="arc-layout">
+
+        <!-- ARCHIVE heading: left 107, top 113 -->
         <header class="arc-head">
           <h1 class="arc-title">ARCHIVE</h1>
         </header>
 
+        <!-- Description: left 107, top 240 -->
         <div class="arc-desc">
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis velit ac fermentum euismod. Fusce eget sapien nisl.</p>
         </div>
 
-        <!-- Gallery row of four portrait cards -->
+        <!-- Gallery: four portrait cards at Figma absolute coords -->
         <section class="arc-gallery" aria-label="Archive entries">
+
+          <!-- Card 1: left 108, top 328, 400×604 — no number badge -->
           <article class="arc-card arc-card-1" data-entry="seshomaru" tabindex="0" role="button" aria-label="Open archive file AW-01">
             <img class="arc-card-img" src="Unlock 1.png" alt="Archive entry 1" />
           </article>
-          <article class="arc-card arc-card-2">
+
+          <!-- Card 2: left 613.96, top 328, 410.65×603.22 — badge "2" -->
+          <article class="arc-card arc-card-2" aria-label="Archive entry 2">
             <img class="arc-card-img" src="aw 2.png" alt="Archive entry 2" />
+            <span class="arc-card-num" aria-hidden="true">2</span>
           </article>
-          <article class="arc-card arc-card-3">
+
+          <!-- Card 3: left 1135.13, top 328, 410.65×603.22 — badge "3" -->
+          <article class="arc-card arc-card-3" aria-label="Archive entry 3">
             <img class="arc-card-img" src="aw 3.png" alt="Archive entry 3" />
+            <span class="arc-card-num" aria-hidden="true">3</span>
           </article>
-          <article class="arc-card arc-card-4">
+
+          <!-- Card 4: left 1650.68, top 328, 410.65×603.22 — badge "4" -->
+          <article class="arc-card arc-card-4" aria-label="Archive entry 4">
             <img class="arc-card-img" src="aw 4.png" alt="Archive entry 4" />
+            <span class="arc-card-num" aria-hidden="true">4</span>
           </article>
+
         </section>
       </div>
 
