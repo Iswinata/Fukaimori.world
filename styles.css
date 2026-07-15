@@ -674,10 +674,10 @@ html, body {
   100% { transform: translateX(0); }
 }
 
-/* VERIFY button — Figma spec (left 973, top 669, 223×65) */
+/* VERIFY button — centered on input column (840 + 488/2 - 223/2 = 972.5px) */
 .dp-verify {
   position: absolute;
-  left: 973px;
+  left: calc(840px + (1257.51px - 840px + 70.49px) / 2 - 223px / 2);
   top: 669px;
   width: 223px;
   height: 65px;
