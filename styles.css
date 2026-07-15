@@ -532,7 +532,7 @@ html, body {
   pointer-events: none;
 }
 
-/* BGDP portrait image (BGDP.png: left 765, top 188, 638×800) */
+/* BGDP portrait image (left 765, top 188, 638×800) */
 .dp-portrait-img {
   position: absolute;
   left: 765px;
@@ -540,7 +540,7 @@ html, body {
   width: 638px;
   height: 800px;
   z-index: 4;
-  background-image: url("BGDP.png");
+  background-image: url("Gemini_Generated_Image_l9y6yel9y6yel9y6 (1)-Photoroom.png");
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -562,30 +562,30 @@ html, body {
   pointer-events: none;
 }
 
-/* DROP POINT heading (left 913, top 392, 342×66) */
+/* DROP POINT heading (centered, top 368, 342×66) */
 .dp-heading {
   position: absolute;
-  left: 913px;
-  top: 392px;
+  left: calc(50% - 342px / 2);
+  top: 368px;
   width: 342px;
   height: 66px;
   z-index: 6;
   font-family: "Bona Nova", Georgia, serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 54.827px;
+  font-size: 54.83px;
   line-height: 66px;
   text-align: center;
   color: #A99AFF;
   margin: 0;
 }
 
-/* SUBMIT YOUR RECOVERED SEQUENCE (centered, top 462.69, 504×32) */
+/* SUBMIT YOUR RECOVERED SEQUENCE (centered, top 439, 488×32) */
 .dp-sub {
   position: absolute;
-  left: calc(50% - 504px / 2);
-  top: 462.69px;
-  width: 504px;
+  left: calc(50% - 488px / 2);
+  top: 439px;
+  width: 488px;
   height: 32px;
   z-index: 6;
   font-family: "Bona Nova", Georgia, serif;
@@ -598,40 +598,40 @@ html, body {
   white-space: nowrap;
 }
 
-/* RECOVERED SEQUENCE label (left 825.53, top 540.9, 167×19) */
+/* RECOVERED SEQUENCE label (left 840, top 531, 171×19) */
 .dp-label {
   position: absolute;
-  left: 825.53px;
-  top: 540.9px;
-  width: 167px;
+  left: 840px;
+  top: 531px;
+  width: 171px;
   height: 19px;
   z-index: 6;
   font-family: "Maven Pro", system-ui, sans-serif;
   font-weight: 500;
-  font-size: 15.8003px;
+  font-size: 16.143px;
   line-height: 19px;
   text-align: center;
   white-space: nowrap;
-  color: rgba(241, 186, 255, 0.83);
+  color: #A99AFF;
   margin: 0;
 }
 
-/* 6 input boxes — absolute positions per Figma, top 569.63 */
+/* 6 input boxes — Figma spec, top 562.26, size 70.49×70.49 */
 .dp-seq {
   position: absolute;
-  top: 569.63px;
-  left: 825.53px;
-  width: 516.94px;
-  height: 74.67px;
+  top: 562.26px;
+  left: 840px;
+  width: calc(1257.51px - 840px + 70.49px); /* 487.99px */
+  height: 70.49px;
   z-index: 6;
   pointer-events: auto;
 }
 .dp-seq-box {
   position: absolute;
-  width: 74.67px;
-  height: 74.67px;
+  width: 70.49px;
+  height: 70.49px;
   box-sizing: border-box;
-  border: 1.25012px solid #786BC7;
+  border: 1.18011px solid #786BC7;
   background: transparent;
   color: #C5BCFF;
   font-family: "Bona Nova", Georgia, serif;
@@ -643,11 +643,11 @@ html, body {
   top: 0;
 }
 .dp-seq-box:nth-child(1) { left: 0; }
-.dp-seq-box:nth-child(2) { left: calc(913.98px - 825.53px); }
-.dp-seq-box:nth-child(3) { left: calc(1002.44px - 825.53px); }
-.dp-seq-box:nth-child(4) { left: calc(1090.89px - 825.53px); }
-.dp-seq-box:nth-child(5) { left: calc(1179.35px - 825.53px); }
-.dp-seq-box:nth-child(6) { left: calc(1267.8px - 825.53px); }
+.dp-seq-box:nth-child(2) { left: calc(923.5px - 840px); }
+.dp-seq-box:nth-child(3) { left: calc(1007px - 840px); }
+.dp-seq-box:nth-child(4) { left: calc(1090.51px - 840px); }
+.dp-seq-box:nth-child(5) { left: calc(1174.01px - 840px); }
+.dp-seq-box:nth-child(6) { left: calc(1257.51px - 840px); }
 .dp-seq-box:focus {
   border-color: #B9AEF7;
   box-shadow: 0 0 10px 2px rgba(155, 65, 255, 0.45);
@@ -674,11 +674,11 @@ html, body {
   100% { transform: translateX(0); }
 }
 
-/* VERIFY button — tepat di tengah kolom input boxes (center 825.53 + 516.94/2 = 1084px) */
+/* VERIFY button — Figma spec (left 973, top 669, 223×65) */
 .dp-verify {
   position: absolute;
-  left: calc(825.53px + 516.94px / 2 - 223px / 2); /* center of dp-seq column */
-  top: 696px;
+  left: 973px;
+  top: 669px;
   width: 223px;
   height: 65px;
   z-index: 6;
@@ -702,11 +702,11 @@ html, body {
   outline: none;
 }
 
-/* NEED ASSISTANCE? (centered, top 794, 141×18) */
+/* NEED ASSISTANCE? (centered, top 769, 141×18) */
 .dp-assist-q {
   position: absolute;
   left: calc(50% - 141px / 2 - 0.5px);
-  top: 794px;
+  top: 769px;
   width: 141px;
   height: 18px;
   z-index: 6;
@@ -718,11 +718,11 @@ html, body {
   margin: 0;
 }
 
-/* ACCESS ARCHIVE NOTES (centered, top 820, 166×17) */
+/* ACCESS ARCHIVE NOTES (centered, top 792, 166×17) */
 .dp-assist-link {
   position: absolute;
-  left: calc(50% - 166px / 2 - 7px);
-  top: 820px;
+  left: calc(50% - 166px / 2 - 8px);
+  top: 792px;
   width: 166px;
   height: 17px;
   z-index: 6;
@@ -746,13 +746,13 @@ html, body {
   text-shadow: 0 0 8px rgba(155, 65, 255, 0.7), 0 0 18px rgba(155, 65, 255, 0.4);
 }
 
-/* Ellipse 14: red dot — sejajar vertikal dengan ACCESS ARCHIVE NOTES */
+/* Ellipse 14: red dot — sejajar vertikal dengan ACCESS ARCHIVE NOTES (left 1164, top 796, 10×10) */
 .dp-assist-dot {
   position: absolute;
-  left: 1167px;
-  top: calc(820px + 17px / 2 - 9px / 2); /* vertically aligned with dp-assist-link */
-  width: 9px;
-  height: 9px;
+  left: 1164px;
+  top: calc(792px + 17px / 2 - 10px / 2); /* vertically aligned with dp-assist-link */
+  width: 10px;
+  height: 10px;
   z-index: 6;
   border-radius: 50%;
   background: #FF1010;
