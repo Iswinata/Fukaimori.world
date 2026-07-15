@@ -121,8 +121,9 @@ html, body {
   z-index: 2;
 }
 
-/* Sembunyikan blurred backdrop di viewport karena .photo sudah cover penuh */
-.viewport::before {
+/* Sembunyikan blurred backdrop hanya di landing page karena .photo sudah cover penuh */
+.landing-canvas ~ .viewport::before,
+.viewport:has(.landing-canvas)::before {
   display: none;
 }
 
