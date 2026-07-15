@@ -674,10 +674,10 @@ html, body {
   100% { transform: translateX(0); }
 }
 
-/* VERIFY button — Rectangle 16 (left 971, top 696, 223×65) */
+/* VERIFY button — tepat di tengah portrait frame (center 1084px, lebar 223px) */
 .dp-verify {
   position: absolute;
-  left: 971px;
+  left: calc(765px + 319px - 111.5px); /* = 972.5px, center portrait */
   top: 696px;
   width: 223px;
   height: 65px;
