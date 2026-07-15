@@ -689,8 +689,11 @@ html, body {
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
   font-size: 21.8405px;
-  line-height: 26px;
+  line-height: 65px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
 }
