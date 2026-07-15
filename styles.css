@@ -102,25 +102,27 @@ html, body {
 .landing-canvas {
   --design-w: 2168px;
   --design-h: 1080px;   /* Figma Frame 214 */
-  background: #05020a;
+  background: transparent;
 }
 
-/* Background — fullscreen cover */
+/* Background — fixed ke viewport, cover penuh semua device */
 .landing-canvas .photo {
+  position: fixed;
+  inset: 0;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   background-image: url("BGLP.png");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  z-index: 2;
 }
 
-
-
-/* The blurred backdrop is not needed on the framed landing page —
-   the black side bars are intentional, so hide the bleed. */
-.landing-canvas ~ * .viewport::before {
+/* Sembunyikan blurred backdrop di viewport karena .photo sudah cover penuh */
+.viewport::before {
   display: none;
 }
 
