@@ -498,16 +498,30 @@ html, body {
 }
 
 /* ============================================================
-   DROP POINT PAGE (droppoint.html) — koordinat absolut Figma
+   DROP POINT PAGE (droppoint.html) — exact Figma spec
    Canvas: 2168 × 1080
    ============================================================ */
 
-/* dp-canvas inherits .canvas sizing */
 .dp-canvas {
-  background: #05020a;
+  background: #000;
 }
 
-/* Dark overlay — Rectangle 12 (full canvas, rgba 0,0,0,0.4) */
+/* Background: BGLP.png — sama seperti landing page */
+.dp-bg {
+  position: absolute;
+  left: 1px;
+  top: 0;
+  width: 2168px;
+  height: 1080px;
+  z-index: 2;
+  background-image: url("BGLP.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Rectangle 12: dark overlay (full canvas, rgba 0,0,0,0.4) */
 .dp-overlay {
   position: absolute;
   left: 0; top: 0;
@@ -518,7 +532,7 @@ html, body {
   pointer-events: none;
 }
 
-/* Portrait image (BGDP: left 765, top 188, 638×800) */
+/* BGDP portrait image (BGDP.png: left 765, top 188, 638×800) */
 .dp-portrait-img {
   position: absolute;
   left: 765px;
@@ -526,17 +540,17 @@ html, body {
   width: 638px;
   height: 800px;
   z-index: 4;
-  background-image: url("Gemini_Generated_Image_l9y6yel9y6yel9y6 (1)-Photoroom.png");
+  background-image: url("BGDP.png");
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
   pointer-events: none;
 }
 
-/* Portrait panel border overlay (Rectangle 14: centered, 638×800, top 188) */
+/* Rectangle 14: border + gradient overlay (centered, top 188, 638×800) */
 .dp-portrait {
   position: absolute;
-  left: calc(50% - 638px / 2 + 0.12px);
+  left: calc(50% - 638px / 2);
   top: 188px;
   width: 638px;
   height: 800px;
@@ -548,112 +562,134 @@ html, body {
   pointer-events: none;
 }
 
-/* DROP POINT heading (Group 11: centered left 944, top 338, 279×54) */
+/* DROP POINT heading (left 913, top 392, 342×66) */
 .dp-heading {
   position: absolute;
-  left: calc(50% - 279px / 2 - 0.5px);
-  top: 338px;
-  width: 279px;
-  height: 54px;
+  left: 913px;
+  top: 392px;
+  width: 342px;
+  height: 66px;
   z-index: 6;
   font-family: "Bona Nova", Georgia, serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 44.7474px;
-  line-height: 54px;
-  color: #694EAB;
-  margin: 0;
-}
-
-/* "Submit your recovered sequence" (centered, top 385, 447×43) */
-.dp-sub {
-  position: absolute;
-  left: calc(50% - 447px / 2 - 0.5px);
-  top: 385px;
-  width: 447px;
-  height: 43px;
-  z-index: 6;
-  font-family: "Cantarell", system-ui, sans-serif;
-  font-weight: 400;
-  font-size: 30.717px;
-  line-height: 43px;
+  font-size: 54.827px;
+  line-height: 66px;
   text-align: center;
   color: #A99AFF;
   margin: 0;
+}
+
+/* SUBMIT YOUR RECOVERED SEQUENCE (centered, top 462.69, 504×32) */
+.dp-sub {
+  position: absolute;
+  left: calc(50% - 504px / 2);
+  top: 462.69px;
+  width: 504px;
+  height: 32px;
+  z-index: 6;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 26.3919px;
+  line-height: 32px;
+  text-align: center;
+  color: #CFB7FF;
+  margin: 0;
   white-space: nowrap;
 }
 
-/* RECOVERED SEQUENCE label (left 819, top 496.76) — satu baris, sejajar kotak kiri */
+/* RECOVERED SEQUENCE label (left 825.53, top 540.9, 167×19) */
 .dp-label {
   position: absolute;
-  left: 819px;
-  top: 496.76px;
-  width: auto;
-  height: 27px;
+  left: 825.53px;
+  top: 540.9px;
+  width: 167px;
+  height: 19px;
   z-index: 6;
-  font-family: "Cantarell", system-ui, sans-serif;
-  font-weight: 400;
-  font-size: 18.748px;
-  line-height: 27px;
-  text-align: left;
+  font-family: "Maven Pro", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 15.8003px;
+  line-height: 19px;
+  text-align: center;
   white-space: nowrap;
-  color: rgba(182, 178, 178, 0.83);
+  color: rgba(241, 186, 255, 0.83);
   margin: 0;
 }
 
-/* 6-box input row (Group 48: centered, top 531.46, 532.94×75.49) */
+/* 6 input boxes — absolute positions per Figma, top 569.63 */
 .dp-seq {
   position: absolute;
-  left: calc(50% - 532.94px / 2 + 1.47px);  /* = 819px */
-  top: 531.46px;
-  width: 532.94px;
-  height: 75.49px;
+  top: 569.63px;
+  left: 825.53px;
+  width: 516.94px;
+  height: 74.67px;
   z-index: 6;
-  display: flex;
-  gap: 0;
+  pointer-events: auto;
 }
-/* Individual boxes at exact Figma left positions:
-   819, 910.49, 1001.98, 1093.47, 1184.96, 1276.45
-   Gap between each = 910.49 - 819 - 75.49 = 16px */
 .dp-seq-box {
-  width: 75.49px;
-  height: 75.49px;
+  position: absolute;
+  width: 74.67px;
+  height: 74.67px;
   box-sizing: border-box;
-  border: 1.26382px solid #786BC7;
+  border: 1.25012px solid #786BC7;
   background: transparent;
   color: #C5BCFF;
-  font-family: "Cantarell", system-ui, sans-serif;
+  font-family: "Bona Nova", Georgia, serif;
   font-size: 28px;
   text-align: center;
   outline: none;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
   caret-color: transparent;
-  flex-shrink: 0;
+  top: 0;
 }
-.dp-seq-box + .dp-seq-box {
-  margin-left: 15.5px;   /* 910.49 - 819 - 75.49 ≈ 16 */
-}
+.dp-seq-box:nth-child(1) { left: 0; }
+.dp-seq-box:nth-child(2) { left: calc(913.98px - 825.53px); }
+.dp-seq-box:nth-child(3) { left: calc(1002.44px - 825.53px); }
+.dp-seq-box:nth-child(4) { left: calc(1090.89px - 825.53px); }
+.dp-seq-box:nth-child(5) { left: calc(1179.35px - 825.53px); }
+.dp-seq-box:nth-child(6) { left: calc(1267.8px - 825.53px); }
 .dp-seq-box:focus {
   border-color: #B9AEF7;
   box-shadow: 0 0 10px 2px rgba(155, 65, 255, 0.45);
 }
+.dp-seq-box.wrong {
+  border-color: #FF3B3B;
+  box-shadow: 0 0 10px 3px rgba(255, 59, 59, 0.6), 0 0 20px 6px rgba(255, 59, 59, 0.3);
+  color: #FF8080;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
 
-/* VERIFY button (Rectangle 16: left 958, top 636, 258.99×75.49) */
+/* Shake animation — triggered on .dp-seq when input is wrong/empty */
+.dp-seq.shake {
+  animation: dp-seq-shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+@keyframes dp-seq-shake {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-8px); }
+  30%  { transform: translateX(7px); }
+  45%  { transform: translateX(-6px); }
+  60%  { transform: translateX(5px); }
+  75%  { transform: translateX(-4px); }
+  90%  { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+
+/* VERIFY button — Rectangle 16 (left 971, top 696, 223×65) */
 .dp-verify {
   position: absolute;
-  left: 958px;
-  top: 636px;
-  width: 258.99px;
-  height: 75.49px;
+  left: 971px;
+  top: 696px;
+  width: 223px;
+  height: 65px;
   z-index: 6;
   box-sizing: border-box;
   background: rgba(55, 22, 255, 0.19);
-  border: 1.26382px solid #786BC7;
+  border: 1.08822px solid #786BC7;
   color: #786BC7;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 25.3649px;
-  line-height: 30px;
+  font-size: 21.8405px;
+  line-height: 26px;
   text-align: center;
   cursor: pointer;
   transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
@@ -666,103 +702,118 @@ html, body {
   outline: none;
 }
 
-/* NEED ASSISTANCE? (Group 12: centered, top 752.12, 163×21) */
+/* NEED ASSISTANCE? (centered, top 794, 141×18) */
 .dp-assist-q {
   position: absolute;
-  left: calc(50% - 163px / 2 + 3.35px);
-  top: 752.12px;
-  width: 163px;
-  height: 21px;
+  left: calc(50% - 141px / 2 - 0.5px);
+  top: 794px;
+  width: 141px;
+  height: 18px;
   z-index: 6;
   font-family: "Maven Pro", system-ui, sans-serif;
   font-weight: 500;
-  font-size: 17.8754px;
-  line-height: 21px;
+  font-size: 15.3917px;
+  line-height: 18px;
   color: rgba(226, 214, 255, 0.59);
   margin: 0;
 }
 
-/* ACCESS ARCHIVE NOTES (Group 13: centered, top 779.99, 193×20) */
+/* ACCESS ARCHIVE NOTES (centered, top 820, 166×17) */
 .dp-assist-link {
   position: absolute;
-  left: calc(50% - 193px / 2 - 6.04px);
-  top: 779.99px;
-  width: 213.11px;
-  height: 20px;
+  left: calc(50% - 166px / 2 - 7px);
+  top: 820px;
+  width: 166px;
+  height: 17px;
   z-index: 6;
   font-family: "Maven Pro", system-ui, sans-serif;
   font-weight: 500;
-  font-size: 16.695px;
-  line-height: 20px;
+  font-size: 14.3752px;
+  line-height: 17px;
   text-align: center;
   color: rgba(226, 214, 255, 0.59);
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 5px;
   transition: color 0.3s ease;
+  white-space: nowrap;
 }
-.dp-assist-link:hover { color: #C5BCFF; }
-
-/* Vector 2 arrow (left 1181.22, top 785.8, 13.36×9.29) */
-.dp-assist-arrow {
-  display: inline-block;
-  width: 13.36px;
-  height: 9.29px;
-  border-top: 1.47763px solid #877F99;
-  border-right: 1.47763px solid #877F99;
-  transform: rotate(45deg);
-  flex-shrink: 0;
-  transition: border-color 0.3s ease;
+.dp-assist-link:hover,
+.dp-assist-link:focus-visible {
+  color: #C5BCFF;
+  text-shadow: 0 0 8px rgba(155, 65, 255, 0.7), 0 0 18px rgba(155, 65, 255, 0.4);
 }
-.dp-assist-link:hover .dp-assist-arrow { border-color: #C5BCFF; }
 
-/* Close button (Group 16: left 1345.82, top 203, 33.55×33.55)
-   Vector 3 & 4: border 3px solid #9769FF, cross shape via rotate */
+/* Ellipse 14: red dot — absolute position (left 1167, top 825, 9×9) */
+.dp-assist-dot {
+  position: absolute;
+  left: 1167px;
+  top: 825px;
+  width: 9px;
+  height: 9px;
+  z-index: 6;
+  border-radius: 50%;
+  background: #FF1010;
+  animation: dp-dot-pulse 1.3s ease-in-out infinite;
+  transition: background 0.35s ease, animation 0s;
+}
+@keyframes dp-dot-pulse {
+  0%, 100% { box-shadow: 0 0 3px 1px rgba(255,17,17,0.6), 0 0 7px 2px rgba(255,17,17,0.3); }
+  50%      { box-shadow: 0 0 6px 2px rgba(255,17,17,0.8), 0 0 14px 4px rgba(255,17,17,0.4); }
+}
+
+/* Purple glow on hover — triggered by hovering the link (sibling) */
+.dp-assist-link:hover ~ .dp-assist-dot,
+.dp-assist-link:focus-visible ~ .dp-assist-dot {
+  background: #9B41FF;
+  animation: dp-dot-pulse-purple 1.3s ease-in-out infinite;
+}
+@keyframes dp-dot-pulse-purple {
+  0%, 100% { box-shadow: 0 0 4px 2px rgba(155,65,255,0.7), 0 0 10px 4px rgba(155,65,255,0.4); }
+  50%      { box-shadow: 0 0 8px 4px rgba(155,65,255,0.9), 0 0 20px 8px rgba(155,65,255,0.55); }
+}
+
+/* Close button: × (left 1362, top 203, 28×28)
+   Vector inner: left 17.09% right 17.08% top 17.09% bottom 17.09% → ~4.8px inset
+   Color: #C1AAFA */
 .dp-close {
   position: absolute;
-  left: 1345.82px;
+  left: 1362px;
   top: 203px;
-  width: 33.55px;
-  height: 33.55px;
+  width: 28px;
+  height: 28px;
   z-index: 9;
   display: block;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
+  transition: transform 0.3s ease;
+}
+.dp-close:hover,
+.dp-close:focus-visible {
+  transform: scale(1.15);
+  outline: none;
 }
 .dp-close-line {
   position: absolute;
+  /* inset 17.09% from each side → left: 4.79px, width: 18.42px (≈ 65.8% of 28) */
   left: 50%;
   top: 50%;
-  width: 3px;
-  height: 33.55px;
-  background: #9769FF;
-  border-radius: 1.5px;
+  width: 2px;
+  height: calc(28px * 0.658); /* 18.42px */
+  background: #C1AAFA;
+  border-radius: 1px;
+  display: block;
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 .dp-close-line-1 { transform: translate(-50%, -50%) rotate(45deg); }
 .dp-close-line-2 { transform: translate(-50%, -50%) rotate(-45deg); }
-.dp-close:hover .dp-close-line {
-  background: #C5BCFF;
-  box-shadow: 0 0 10px rgba(197, 188, 255, 0.8);
+.dp-close:hover .dp-close-line,
+.dp-close:focus-visible .dp-close-line {
+  background: #e8deff;
+  box-shadow: 0 0 8px rgba(193, 170, 250, 0.9);
 }
-
-/* Entrance animation */
-.dp-canvas .dp-portrait,
-.dp-canvas .dp-heading,
-.dp-canvas .dp-sub,
-.dp-canvas .dp-label,
-.dp-canvas .dp-seq,
-.dp-canvas .dp-verify,
-.dp-canvas .dp-assist-q,
-.dp-canvas .dp-assist-link,
-.dp-canvas .dp-close {
-  animation: arc-fade-in 0.8s ease-out both;
-}
-.dp-canvas .dp-seq    { animation-delay: 0.05s; }
-.dp-canvas .dp-verify { animation-delay: 0.1s; }
-.dp-canvas .dp-close  { animation-delay: 0.15s; }
 
 
 /* ============================================================
@@ -1573,29 +1624,22 @@ html.reflow-active .viewport,
 }
 
 /* ============================================================
-   ACCESS GRANTED screen — shown after correct sequence CR7SIU
-   All coordinates from Figma spec (canvas 2168×1080)
+   GRANTED PAGE (granted.html) — exact Figma spec
+   Canvas: 2168 × 1080
    ============================================================ */
-.dp-granted {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-.dp-granted.is-visible {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+
+.gr-canvas {
+  background: #000;
 }
 
-/* Full-canvas background for granted screen (BGLP.png) */
-.dp-granted-bg {
+/* Background: BGLP.png — same as landing page (left 1, top calc(50%-540px)) */
+.gr-bg {
   position: absolute;
-  inset: 0;
-  z-index: 20;
+  left: 1px;
+  top: calc(50% - 1080px / 2);
+  width: 2168px;
+  height: 1080px;
+  z-index: 2;
   background-image: url("BGLP.png");
   background-size: cover;
   background-position: center;
@@ -1603,227 +1647,8 @@ html.reflow-active .viewport,
   pointer-events: none;
 }
 
-/* Dark overlay on granted screen (rgba 0,0,0,0.4) */
-.dp-granted-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 21;
-  background: rgba(0, 0, 0, 0.4);
-  pointer-events: none;
-}
-
-/* BGLP 2 moon overlay (left 943, top 356.99, 296.41×300.5) */
-.dp-granted-moon {
-  position: absolute;
-  left: 943px;
-  top: 356.99px;
-  width: 296.41px;
-  height: 300.5px;
-  z-index: 22;
-  background-image: url("BGLP 2.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  pointer-events: none;
-}
-
-/* BGDP portrait (left 765, top 188, 638×800) */
-.dp-granted-portrait {
-  position: absolute;
-  left: 765px;
-  top: 188px;
-  width: 638px;
-  height: 800px;
-  z-index: 23;
-  background-image: url("BGDP.png");
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-  pointer-events: none;
-}
-
-/* logosuc circular portrait (left 901.31, top 373.42, 367.96×367.96) */
-.dp-granted-img {
-  position: absolute;
-  left: 901.31px;
-  top: 373.42px;
-  width: 367.96px;
-  height: 367.96px;
-  z-index: 24;
-  background-image: url("logosuc.png");
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-  pointer-events: none;
-}
-
-/* Ellipse 13: glowing ring (left 967.62, top 430.62, 234.04×234.04) */
-.dp-granted-ring {
-  position: absolute;
-  left: 967.62px;
-  top: 430.62px;
-  width: 234.04px;
-  height: 234.04px;
-  z-index: 22;
-  border-radius: 50%;
-  box-sizing: border-box;
-  border: 1.30022px solid #694EAB;
-  box-shadow: 0 0 72.8124px 14.3024px #694EAB;
-  pointer-events: none;
-  animation: granted-ring-pulse 3s ease-in-out infinite;
-}
-@keyframes granted-ring-pulse {
-  0%, 100% { box-shadow: 0 0 50px 10px #694EAB; }
-  50%       { box-shadow: 0 0 90px 22px #9B41FF; }
-}
-
-/* Rectangle 14: border overlay for portrait slot (same as dp-portrait) */
-.dp-granted-border {
-  position: absolute;
-  left: calc(50% - 638px / 2 + 0.12px);
-  top: 188px;
-  width: 638px;
-  height: 800px;
-  z-index: 23;
-  box-sizing: border-box;
-  background: linear-gradient(180deg, rgba(3,3,3,0.36) 54.81%, rgba(105,105,105,0) 100%);
-  border: 1px solid #9B8BFF;
-  box-shadow: 0 0 24.4px 9px rgba(185, 65, 255, 0.25);
-  pointer-events: none;
-}
-
-/* ACCESS GRANTED (left 929.91, top 285, 307×41) */
-.dp-granted-title {
-  position: absolute;
-  left: 929.91px;
-  top: 285px;
-  width: 307px;
-  height: 41px;
-  z-index: 24;
-  font-family: "Bona Nova", Georgia, serif;
-  font-weight: 400;
-  font-size: 34.5832px;
-  line-height: 41px;
-  color: rgba(194, 169, 255, 0.59);
-  margin: 0;
-  white-space: nowrap;
-  animation: granted-fade-in 0.8s ease-out 0.2s both;
-}
-
-/* THE TRUTH ACKNOWLEDGES YOU (centered, top 331.69, 446×32) */
-.dp-granted-sub {
-  position: absolute;
-  left: calc(50% - 446px / 2);
-  top: 331.69px;
-  width: 446px;
-  height: 32px;
-  z-index: 24;
-  font-family: "Bona Nova", Georgia, serif;
-  font-weight: 400;
-  font-size: 26.3919px;
-  line-height: 32px;
-  text-align: center;
-  color: #A99AFF;
-  margin: 0;
-  white-space: nowrap;
-  animation: granted-fade-in 0.8s ease-out 0.35s both;
-}
-
-/* Group 39: outer border box (centered, top 750, 430×141) */
-.dp-granted-box {
-  position: absolute;
-  left: calc(50% - 430px / 2 - 1px);
-  top: 750px;
-  width: 430px;
-  height: 141px;
-  z-index: 24;
-  box-sizing: border-box;
-  border: 1.93736px solid #786BC7;
-  pointer-events: none;
-  animation: granted-fade-in 0.8s ease-out 0.5s both;
-}
-
-/* YOU MAY CLAIM WHAT IS YOURS. (centered, top 776.58, 313×23) */
-.dp-granted-claim-sub {
-  position: absolute;
-  left: calc(50% - 313px / 2 - 0.19px);
-  top: 776.58px;
-  width: 313px;
-  height: 23px;
-  z-index: 25;
-  font-family: "Bona Nova", Georgia, serif;
-  font-weight: 400;
-  font-size: 19.2792px;
-  line-height: 23px;
-  text-align: center;
-  color: #A99AFF;
-  margin: 0;
-  white-space: nowrap;
-  animation: granted-fade-in 0.8s ease-out 0.55s both;
-}
-
-/* CLAIM REWARD button (centered, top 817, 373.16×49.41) */
-.dp-granted-btn {
-  position: absolute;
-  left: calc(50% - 373.16px / 2 - 1.31px);
-  top: 817px;
-  width: 373.16px;
-  height: 49.41px;
-  z-index: 25;
-  box-sizing: border-box;
-  background: rgba(55, 22, 255, 0.19);
-  border: 1.20554px solid #786BC7;
-  font-family: "Bona Nova", Georgia, serif;
-  font-weight: 400;
-  font-size: 25.8389px;
-  line-height: 31px;
-  text-align: center;
-  color: #786BC7;
-  cursor: pointer;
-  transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-  animation: granted-fade-in 0.8s ease-out 0.65s both;
-}
-.dp-granted-btn:hover,
-.dp-granted-btn:focus-visible {
-  background: rgba(100, 60, 255, 0.35);
-  color: #C5BCFF;
-  box-shadow: 0 0 20px 4px rgba(155, 65, 255, 0.45);
-  outline: none;
-}
-
-/* Wrong code shake animation */
-@keyframes dp-shake {
-  0%, 100% { transform: translateX(0); }
-  20%       { transform: translateX(-8px); }
-  40%       { transform: translateX(8px); }
-  60%       { transform: translateX(-6px); }
-  80%       { transform: translateX(6px); }
-}
-.dp-seq.shake {
-  animation: dp-shake 0.45s ease;
-}
-/* Red flash on boxes when wrong */
-.dp-seq-box.wrong {
-  border-color: #FF4444;
-  box-shadow: 0 0 10px 2px rgba(255, 68, 68, 0.5);
-}
-
-@keyframes granted-fade-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ============================================================
-   DROP POINT PAGE (droppoint.html) — koordinat absolut Figma
-   Canvas: 2168 × 1080
-   ============================================================ */
-
-.dp-canvas {
-  background: #05020a;
-}
-
-/* Dark overlay full canvas */
-.dp-overlay {
+/* Rectangle 12: dark overlay */
+.gr-overlay {
   position: absolute;
   left: 0; top: 0;
   width: 2168px;
@@ -1833,8 +1658,8 @@ html.reflow-active .viewport,
   pointer-events: none;
 }
 
-/* Group 59: BGDP portrait image (left 765, top 188, 638×800) */
-.dp-portrait-img {
+/* BGDP portrait: BGDP.png (left 765, top 188, 638×800) */
+.gr-portrait-img {
   position: absolute;
   left: 765px;
   top: 188px;
@@ -1848,10 +1673,10 @@ html.reflow-active .viewport,
   pointer-events: none;
 }
 
-/* Rectangle 14: border + gradient overlay (centered, top 188, 638×800) */
-.dp-portrait {
+/* Rectangle 14: gradient + border overlay (centered, top 188, 638×800) */
+.gr-portrait {
   position: absolute;
-  left: calc(50% - 638px / 2 + 0.12px);
+  left: calc(50% - 638px / 2);
   top: 188px;
   width: 638px;
   height: 800px;
@@ -1863,290 +1688,240 @@ html.reflow-active .viewport,
   pointer-events: none;
 }
 
-/* DROP POINT heading (Group 11: centered, top 338, 279×54) */
-.dp-heading {
+/* logosuc image (left 932, top 439, 308×309) — berputar */
+.gr-logosuc {
   position: absolute;
-  left: calc(50% - 279px / 2 - 0.5px);
-  top: 338px;
-  width: 279px;
-  height: 54px;
+  left: 932px;
+  top: 439px;
+  width: 308px;
+  height: 309px;
   z-index: 6;
+  background-image: url("WhatsApp Image 2026-07-09 at 18.08.29.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  animation: gr-logosuc-spin 18s linear infinite;
+}
+@keyframes gr-logosuc-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Lingkaran statis di tengah portrait — tanpa cahaya */
+.gr-ring-glow {
+  position: absolute;
+  left: calc(50% - 117.02px);
+  top: 471px;
+  width: 234.04px;
+  height: 234.04px;
+  z-index: 7;
+  border-radius: 50%;
+  pointer-events: none;
+  border: 1.3px solid #694EAB;
+  background: transparent;
+}
+
+/* logosuc di tengah kolom portrait (center: left 930, top 433.5, 308×309) */
+.gr-logosuc-center {
+  position: absolute;
+  left: 930px;
+  top: 433.5px;
+  width: 308px;
+  height: 309px;
+  z-index: 8;
+  background-image: url("logosuc.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  animation: gr-logosuc-spin 18s linear infinite;
+}
+
+/* ACCESS GRANTED heading (left 841, top 302, 486×66) */
+.gr-heading {
+  position: absolute;
+  left: 841px;
+  top: 302px;
+  width: 486px;
+  height: 66px;
+  z-index: 8;
   font-family: "Bona Nova", Georgia, serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 44.7474px;
-  line-height: 54px;
-  color: #694EAB;
+  font-size: 54.83px;
+  line-height: 66px;
+  text-align: center;
+  color: #A99AFF;
   margin: 0;
 }
+@keyframes gr-glow-in {
+  0%   { opacity: 0; transform: translateY(14px); filter: blur(6px); }
+  100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
 
-/* "Submit your recovered sequence" (centered, top 385, 447×43) */
-.dp-sub {
+/* THE TRUTH ACKNOWLEDGES YOU (centered, top 372.69, 446×32) */
+.gr-sub {
   position: absolute;
-  left: calc(50% - 447px / 2 - 0.5px);
-  top: 385px;
-  width: 447px;
-  height: 43px;
-  z-index: 6;
+  left: calc(50% - 446px / 2);
+  top: 372.69px;
+  width: 446px;
+  height: 32px;
+  z-index: 8;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 30.717px;
-  line-height: 43px;
+  font-size: 26.3919px;
+  line-height: 32px;
+  text-align: center;
+  color: #CFB7FF;
+  margin: 0;
+  animation: gr-fade-up 0.7s ease-out 0.35s both;
+}
+
+/* Rectangle 16 outer border (centered, top 777, 430×141) */
+.gr-reward-box {
+  position: absolute;
+  left: calc(50% - 430px / 2 - 1px);
+  top: 777px;
+  width: 430px;
+  height: 141px;
+  z-index: 8;
+  box-sizing: border-box;
+  border: 1.93736px solid #786BC7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  animation: gr-fade-up 0.65s ease-out 0.6s both;
+}
+
+/* YOU MAY CLAIM WHAT IS YOURS. (centered within box, top 803.58, 313×23)
+   top relative to box: 803.58 - 777 = 26.58px */
+.gr-reward-q {
+  position: absolute;
+  left: calc(50% - 313px / 2 - 0.19px);
+  top: 26.58px;
+  width: 313px;
+  height: 23px;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 19.2792px;
+  line-height: 23px;
   text-align: center;
   color: #A99AFF;
   margin: 0;
   white-space: nowrap;
 }
 
-/* RECOVERED SEQUENCE label — satu baris, rata kiri sejajar kotak paling kiri (left 819) */
-.dp-label {
+/* CLAIM REWARD button (centered within box, top 832, 373.16×49.41)
+   top relative to box: 832 - 765 = 67px */
+.gr-claim-btn {
   position: absolute;
-  left: 819px;
-  top: 496.76px;
-  width: auto;
-  height: 27px;
-  z-index: 6;
-  font-family: "Cantarell", system-ui, sans-serif;
-  font-weight: 400;
-  font-size: 18.748px;
-  line-height: 27px;
-  text-align: left;
-  white-space: nowrap;
-  color: rgba(182, 178, 178, 0.83);
-  margin: 0;
-}
-
-/* 6-box input row (left 819, top 531.46, 532.94×75.49) */
-.dp-seq {
-  position: absolute;
-  left: 819px;
-  top: 531.46px;
-  width: 532.94px;
-  height: 75.49px;
-  z-index: 6;
-  display: flex;
-  gap: 0;
-}
-.dp-seq-box {
-  width: 75.49px;
-  height: 75.49px;
-  flex-shrink: 0;
-  box-sizing: border-box;
-  border: 1.26382px solid #786BC7;
-  background: transparent;
-  color: #C5BCFF;
-  font-family: "Cantarell", system-ui, sans-serif;
-  font-size: 28px;
-  text-align: center;
-  outline: none;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-  caret-color: transparent;
-}
-.dp-seq-box + .dp-seq-box {
-  margin-left: 15.5px;
-}
-.dp-seq-box:focus {
-  border-color: #B9AEF7;
-  box-shadow: 0 0 10px 2px rgba(155, 65, 255, 0.45);
-}
-
-/* VERIFY button (Rectangle 16: left 958, top 636, 258.99×75.49) */
-.dp-verify {
-  position: absolute;
-  left: 958px;
-  top: 636px;
-  width: 258.99px;
-  height: 75.49px;
-  z-index: 6;
+  left: calc(50% - 373.16px / 2 - 1.31px);
+  top: 67px;
+  width: 373.16px;
+  height: 49.41px;
   box-sizing: border-box;
   background: rgba(55, 22, 255, 0.19);
-  border: 1.26382px solid #786BC7;
+  border: 1.20554px solid #786BC7;
   color: #786BC7;
   font-family: "Bona Nova", Georgia, serif;
   font-weight: 400;
-  font-size: 25.3649px;
-  line-height: 30px;
+  font-size: 25.8389px;
+  line-height: 31px;
   text-align: center;
   cursor: pointer;
   transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
 }
-.dp-verify:hover,
-.dp-verify:focus-visible {
+.gr-claim-btn:hover,
+.gr-claim-btn:focus-visible {
   background: rgba(100, 60, 255, 0.35);
   color: #C5BCFF;
   box-shadow: 0 0 20px 4px rgba(155, 65, 255, 0.45);
   outline: none;
 }
 
-/* NEED ASSISTANCE? — centered, top 752.12 */
-.dp-assist-q {
+/* Close button × (left 1362, top 203, 28×28, #C1AAFA) */
+.gr-close {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 752.12px;
-  width: 100%;
-  height: 21px;
-  z-index: 6;
-  font-family: "Maven Pro", system-ui, sans-serif;
-  font-weight: 500;
-  font-size: 17.8754px;
-  line-height: 21px;
-  text-align: center;
-  color: rgba(226, 214, 255, 0.59);
-  margin: 0;
-}
-
-/* ACCESS ARCHIVE NOTES + dot — centered horizontally, top 779.99 */
-.dp-assist-link {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 779.99px;
-  width: 100%;
-  height: 20px;
-  z-index: 6;
-  font-family: "Maven Pro", system-ui, sans-serif;
-  font-weight: 500;
-  font-size: 16.695px;
-  line-height: 20px;
-  text-align: center;
-  white-space: nowrap;
-  color: rgba(226, 214, 255, 0.59);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  transition: color 0.3s ease;
-}
-.dp-assist-link:hover { color: #C5BCFF; }
-
-/* Dot merah menyala → ungu menyala saat hover */
-.dp-assist-arrow {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #FB0000;
-  flex-shrink: 0;
-  animation: dp-dot-pulse 1.3s ease-in-out infinite;
-  transition: background 0.35s ease, box-shadow 0.35s ease;
-}
-@keyframes dp-dot-pulse {
-  0%, 100% {
-    box-shadow: 0 0 3px 1px rgba(255, 68, 68, 0.55),
-                0 0 7px 2px rgba(255, 68, 68, 0.25);
-  }
-  50% {
-    box-shadow: 0 0 5px 2px rgba(255, 68, 68, 0.7),
-                0 0 12px 4px rgba(255, 68, 68, 0.35);
-  }
-}
-.dp-assist-link:hover .dp-assist-arrow {
-  background: #9B41FF;
-  animation: dp-dot-pulse-purple 1.3s ease-in-out infinite;
-}
-@keyframes dp-dot-pulse-purple {
-  0%, 100% {
-    box-shadow: 0 0 3px 1px rgba(155, 65, 255, 0.55),
-                0 0 8px 2px rgba(155, 65, 255, 0.25);
-  }
-  50% {
-    box-shadow: 0 0 6px 2px rgba(155, 65, 255, 0.7),
-                0 0 14px 4px rgba(155, 65, 255, 0.35);
-  }
-}
-
-/* Close button (Group 16: left 1345.82, top 203, 33.55×33.55) */
-.dp-close {
-  position: absolute;
-  left: 1345.82px;
+  left: 1362px;
   top: 203px;
-  width: 33.55px;
-  height: 33.55px;
+  width: 28px;
+  height: 28px;
   z-index: 9;
   display: block;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
+  transition: transform 0.3s ease;
 }
-.dp-close-line {
+.gr-close:hover,
+.gr-close:focus-visible {
+  transform: scale(1.15);
+  outline: none;
+}
+.gr-close-line {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 3px;
-  height: 33.55px;
-  background: #9769FF;
-  border-radius: 1.5px;
+  width: 2px;
+  height: calc(28px * 0.658);
+  background: #C1AAFA;
+  border-radius: 1px;
+  display: block;
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
-.dp-close-line-1 { transform: translate(-50%, -50%) rotate(45deg); }
-.dp-close-line-2 { transform: translate(-50%, -50%) rotate(-45deg); }
-.dp-close:hover .dp-close-line {
-  background: #C5BCFF;
-  box-shadow: 0 0 10px rgba(197, 188, 255, 0.8);
+.gr-close-line-1 { transform: translate(-50%, -50%) rotate(45deg); }
+.gr-close-line-2 { transform: translate(-50%, -50%) rotate(-45deg); }
+.gr-close:hover .gr-close-line,
+.gr-close:focus-visible .gr-close-line {
+  background: #e8deff;
+  box-shadow: 0 0 8px rgba(193, 170, 250, 0.9);
 }
+
+/* Entrance animations */
+@keyframes gr-fade-up {
+  0%   { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.gr-canvas .gr-portrait-img    { animation: gr-fade-up 1s   cubic-bezier(0.22,1,0.36,1) 0.05s both; }
+.gr-canvas .gr-portrait        { animation: gr-fade-up 1s   cubic-bezier(0.22,1,0.36,1) 0.1s  both; }
+.gr-canvas .gr-ring-glow       { animation: gr-fade-up 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s both; }
+/* ACCESS GRANTED: muncul bersamaan layar, delay 0.2s setelah overlay fade selesai */
+.gr-canvas .gr-heading         { animation: gr-glow-in 1.0s cubic-bezier(0.22,1,0.36,1) 0.2s  both; }
+/* logosuc-center: fade-up + spin bersama */
+.gr-canvas .gr-logosuc-center  { animation: gr-fade-up 0.8s cubic-bezier(0.22,1,0.36,1) 0.2s both, gr-logosuc-spin 18s linear 1s infinite; }
+/* logosuc (lama, jika masih ada): fade-up + spin */
+.gr-canvas .gr-logosuc         { animation: gr-fade-up 0.8s cubic-bezier(0.22,1,0.36,1) 0.2s both, gr-logosuc-spin 18s linear 1s infinite; }
+.gr-canvas .gr-sub             { animation: gr-fade-up 0.7s cubic-bezier(0.22,1,0.36,1) 0.3s  both; }
+.gr-canvas .gr-reward-box      { animation: gr-fade-up 0.65s cubic-bezier(0.22,1,0.36,1) 0.45s both; }
+.gr-canvas .gr-close           { animation: gr-fade-up 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s  both; }
 
 /* ============================================================
    Drop Point — animasi masuk (stagger + blur-fade dari bawah)
-   Setiap elemen muncul berurutan, halus dan keren.
    ============================================================ */
 
 @keyframes dp-enter {
-  0% {
-    opacity: 0;
-    transform: translateY(18px);
-    filter: blur(6px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
+  0%   { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+  100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
 }
-
 @keyframes dp-enter-portrait {
-  0% {
-    opacity: 0;
-    transform: translateY(10px) scale(0.985);
-    filter: blur(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
+  0%   { opacity: 0; transform: translateY(10px) scale(0.985); filter: blur(10px); }
+  100% { opacity: 1; transform: translateY(0) scale(1);         filter: blur(0); }
 }
 
-.dp-canvas .dp-portrait-img {
-  animation: dp-enter-portrait 1s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
-}
-.dp-canvas .dp-portrait {
-  animation: dp-enter-portrait 1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
-}
-.dp-canvas .dp-heading {
-  animation: dp-enter 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
-}
-.dp-canvas .dp-sub {
-  animation: dp-enter 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
-}
-.dp-canvas .dp-label {
-  animation: dp-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.42s both;
-}
-.dp-canvas .dp-seq {
-  animation: dp-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
-}
-.dp-canvas .dp-verify {
-  animation: dp-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.58s both;
-}
-.dp-canvas .dp-assist-q {
-  animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both;
-}
-.dp-canvas .dp-assist-link {
-  animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both;
-}
-.dp-canvas .dp-close {
-  animation: dp-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
-}
+.dp-canvas .dp-portrait-img { animation: dp-enter-portrait 1s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both; }
+.dp-canvas .dp-portrait      { animation: dp-enter-portrait 1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both; }
+.dp-canvas .dp-heading       { animation: dp-enter 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both; }
+.dp-canvas .dp-sub           { animation: dp-enter 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both; }
+.dp-canvas .dp-label         { animation: dp-enter 0.6s  cubic-bezier(0.22, 1, 0.36, 1) 0.42s both; }
+.dp-canvas .dp-seq           { animation: dp-enter 0.6s  cubic-bezier(0.22, 1, 0.36, 1) 0.5s both; }
+.dp-canvas .dp-verify        { animation: dp-enter 0.6s  cubic-bezier(0.22, 1, 0.36, 1) 0.58s both; }
+.dp-canvas .dp-assist-q      { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both; }
+.dp-canvas .dp-assist-link   { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both; }
+.dp-canvas .dp-assist-dot    { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both, dp-dot-pulse 1.3s ease-in-out 1.25s infinite; }
+.dp-canvas .dp-close         { animation: dp-enter 0.5s  cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
 
 
 

@@ -318,38 +318,43 @@
 
     // VERIFY button
     var verifyBtn = document.querySelector(".dp-verify");
-    var grantedPanel = document.getElementById("dp-granted");
     var seqRow = document.querySelector(".dp-seq");
     var SECRET = "CR7SIU";
 
-    if (verifyBtn && grantedPanel) {
+    if (verifyBtn) {
       verifyBtn.addEventListener("click", function () {
         var entered = Array.from(boxes).map(function (b) { return b.value; }).join("");
         if (entered === SECRET) {
-          // Correct — show ACCESS GRANTED
-          grantedPanel.classList.add("is-visible");
-          grantedPanel.setAttribute("aria-hidden", "false");
-          // Hide the input form so it doesn't show through
-          var formEls = document.querySelectorAll(
-            ".dp-heading, .dp-sub, .dp-label, .dp-seq, .dp-verify, .dp-assist-q, .dp-assist-link"
-          );
-          formEls.forEach(function (el) { el.style.opacity = "0"; el.style.pointerEvents = "none"; });
+          // Correct — fade out then navigate to granted.html
+          var overlay = document.querySelector(".page-transition");
+          if (overlay) {
+            overlay.classList.remove("is-entering");
+            overlay.classList.add("is-leaving");
+            overlay.addEventListener("animationend", function onLeft() {
+              overlay.removeEventListener("animationend", onLeft);
+              window.location.href = "granted.html";
+            });
+          } else {
+            window.location.href = "granted.html";
+          }
         } else {
-          // Wrong — shake + red flash, then clear
+          // Wrong or empty — shake + red highlight, then clear
           if (seqRow) {
             seqRow.classList.remove("shake");
-            // Force reflow to restart animation
-            void seqRow.offsetWidth;
+            void seqRow.offsetWidth; // Force reflow to restart animation
             seqRow.classList.add("shake");
           }
           boxes.forEach(function (b) {
+            // Mark every box red — empty boxes get it too
             b.classList.add("wrong");
-            setTimeout(function () { b.classList.remove("wrong"); }, 600);
           });
           setTimeout(function () {
-            boxes.forEach(function (b) { b.value = ""; });
+            boxes.forEach(function (b) {
+              b.classList.remove("wrong");
+              b.value = "";
+            });
             if (boxes[0]) boxes[0].focus();
-          }, 650);
+          }, 900);
         }
       });
     }

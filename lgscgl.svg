@@ -1,0 +1,20 @@
+<svg width="235" height="235" viewBox="0 0 235 235" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+<feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+<feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+<filter id="glow2" x="-60%" y="-60%" width="220%" height="220%">
+<feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur"/>
+<feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>
+</defs>
+<style>
+@keyframes rp{0%,100%{opacity:.45}50%{opacity:1}}
+.g1{animation:rp 2.8s ease-in-out infinite}
+.g2{animation:rp 2.8s ease-in-out infinite;animation-delay:-.1s}
+</style>
+<circle class="g2" cx="117.02" cy="117.02" r="116.37" fill="none" stroke="#B090FF" stroke-width="6" filter="url(#glow2)"/>
+<circle class="g1" cx="117.02" cy="117.02" r="116.37" fill="none" stroke="#9B6EFF" stroke-width="3" filter="url(#glow)"/>
+<circle cx="117.02" cy="117.02" r="116.37" fill="rgba(217,217,217,0.01)" stroke="#694EAB" stroke-width="1.30022"/>
+</svg>

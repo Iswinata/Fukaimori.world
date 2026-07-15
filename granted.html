@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#05020a" />
+  <meta name="description" content="Fukaimori — Access Granted." />
+  <title>Fukaimori · Access Granted</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Maven+Pro:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="viewport">
+    <div class="canvas gr-canvas" id="canvas">
+
+      <!-- Background: object-remover-result-1784048243191.png (full canvas) -->
+      <div class="gr-bg" aria-hidden="true"></div>
+
+      <!-- Rectangle 12: dark overlay rgba(0,0,0,0.4) -->
+      <div class="gr-overlay" aria-hidden="true"></div>
+
+      <!-- Feather particles -->
+      <canvas class="starfield" aria-hidden="true"></canvas>
+
+      <!-- Page transition -->
+      <div class="page-transition" aria-hidden="true"></div>
+
+      <!-- BGDP portrait: Gemini image (left 765, top 188, 638×800) -->
+      <div class="gr-portrait-img" aria-hidden="true"></div>
+
+      <!-- Rectangle 14: border + gradient overlay -->
+      <div class="gr-portrait" aria-hidden="true"></div>
+
+      <!-- Lingkaran di tengah portrait -->
+      <div class="gr-ring-glow" aria-hidden="true"></div>
+
+      <!-- logosuc di tengah kolom ACCESS GRANTED (portrait frame) -->
+      <div class="gr-logosuc-center" aria-hidden="true"></div>
+
+      <!-- ACCESS GRANTED (left 841, top 302, 486×66) -->
+      <h1 class="gr-heading">ACCESS GRANTED</h1>
+
+      <!-- THE TRUTH ACKNOWLEDGES YOU (centered, top 372.69, 446×32) -->
+      <p class="gr-sub">THE TRUTH ACKNOWLEDGES YOU</p>
+
+      <!-- Rectangle 16 outer border (centered, top 777, 430×141) -->
+      <div class="gr-reward-box" aria-hidden="true">
+
+        <!-- YOU MAY CLAIM WHAT IS YOURS. (top 791.58 → relative top 26.58px) -->
+        <p class="gr-reward-q">YOU MAY CLAIM WHAT IS YOURS.</p>
+
+        <!-- CLAIM REWARD button (top 832 → relative top 67px, 373.16×49.41) -->
+        <button class="gr-claim-btn" type="button">CLAIM REWARD</button>
+
+      </div>
+
+      <!-- Close button × (left 1362, top 203, 28×28, #C1AAFA) -->
+      <a class="gr-close" href="index.html" data-transition aria-label="Close — return to entrance">
+        <span class="gr-close-line gr-close-line-1" aria-hidden="true"></span>
+        <span class="gr-close-line gr-close-line-2" aria-hidden="true"></span>
+      </a>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
