@@ -108,9 +108,18 @@ html, body {
   background: transparent;
 }
 
-/* Background landing page: .photo di-hide, biar viewport::before yang cover penuh */
+/* Background landing page: .photo cover penuh canvas */
 .landing-canvas .photo {
-  display: none;
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("BGLP.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 2;
 }
 
 
