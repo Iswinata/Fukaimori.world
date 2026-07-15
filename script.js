@@ -131,27 +131,7 @@
     var overlay = document.querySelector(".page-transition");
     if (!overlay) return;
 
-    // Deteksi apakah ini halaman droppoint
-    var isDropPoint = document.querySelector(".dp-canvas") !== null;
-
-    // Set origin CSS variable sesuai halaman
-    if (isDropPoint) {
-      // Droppoint: origin dari tengah portrait / tengah canvas
-      overlay.style.setProperty("--pt-x", "50%");
-      overlay.style.setProperty("--pt-y", "50%");
-      overlay.style.background = [
-        "radial-gradient(",
-        "  circle at 50% 50%,",
-        "  rgba(130, 60, 220, 0.95) 0%,",
-        "  rgba(80, 20, 160, 0.97) 25%,",
-        "  rgba(30, 8, 70, 0.98) 55%,",
-        "  #05020a 80%",
-        ")"
-      ].join("");
-      overlay.style.clipPath = "circle(0% at 50% 50%)";
-    }
-
-    // On page LOAD — play the collapse (enter) animation
+    // On page LOAD — fade in (overlay starts opaque → fades out)
     overlay.classList.add("is-entering");
     overlay.addEventListener("animationend", function onEntered() {
       overlay.classList.remove("is-entering");
