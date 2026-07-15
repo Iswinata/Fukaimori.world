@@ -506,13 +506,12 @@ html, body {
   background: #000;
 }
 
-/* Background: BGLP.png — sama seperti landing page */
+/* Background: BGLP.png — full screen cover semua device */
 .dp-bg {
-  position: absolute;
-  left: 1px;
-  top: 0;
-  width: 2168px;
-  height: 1080px;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 2;
   background-image: url("BGLP.png");
   background-size: cover;
@@ -521,12 +520,12 @@ html, body {
   pointer-events: none;
 }
 
-/* Rectangle 12: dark overlay (full canvas, rgba 0,0,0,0.4) */
+/* Rectangle 12: dark overlay full screen */
 .dp-overlay {
-  position: absolute;
-  left: 0; top: 0;
-  width: 2168px;
-  height: 1080px;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 3;
   background: rgba(0, 0, 0, 0.4);
   pointer-events: none;
@@ -1628,13 +1627,12 @@ html.reflow-active .viewport,
   background: #000;
 }
 
-/* Background: BGLP.png — same as landing page (left 1, top calc(50%-540px)) */
+/* Background: BGLP.png — full screen cover semua device */
 .gr-bg {
-  position: absolute;
-  left: 1px;
-  top: calc(50% - 1080px / 2);
-  width: 2168px;
-  height: 1080px;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 2;
   background-image: url("BGLP.png");
   background-size: cover;
@@ -1643,12 +1641,12 @@ html.reflow-active .viewport,
   pointer-events: none;
 }
 
-/* Rectangle 12: dark overlay */
+/* Rectangle 12: dark overlay full screen */
 .gr-overlay {
-  position: absolute;
-  left: 0; top: 0;
-  width: 2168px;
-  height: 1080px;
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 3;
   background: rgba(0, 0, 0, 0.4);
   pointer-events: none;
