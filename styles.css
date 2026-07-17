@@ -2094,7 +2094,7 @@ html.reflow-active .viewport,
   white-space: nowrap;
 }
 
-/* Arrow button (backward-svgrepo chevron, right side of each row) */
+/* Arrow button — revrs.png image */
 .an-row-arrow {
   flex: none;
   width: 48px;
@@ -2106,25 +2106,19 @@ html.reflow-active .viewport,
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  transition: opacity 0.25s ease;
+  transition: filter 0.25s ease;
 }
-.an-row-arrow:hover { opacity: 0.75; }
-
-/* Two chevron strokes — each is a rotated border-right/top line */
-/* v1: upper chevron stroke */
-.an-arrow-v1,
-.an-arrow-v2 {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-top: 2px solid #694EAB;
-  border-right: 2px solid #694EAB;
-  display: block;
+.an-row-arrow:hover {
+  filter: brightness(1.4) drop-shadow(0 0 4px rgba(155, 65, 255, 0.7));
 }
-/* v1 points right-up, v2 points right-down — together form a ">" */
-.an-arrow-v1 { transform: rotate(45deg)  translateY(4px);  }
-.an-arrow-v2 { transform: rotate(135deg) translateY(-4px); }
+.an-row-arrow-img {
+  width: 36px;
+  height: 36px;
+  background-image: url("revrs.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 /* Footer motto */
 .an-motto {
@@ -2354,8 +2348,7 @@ html.reflow-active .viewport,
   white-space: nowrap;
 }
 
-/* Arrow button — backward-svgrepo chevron (two rotated strokes)
-   Figma: 163×163 icon, right side of the row */
+/* Arrow button — revrs.png image */
 .an-page-arrow {
   flex: none;
   width: 52px;
@@ -2367,30 +2360,19 @@ html.reflow-active .viewport,
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  transition: opacity 0.25s ease;
   -webkit-tap-highlight-color: transparent;
+  transition: filter 0.25s ease;
 }
-.an-page-arrow:hover { opacity: 0.7; }
-
-/* Two strokes that form a ">" — matching the backward-svgrepo-com vectors.
-   v1: top stroke (Vector: left 42.97%→right 40.75%, top 36.93%→bottom 52.18%)
-   v2: bottom stroke (Vector: left 36.93%→right 46.79%, top 45.69%→bottom 43.42%) */
-.an-page-v1,
-.an-page-v2 {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-top: 2px solid #694EAB;
-  border-right: 2px solid #694EAB;
-  display: block;
-  transition: border-color 0.25s ease;
+.an-page-arrow:hover {
+  filter: brightness(1.4) drop-shadow(0 0 4px rgba(155, 65, 255, 0.7));
 }
-.an-page-v1 { transform: rotate(45deg)  translateY(5px);  }
-.an-page-v2 { transform: rotate(135deg) translateY(-5px); }
-.an-page-arrow:hover .an-page-v1,
-.an-page-arrow:hover .an-page-v2 {
-  border-color: #9B8BFF;
+.an-page-arrow-img {
+  width: 40px;
+  height: 40px;
+  background-image: url("revrs.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Footer motto — centered, top 925.29, 563×27 */
