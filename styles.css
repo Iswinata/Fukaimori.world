@@ -722,14 +722,18 @@ html, body {
   margin: 0;
 }
 
-/* ACCESS ARCHIVE NOTES (centered, top 793, 166×17) */
-.dp-assist-link {
+/* ACCESS ARCHIVE NOTES + red dot — flex row, vertically centered (top 793) */
+.dp-assist-row {
   position: absolute;
   left: calc(50% - 166px / 2 - 8px);
   top: 793px;
-  width: 166px;
-  height: 17px;
   z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dp-assist-link {
   font-family: "Maven Pro", system-ui, sans-serif;
   font-weight: 500;
   font-size: 14.3752px;
@@ -737,12 +741,8 @@ html, body {
   text-align: center;
   color: rgba(226, 214, 255, 0.59);
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  transition: color 0.3s ease;
   white-space: nowrap;
+  transition: color 0.3s ease;
 }
 .dp-assist-link:hover,
 .dp-assist-link:focus-visible {
@@ -750,22 +750,18 @@ html, body {
   text-shadow: 0 0 8px rgba(155, 65, 255, 0.7), 0 0 18px rgba(155, 65, 255, 0.4);
 }
 
-/* Ellipse 14: red dot — sejajar vertikal dengan ACCESS ARCHIVE NOTES (left 1164, top 797, 10×10) */
+/* Ellipse 14: red dot — inline inside the flex row, always vertically centered */
 .dp-assist-dot {
-  position: absolute;
-  left: 1164px;
-  top: calc(793px + 17px / 2 - 10px / 2); /* vertically aligned with dp-assist-link */
+  flex-shrink: 0;
   width: 10px;
   height: 10px;
-  z-index: 6;
   border-radius: 50%;
   background: #FF1010;
-  animation: none;
   box-shadow: 0 0 3px 1px rgba(255,17,17,0.6), 0 0 7px 2px rgba(255,17,17,0.3);
   transition: background 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Purple glow on hover — triggered by hovering the link (sibling) */
+/* Purple glow on hover — triggered by hovering the sibling link */
 .dp-assist-link:hover ~ .dp-assist-dot,
 .dp-assist-link:focus-visible ~ .dp-assist-dot {
   background: #9B41FF;
@@ -1915,8 +1911,7 @@ html.reflow-active .viewport,
 .dp-canvas .dp-seq           { animation: dp-enter 0.6s  cubic-bezier(0.22, 1, 0.36, 1) 0.5s both; }
 .dp-canvas .dp-verify        { animation: dp-enter 0.6s  cubic-bezier(0.22, 1, 0.36, 1) 0.58s both; }
 .dp-canvas .dp-assist-q      { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both; }
-.dp-canvas .dp-assist-link   { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both; }
-.dp-canvas .dp-assist-dot    { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both; }
+.dp-canvas .dp-assist-row    { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both; }
 .dp-canvas .dp-close         { animation: dp-enter 0.5s  cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
 
 
