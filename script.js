@@ -319,7 +319,7 @@
     // VERIFY button
     var verifyBtn = document.querySelector(".dp-verify");
     var seqRow = document.querySelector(".dp-seq");
-    var SECRET = "CR7SIU";
+    var SECRET = "CR7SIU000"; // 9-char placeholder — update when final code is decided
 
     if (verifyBtn) {
       verifyBtn.addEventListener("click", function () {

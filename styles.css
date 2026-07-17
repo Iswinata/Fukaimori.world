@@ -529,13 +529,13 @@ html, body {
   pointer-events: none;
 }
 
-/* BGDP portrait image (left 765, top 188, 638×800) */
+/* BGDP portrait image (left 642, top 194, 884×798) */
 .dp-portrait-img {
   position: absolute;
-  left: 765px;
-  top: 188px;
-  width: 638px;
-  height: 800px;
+  left: 642px;
+  top: 194px;
+  width: 884px;
+  height: 798px;
   z-index: 4;
   background-image: url("BGDP.png");
   background-size: cover;
@@ -544,12 +544,12 @@ html, body {
   pointer-events: none;
 }
 
-/* Rectangle 14: border + gradient overlay (centered, top 188, 638×800) */
+/* Rectangle 14: border + gradient overlay (centered, 884×800, top 194) */
 .dp-portrait {
   position: absolute;
-  left: calc(50% - 638px / 2);
-  top: 188px;
-  width: 638px;
+  left: calc(50% - 884px / 2);
+  top: calc(50% - 800px / 2 + 54px);
+  width: 884px;
   height: 800px;
   z-index: 5;
   box-sizing: border-box;
@@ -559,11 +559,11 @@ html, body {
   pointer-events: none;
 }
 
-/* DROP POINT heading (centered, top 368, 342×66) */
+/* DROP POINT heading (centered, top 379, 342×66) */
 .dp-heading {
   position: absolute;
   left: calc(50% - 342px / 2);
-  top: 368px;
+  top: 379px;
   width: 342px;
   height: 66px;
   z-index: 6;
@@ -577,11 +577,11 @@ html, body {
   margin: 0;
 }
 
-/* SUBMIT YOUR RECOVERED SEQUENCE (centered, top 439, 488×32) */
+/* SUBMIT YOUR RECOVERED SEQUENCE (centered, top 450, 488×32) */
 .dp-sub {
   position: absolute;
   left: calc(50% - 488px / 2);
-  top: 439px;
+  top: 450px;
   width: 488px;
   height: 32px;
   z-index: 6;
@@ -595,11 +595,11 @@ html, body {
   white-space: nowrap;
 }
 
-/* RECOVERED SEQUENCE label (left 840, top 531, 171×19) */
+/* RECOVERED SEQUENCE label (left 717, top 517, 171×19) */
 .dp-label {
   position: absolute;
-  left: 840px;
-  top: 531px;
+  left: 717px;
+  top: 517px;
   width: 171px;
   height: 19px;
   z-index: 6;
@@ -613,12 +613,12 @@ html, body {
   margin: 0;
 }
 
-/* 6 input boxes — Figma spec, top 562.26, size 70.49×70.49 */
+/* 9 input boxes — Figma spec, top 550, size 70.49×70.49, start left 717, spacing 83px */
 .dp-seq {
   position: absolute;
-  top: 562.26px;
-  left: 840px;
-  width: calc(1257.51px - 840px + 70.49px); /* 487.99px */
+  top: 550px;
+  left: 717px;
+  width: calc(70.49px * 9 + 83px * 8); /* 9 boxes + 8 gaps */
   height: 70.49px;
   z-index: 6;
   pointer-events: auto;
@@ -639,12 +639,16 @@ html, body {
   caret-color: transparent;
   top: 0;
 }
+/* Rect 15–38: left positions from Figma (717, 800, 883, 966, 1049, 1132, 1215, 1298, 1381) */
 .dp-seq-box:nth-child(1) { left: 0; }
-.dp-seq-box:nth-child(2) { left: calc(923.5px - 840px); }
-.dp-seq-box:nth-child(3) { left: calc(1007px - 840px); }
-.dp-seq-box:nth-child(4) { left: calc(1090.51px - 840px); }
-.dp-seq-box:nth-child(5) { left: calc(1174.01px - 840px); }
-.dp-seq-box:nth-child(6) { left: calc(1257.51px - 840px); }
+.dp-seq-box:nth-child(2) { left: calc(800px - 717px); }
+.dp-seq-box:nth-child(3) { left: calc(883px - 717px); }
+.dp-seq-box:nth-child(4) { left: calc(966px - 717px); }
+.dp-seq-box:nth-child(5) { left: calc(1049px - 717px); }
+.dp-seq-box:nth-child(6) { left: calc(1132px - 717px); }
+.dp-seq-box:nth-child(7) { left: calc(1215px - 717px); }
+.dp-seq-box:nth-child(8) { left: calc(1298px - 717px); }
+.dp-seq-box:nth-child(9) { left: calc(1381px - 717px); }
 .dp-seq-box:focus {
   border-color: #B9AEF7;
   box-shadow: 0 0 10px 2px rgba(155, 65, 255, 0.45);
@@ -671,11 +675,11 @@ html, body {
   100% { transform: translateX(0); }
 }
 
-/* VERIFY button — centered on input column (840 + 488/2 - 223/2 = 972.5px) */
+/* VERIFY button — Figma: left 972, top 670, 223×65 */
 .dp-verify {
   position: absolute;
-  left: calc(840px + (1257.51px - 840px + 70.49px) / 2 - 223px / 2);
-  top: 669px;
+  left: 972px;
+  top: 670px;
   width: 223px;
   height: 65px;
   z-index: 6;
@@ -702,11 +706,11 @@ html, body {
   outline: none;
 }
 
-/* NEED ASSISTANCE? (centered, top 769, 141×18) */
+/* NEED ASSISTANCE? (centered, top 770, 141×18) */
 .dp-assist-q {
   position: absolute;
   left: calc(50% - 141px / 2 - 0.5px);
-  top: 769px;
+  top: 770px;
   width: 141px;
   height: 18px;
   z-index: 6;
@@ -718,11 +722,11 @@ html, body {
   margin: 0;
 }
 
-/* ACCESS ARCHIVE NOTES (centered, top 792, 166×17) */
+/* ACCESS ARCHIVE NOTES (centered, top 793, 166×17) */
 .dp-assist-link {
   position: absolute;
   left: calc(50% - 166px / 2 - 8px);
-  top: 792px;
+  top: 793px;
   width: 166px;
   height: 17px;
   z-index: 6;
@@ -746,11 +750,11 @@ html, body {
   text-shadow: 0 0 8px rgba(155, 65, 255, 0.7), 0 0 18px rgba(155, 65, 255, 0.4);
 }
 
-/* Ellipse 14: red dot — sejajar vertikal dengan ACCESS ARCHIVE NOTES (left 1164, top 796, 10×10) */
+/* Ellipse 14: red dot — sejajar vertikal dengan ACCESS ARCHIVE NOTES (left 1164, top 797, 10×10) */
 .dp-assist-dot {
   position: absolute;
   left: 1164px;
-  top: calc(792px + 17px / 2 - 10px / 2); /* vertically aligned with dp-assist-link */
+  top: calc(793px + 17px / 2 - 10px / 2); /* vertically aligned with dp-assist-link */
   width: 10px;
   height: 10px;
   z-index: 6;
@@ -768,13 +772,13 @@ html, body {
   box-shadow: 0 0 4px 2px rgba(155,65,255,0.7), 0 0 10px 4px rgba(155,65,255,0.4);
 }
 
-/* Close button: × (left 1362, top 203, 28×28)
+/* Close button: × (left 1488, top 205, 28×28)
    Vector inner: left 17.09% right 17.08% top 17.09% bottom 17.09% → ~4.8px inset
    Color: #C1AAFA */
 .dp-close {
   position: absolute;
-  left: 1362px;
-  top: 203px;
+  left: 1488px;
+  top: 205px;
   width: 28px;
   height: 28px;
   z-index: 9;
