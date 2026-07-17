@@ -15,14 +15,14 @@
 
     .kn-canvas { background: transparent; }
 
-    /* Background: object-remover photo — full cover */
+    /* Background: same as landing (BGLP.png) */
     .kn-bg {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
       z-index: 2;
-      background-image: url("object-remover-result-1784048243191.png");
+      background-image: url("BGLP.png");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -40,13 +40,13 @@
       pointer-events: none;
     }
 
-    /* BGDP portrait image — left 642, top 194, 884×798 */
+    /* BGDP portrait image — left 642, top 202, 884×787 */
     .kn-portrait-img {
       position: absolute;
       left: 642px;
-      top: 194px;
+      top: 202px;
       width: 884px;
-      height: 798px;
+      height: 787px;
       z-index: 4;
       background-image: url("BGDP.png");
       background-size: cover;
@@ -59,9 +59,9 @@
     .kn-portrait-border {
       position: absolute;
       left: calc(50% - 884px / 2);
-      top: calc(50% - 800px / 2 + 54px);
+      top: calc(50% - 787px / 2 + 55.5px);
       width: 884px;
-      height: 800px;
+      height: 787px;
       z-index: 5;
       box-sizing: border-box;
       background: linear-gradient(180deg, rgba(3, 3, 3, 0.36) 54.81%, rgba(105, 105, 105, 0) 100%);
@@ -70,11 +70,11 @@
       pointer-events: none;
     }
 
-    /* Close × — left 1488, top 205, 28×28, #C1AAFA */
+    /* Close × — left 1488, top 213, 28×28, #C1AAFA */
     .kn-close {
       position: absolute;
       left: 1488px;
-      top: 205px;
+      top: 213px;
       width: 28px;
       height: 28px;
       z-index: 9;
@@ -110,7 +110,7 @@
     /* ARCHIVE NOTES heading — centered, top 243, 443×66 */
     .kn-title {
       position: absolute;
-      left: calc(50% - 443px / 2 + 0.5px);
+      left: calc(50% - 443px / 2 + 1.5px);
       top: 243px;
       width: 443px;
       height: 66px;
@@ -128,7 +128,7 @@
     /* SUBMIT YOUR RECOVERED SQUENCE — centered, top 314, 488×32 */
     .kn-sub {
       position: absolute;
-      left: calc(50% - 488px / 2);
+      left: calc(50% - 488px / 2 + 1px);
       top: 314px;
       width: 488px;
       height: 32px;
@@ -146,7 +146,7 @@
     /* ── Note rows (Group 70–73) — perspective wrapper ── */
     .kn-row {
       position: absolute;
-      left: calc(50% - 637px / 2 - 0.5px);
+      left: calc(50% - 637px / 2 + 0.5px);
       width: 637px;
       height: 119px;
       z-index: 6;
@@ -245,12 +245,24 @@
       pointer-events: none;
     }
 
-    /* Arrow icon — front face, pushed to right edge */
+    /* Arrow icon — reverse.png, 46×47px
+       Figma left 1333, row left 766 → relative left = 567px
+       Each row has its own top offset so the arrow is centered vertically
+       (top values: row1=406-370=36, row2=540-504=36, row3=674-638=36, row4=808-772=36) */
     .kn-row-arrow {
-      flex-shrink: 0;
-      width: 41.69px;
-      height: 42.91px;
+      position: absolute;
+      left: 567px;
+      top: 36px;
+      width: 46px;
+      height: 47px;
       pointer-events: none;
+      display: block;
+      object-fit: contain;
+      transition: filter 0.25s ease;
+    }
+    .kn-row:hover .kn-row-arrow,
+    .kn-row:focus-visible .kn-row-arrow {
+      filter: brightness(1.4) drop-shadow(0 0 4px rgba(105, 78, 171, 0.7));
     }
 
     /* Back face: hint text — left-aligned with front label */
@@ -269,7 +281,7 @@
     /* Footer motto — centered, top 925.29, 563×27 */
     .kn-motto {
       position: absolute;
-      left: calc(50% - 563px / 2 - 0.5px);
+      left: calc(50% - 563px / 2 + 0.5px);
       top: 925.29px;
       width: 563px;
       height: 27px;
@@ -289,17 +301,19 @@
       0%   { opacity: 0; transform: translateY(16px); filter: blur(5px); }
       100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
     }
-    .kn-canvas .kn-portrait-img    { animation: kn-enter 1s   cubic-bezier(0.22,1,0.36,1) 0.05s both; }
-    .kn-canvas .kn-portrait-border { animation: kn-enter 1s   cubic-bezier(0.22,1,0.36,1) 0.1s  both; }
-    .kn-canvas .kn-title           { animation: kn-enter 0.75s cubic-bezier(0.22,1,0.36,1) 0.2s  both; }
-    .kn-canvas .kn-sub             { animation: kn-enter 0.65s cubic-bezier(0.22,1,0.36,1) 0.28s both; }
-    .kn-canvas .kn-row:nth-of-type(1) { animation: kn-enter 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s both; }
-    .kn-canvas .kn-row:nth-of-type(2) { animation: kn-enter 0.6s cubic-bezier(0.22,1,0.36,1) 0.42s both; }
-    .kn-canvas .kn-row:nth-of-type(3) { animation: kn-enter 0.6s cubic-bezier(0.22,1,0.36,1) 0.49s both; }
-    .kn-canvas .kn-row:nth-of-type(4) { animation: kn-enter 0.6s cubic-bezier(0.22,1,0.36,1) 0.56s both; }
-    .kn-canvas .kn-frame-arrow     { animation: kn-enter 0.6s cubic-bezier(0.22,1,0.36,1) 0.45s both; }
-    .kn-canvas .kn-motto           { animation: kn-enter 0.55s cubic-bezier(0.22,1,0.36,1) 0.62s both; }
-    .kn-canvas .kn-close           { animation: kn-enter 0.5s  cubic-bezier(0.22,1,0.36,1) 0.1s  both; }
+    /* Portrait, title, sub, motto, close — enter at 0.1s */
+    .kn-canvas .kn-portrait-img,
+    .kn-canvas .kn-portrait-border,
+    .kn-canvas .kn-title,
+    .kn-canvas .kn-sub,
+    .kn-canvas .kn-motto,
+    .kn-canvas .kn-close { animation: kn-enter 0.75s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
+
+    /* All 4 rows fade in slowly, starting at the same 0.1s — longer duration for a gentle reveal */
+    .kn-canvas .kn-row:nth-of-type(1),
+    .kn-canvas .kn-row:nth-of-type(2),
+    .kn-canvas .kn-row:nth-of-type(3),
+    .kn-canvas .kn-row:nth-of-type(4) { animation: kn-enter 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both; }
   </style>
 </head>
 <body>

@@ -504,7 +504,7 @@ html, body {
   background: #000;
 }
 
-/* Background: BGLP.png — full screen cover semua device */
+/* Background: BGLP.png — same as landing page */
 .dp-bg {
   position: fixed;
   inset: 0;
@@ -529,13 +529,13 @@ html, body {
   pointer-events: none;
 }
 
-/* BGDP portrait image (left 642, top 194, 884×798) */
+/* BGDP portrait image (left 642, top 204, 884×787) */
 .dp-portrait-img {
   position: absolute;
   left: 642px;
-  top: 194px;
+  top: 204px;
   width: 884px;
-  height: 798px;
+  height: 787px;
   z-index: 4;
   background-image: url("BGDP.png");
   background-size: cover;
@@ -544,13 +544,13 @@ html, body {
   pointer-events: none;
 }
 
-/* Rectangle 14: border + gradient overlay (centered, 884×800, top 194) */
+/* Rectangle 14: border + gradient overlay (centered, 884×787, top calc(50% - 787px/2 + 57.5px)) */
 .dp-portrait {
   position: absolute;
   left: calc(50% - 884px / 2);
-  top: calc(50% - 800px / 2 + 54px);
+  top: calc(50% - 787px / 2 + 57.5px);
   width: 884px;
-  height: 800px;
+  height: 787px;
   z-index: 5;
   box-sizing: border-box;
   background: linear-gradient(180deg, rgba(3,3,3,0.36) 54.81%, rgba(105,105,105,0) 100%);
@@ -559,11 +559,11 @@ html, body {
   pointer-events: none;
 }
 
-/* DROP POINT heading (centered, top 379, 342×66) */
+/* DROP POINT heading (centered, top 397, 342×66) */
 .dp-heading {
   position: absolute;
   left: calc(50% - 342px / 2);
-  top: 379px;
+  top: 397px;
   width: 342px;
   height: 66px;
   z-index: 6;
@@ -577,11 +577,11 @@ html, body {
   margin: 0;
 }
 
-/* SUBMIT YOUR RECOVERED SEQUENCE (centered, top 450, 488×32) */
+/* SUBMIT YOUR RECOVERED SEQUENCE (centered, top 468, 488×32) */
 .dp-sub {
   position: absolute;
   left: calc(50% - 488px / 2);
-  top: 450px;
+  top: 468px;
   width: 488px;
   height: 32px;
   z-index: 6;
@@ -595,11 +595,11 @@ html, body {
   white-space: nowrap;
 }
 
-/* RECOVERED SEQUENCE label (left 717, top 517, 171×19) */
+/* RECOVERED SEQUENCE label (left 717, top 535, 171×19) */
 .dp-label {
   position: absolute;
   left: 717px;
-  top: 517px;
+  top: 535px;
   width: 171px;
   height: 19px;
   z-index: 6;
@@ -613,10 +613,10 @@ html, body {
   margin: 0;
 }
 
-/* 9 input boxes — Figma spec, top 550, size 70.49×70.49, start left 717, spacing 83px */
+/* 9 input boxes — Figma spec, top 568, size 70.49×70.49, start left 717, spacing 83px */
 .dp-seq {
   position: absolute;
-  top: 550px;
+  top: 568px;
   left: 717px;
   width: calc(70.49px * 9 + 83px * 8); /* 9 boxes + 8 gaps */
   height: 70.49px;
@@ -675,11 +675,11 @@ html, body {
   100% { transform: translateX(0); }
 }
 
-/* VERIFY button — Figma: left 972, top 670, 223×65 */
+/* VERIFY button — Figma: left 972, top 664, 223×65 */
 .dp-verify {
   position: absolute;
   left: 972px;
-  top: 670px;
+  top: 664px;
   width: 223px;
   height: 65px;
   z-index: 6;
@@ -706,11 +706,11 @@ html, body {
   outline: none;
 }
 
-/* NEED ASSISTANCE? (centered, top 770, 141×18) */
+/* NEED ASSISTANCE? (centered, top 751, 141×18) */
 .dp-assist-q {
   position: absolute;
   left: calc(50% - 141px / 2 - 0.5px);
-  top: 770px;
+  top: 751px;
   width: 141px;
   height: 18px;
   z-index: 6;
@@ -722,11 +722,11 @@ html, body {
   margin: 0;
 }
 
-/* ACCESS ARCHIVE NOTES + red dot — flex row, vertically centered (top 793) */
+/* ACCESS ARCHIVE NOTES + red dot — flex row, vertically centered (top 774) */
 .dp-assist-row {
   position: absolute;
   left: calc(50% - 166px / 2 - 8px);
-  top: 793px;
+  top: 774px;
   z-index: 6;
   display: flex;
   align-items: center;
@@ -768,13 +768,13 @@ html, body {
   box-shadow: 0 0 4px 2px rgba(155,65,255,0.7), 0 0 10px 4px rgba(155,65,255,0.4);
 }
 
-/* Close button: × (left 1488, top 205, 28×28)
+/* Close button: × (left 1488, top 215, 28×28)
    Vector inner: left 17.09% right 17.08% top 17.09% bottom 17.09% → ~4.8px inset
    Color: #C1AAFA */
 .dp-close {
   position: absolute;
   left: 1488px;
-  top: 205px;
+  top: 215px;
   width: 28px;
   height: 28px;
   z-index: 9;
