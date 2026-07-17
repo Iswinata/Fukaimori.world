@@ -63,9 +63,9 @@
 
       <!-- ACCESS ARCHIVE NOTES + red dot — wrapped for vertical alignment -->
       <div class="dp-assist-row">
-        <a class="dp-assist-link" href="archive.html" data-transition aria-label="Access archive notes">
+        <button class="dp-assist-link dp-assist-link--btn" type="button" id="open-archive-notes" aria-label="Access archive notes" aria-haspopup="dialog">
           ACCESS ARCHIVE NOTES
-        </a>
+        </button>
         <span class="dp-assist-dot" aria-hidden="true"></span>
       </div>
 
@@ -77,6 +77,89 @@
 
     </div>
   </div>
+
+  <!-- ============ Archive Notes overlay ============ -->
+  <div class="an-overlay" id="an-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="an-title">
+
+    <!-- dim backdrop -->
+    <div class="an-backdrop" id="an-backdrop"></div>
+
+    <!-- panel: 884×800 centered, matches Figma Group 55 -->
+    <div class="an-panel">
+
+      <!-- BGDP portrait behind the panel -->
+      <div class="an-portrait" aria-hidden="true"></div>
+
+      <!-- Rectangle 14: gradient border overlay -->
+      <div class="an-border" aria-hidden="true"></div>
+
+      <!-- Close × (left 1488, top 205 → relative to panel: right side) -->
+      <button class="an-close" id="an-close" type="button" aria-label="Close archive notes">
+        <span class="an-close-line an-close-line-1" aria-hidden="true"></span>
+        <span class="an-close-line an-close-line-2" aria-hidden="true"></span>
+      </button>
+
+      <!-- ARCHIVE NOTES heading (top 243) -->
+      <h2 class="an-title" id="an-title">ARCHIVE NOTES</h2>
+
+      <!-- SUBMIT YOUR RECOVERED SEQUENCE subtitle (top 314) -->
+      <p class="an-sub">SUBMIT YOUR RECOVERED SQUENCE</p>
+
+      <!-- 4 note rows (Group 70–73) -->
+
+      <!-- Row 1 — ARCHIVE NOTE 001 (top 370) -->
+      <div class="an-row" style="top:370px">
+        <div class="an-row-circle">
+          <div class="an-row-icon an-row-icon-1" aria-hidden="true"></div>
+        </div>
+        <span class="an-row-label">ARCHIVE NOTE 001</span>
+        <button class="an-row-arrow" type="button" aria-label="View archive note 1">
+          <span class="an-arrow-v1" aria-hidden="true"></span>
+          <span class="an-arrow-v2" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- Row 2 — ARCHIVE NOTE 002 (top 504) -->
+      <div class="an-row" style="top:504px">
+        <div class="an-row-circle">
+          <div class="an-row-icon an-row-icon-2" aria-hidden="true"></div>
+        </div>
+        <span class="an-row-label">ARCHIVE NOTE 002</span>
+        <button class="an-row-arrow" type="button" aria-label="View archive note 2">
+          <span class="an-arrow-v1" aria-hidden="true"></span>
+          <span class="an-arrow-v2" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- Row 3 — ARCHIVE NOTE 003 (top 638) -->
+      <div class="an-row" style="top:638px">
+        <div class="an-row-circle">
+          <div class="an-row-icon an-row-icon-3" aria-hidden="true"></div>
+        </div>
+        <span class="an-row-label">ARCHIVE NOTE 003</span>
+        <button class="an-row-arrow" type="button" aria-label="View archive note 3">
+          <span class="an-arrow-v1" aria-hidden="true"></span>
+          <span class="an-arrow-v2" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- Row 4 — ARCHIVE NOTE 004 (top 772) -->
+      <div class="an-row" style="top:772px">
+        <div class="an-row-circle">
+          <div class="an-row-icon an-row-icon-4" aria-hidden="true"></div>
+        </div>
+        <span class="an-row-label">ARCHIVE NOTE 004</span>
+        <button class="an-row-arrow" type="button" aria-label="View archive note 4">
+          <span class="an-arrow-v1" aria-hidden="true"></span>
+          <span class="an-arrow-v2" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- Footer motto (top 925.29) -->
+      <p class="an-motto">THE ARCHIVE REVEALS ONLY TO THOSE WHO SEEK</p>
+
+    </div><!-- /an-panel -->
+  </div><!-- /an-overlay -->
 
   <script src="script.js"></script>
 </body>

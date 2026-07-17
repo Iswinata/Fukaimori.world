@@ -1891,8 +1891,271 @@ html.reflow-active .viewport,
 .gr-canvas .gr-close           { animation: gr-fade-up 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s  both; }
 
 /* ============================================================
-   Drop Point — animasi masuk (stagger + blur-fade dari bawah)
+   ARCHIVE NOTES OVERLAY (droppoint.html → click ACCESS ARCHIVE NOTES)
+   Panel sits in a fixed fullscreen overlay, centered on the 2168×1080
+   design canvas. All Figma coords are absolute inside the panel.
    ============================================================ */
+
+/* Fullscreen dim layer — hidden by default */
+.an-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+.an-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Dim backdrop */
+.an-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  cursor: pointer;
+}
+
+/* Panel — 884×800, same proportions as the Figma Group 55 */
+.an-panel {
+  position: relative;
+  width: 884px;
+  height: 800px;
+  flex: none;
+  overflow: hidden;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.an-overlay.is-open .an-panel {
+  transform: translateY(0) scale(1);
+}
+
+/* BGDP portrait image — fills panel */
+.an-portrait {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("BGDP.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Rectangle 14: gradient + violet border + purple glow */
+.an-border {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(3, 3, 3, 0.36) 54.81%, rgba(105, 105, 105, 0) 100%);
+  border: 1px solid #9B8BFF;
+  box-shadow: 0 0 24.4px 9px rgba(185, 65, 255, 0.25);
+  pointer-events: none;
+}
+
+/* Close × button — top-right corner of the panel */
+.an-close {
+  position: absolute;
+  right: 12px;
+  top: 11px;
+  width: 28px;
+  height: 28px;
+  z-index: 10;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.3s ease;
+}
+.an-close:hover,
+.an-close:focus-visible { transform: scale(1.15); outline: none; }
+.an-close-line {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 2px;
+  height: calc(28px * 0.658);
+  background: #C1AAFA;
+  border-radius: 1px;
+  display: block;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.an-close-line-1 { transform: translate(-50%, -50%) rotate(45deg); }
+.an-close-line-2 { transform: translate(-50%, -50%) rotate(-45deg); }
+.an-close:hover .an-close-line,
+.an-close:focus-visible .an-close-line {
+  background: #e8deff;
+  box-shadow: 0 0 8px rgba(193, 170, 250, 0.9);
+}
+
+/* ARCHIVE NOTES heading — Figma top 243, centered */
+.an-title {
+  position: absolute;
+  left: 50%;
+  top: 243px;
+  transform: translateX(-50%);
+  width: 443px;
+  height: 66px;
+  z-index: 2;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 54.83px;
+  line-height: 66px;
+  text-align: center;
+  color: #A99AFF;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* SUBMIT YOUR RECOVERED SEQUENCE — Figma top 314, centered */
+.an-sub {
+  position: absolute;
+  left: 50%;
+  top: 314px;
+  transform: translateX(-50%);
+  width: 488px;
+  height: 32px;
+  z-index: 2;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 26.3919px;
+  line-height: 32px;
+  text-align: center;
+  color: #CFB7FF;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Each note row — absolute within the panel, Figma 637×119 centered */
+.an-row {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 637px;
+  height: 119px;
+  z-index: 3;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1.47332px solid #786BC7;
+  box-shadow: 0 0 118.058px -36.5547px #6D61B5;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 0;
+}
+
+/* Circle icon holder — Figma Ellipse 5: 69.05×69.05, border #786BC7 */
+.an-row-circle {
+  flex: none;
+  width: 69.05px;
+  height: 69.05px;
+  border-radius: 50%;
+  border: 1.35388px solid #786BC7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Icon images inside each circle — LA1.png … LA4.png */
+.an-row-icon {
+  width: 51px;
+  height: 51px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.an-row-icon-1 { background-image: url("LA1.png"); }
+.an-row-icon-2 { background-image: url("LA2.png"); }
+.an-row-icon-3 { background-image: url("LA3.png"); }
+.an-row-icon-4 { background-image: url("LA4.png"); }
+
+/* Note label — Figma font: Century / 25.9592px / #BFB4FF */
+.an-row-label {
+  flex: 1;
+  padding-left: 20px;
+  font-family: "Century", "Times New Roman", Georgia, serif;
+  font-weight: 400;
+  font-size: 25.9592px;
+  line-height: 31px;
+  color: #BFB4FF;
+  white-space: nowrap;
+}
+
+/* Arrow button (backward-svgrepo chevron, right side of each row) */
+.an-row-arrow {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: opacity 0.25s ease;
+}
+.an-row-arrow:hover { opacity: 0.75; }
+
+/* Two chevron strokes — each is a rotated border-right/top line */
+/* v1: upper chevron stroke */
+.an-arrow-v1,
+.an-arrow-v2 {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid #694EAB;
+  border-right: 2px solid #694EAB;
+  display: block;
+}
+/* v1 points right-up, v2 points right-down — together form a ">" */
+.an-arrow-v1 { transform: rotate(45deg)  translateY(4px);  }
+.an-arrow-v2 { transform: rotate(135deg) translateY(-4px); }
+
+/* Footer motto */
+.an-motto {
+  position: absolute;
+  left: 50%;
+  top: 925px;
+  transform: translateX(-50%);
+  width: 563px;
+  z-index: 2;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 22.268px;
+  line-height: 27px;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Reset <button> to look like the existing .dp-assist-link anchor */
+.dp-assist-link--btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: inline;
+}
+
+/* ============================================================
+    Drop Point — animasi masuk (stagger + blur-fade dari bawah)
+    ============================================================ */
 
 @keyframes dp-enter {
   0%   { opacity: 0; transform: translateY(18px); filter: blur(6px); }
