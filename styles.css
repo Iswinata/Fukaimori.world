@@ -2154,6 +2154,280 @@ html.reflow-active .viewport,
 }
 
 /* ============================================================
+   ARCHIVE NOTES PAGE (archive-notes.html)
+   Full 2168×1080 canvas — exact Figma Frame 223 coordinates.
+   ============================================================ */
+
+.an-page-canvas {
+  background: #000;
+}
+
+/* Background photo (same as droppoint — BGLP.png) */
+.an-page-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-image: url("BGLP.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Rectangle 12: dark overlay rgba(0,0,0,0.4) */
+.an-page-dim {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+/* BGDP portrait image — left 642, top 194, 884×798 */
+.an-page-portrait-img {
+  position: absolute;
+  left: 642px;
+  top: 194px;
+  width: 884px;
+  height: 798px;
+  z-index: 4;
+  background-image: url("BGDP.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Rectangle 14: gradient + violet border + purple glow
+   Figma: centered horizontally, top calc(50% - 800px/2 + 54px) */
+.an-page-portrait-border {
+  position: absolute;
+  left: calc(50% - 884px / 2);
+  top: calc(50% - 800px / 2 + 54px);
+  width: 884px;
+  height: 800px;
+  z-index: 5;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(3, 3, 3, 0.36) 54.81%, rgba(105, 105, 105, 0) 100%);
+  border: 1px solid #9B8BFF;
+  box-shadow: 0 0 24.4px 9px rgba(185, 65, 255, 0.25);
+  pointer-events: none;
+}
+
+/* Close × — left 1488, top 205, 28×28, #C1AAFA */
+.an-page-close {
+  position: absolute;
+  left: 1488px;
+  top: 205px;
+  width: 28px;
+  height: 28px;
+  z-index: 9;
+  display: block;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.3s ease;
+}
+.an-page-close:hover,
+.an-page-close:focus-visible {
+  transform: scale(1.15);
+  outline: none;
+}
+.an-page-close-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: calc(28px * 0.658);
+  background: #C1AAFA;
+  border-radius: 1px;
+  display: block;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.an-page-close-line-1 { transform: translate(-50%, -50%) rotate(45deg); }
+.an-page-close-line-2 { transform: translate(-50%, -50%) rotate(-45deg); }
+.an-page-close:hover .an-page-close-line,
+.an-page-close:focus-visible .an-page-close-line {
+  background: #e8deff;
+  box-shadow: 0 0 8px rgba(193, 170, 250, 0.9);
+}
+
+/* ARCHIVE NOTES heading — centered, top 243, 443×66 */
+.an-page-title {
+  position: absolute;
+  left: calc(50% - 443px / 2 + 0.5px);
+  top: 243px;
+  width: 443px;
+  height: 66px;
+  z-index: 6;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 54.83px;
+  line-height: 66px;
+  text-align: center;
+  color: #A99AFF;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* SUBMIT YOUR RECOVERED SQUENCE — centered, top 314, 488×32 */
+.an-page-sub {
+  position: absolute;
+  left: calc(50% - 488px / 2);
+  top: 314px;
+  width: 488px;
+  height: 32px;
+  z-index: 6;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 26.3919px;
+  line-height: 32px;
+  text-align: center;
+  color: #CFB7FF;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Note row — Figma 637×119, centered horizontally.
+   top is set via inline style on each row. */
+.an-page-row {
+  position: absolute;
+  left: calc(50% - 637px / 2 - 0.5px);
+  width: 637px;
+  height: 119px;
+  z-index: 6;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1.47332px solid #786BC7;
+  box-shadow: 0 0 118.058px -36.5547px #6D61B5;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  gap: 0;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+.an-page-row:hover {
+  background: rgba(120, 107, 199, 0.07);
+  box-shadow: 0 0 118.058px -20px #7B6FD0;
+}
+
+/* Circle — Figma Ellipse 5: 69.05×69.05, border #786BC7
+   left 807.69 relative to canvas → relative to row left:
+   807.69 - (50% - 318.5) = varies by viewport; we use flex start */
+.an-page-circle {
+  flex: none;
+  width: 69.05px;
+  height: 69.05px;
+  border-radius: 50%;
+  border: 1.35388px solid #786BC7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Icon inside circle — using LA1–LA4.png as stand-ins */
+.an-page-icon {
+  width: 51px;
+  height: 51px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.an-page-icon-1 { background-image: url("LA1.png"); }
+.an-page-icon-2 { background-image: url("LA2.png"); }
+.an-page-icon-3 { background-image: url("LA3.png"); }
+.an-page-icon-4 { background-image: url("LA4.png"); }
+
+/* Note label — Century 25.9592px / #BFB4FF */
+.an-page-label {
+  flex: 1;
+  padding-left: 24px;
+  font-family: "Century", "Times New Roman", Georgia, serif;
+  font-weight: 400;
+  font-size: 25.9592px;
+  line-height: 31px;
+  color: #BFB4FF;
+  white-space: nowrap;
+}
+
+/* Arrow button — backward-svgrepo chevron (two rotated strokes)
+   Figma: 163×163 icon, right side of the row */
+.an-page-arrow {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: opacity 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.an-page-arrow:hover { opacity: 0.7; }
+
+/* Two strokes that form a ">" — matching the backward-svgrepo-com vectors.
+   v1: top stroke (Vector: left 42.97%→right 40.75%, top 36.93%→bottom 52.18%)
+   v2: bottom stroke (Vector: left 36.93%→right 46.79%, top 45.69%→bottom 43.42%) */
+.an-page-v1,
+.an-page-v2 {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid #694EAB;
+  border-right: 2px solid #694EAB;
+  display: block;
+  transition: border-color 0.25s ease;
+}
+.an-page-v1 { transform: rotate(45deg)  translateY(5px);  }
+.an-page-v2 { transform: rotate(135deg) translateY(-5px); }
+.an-page-arrow:hover .an-page-v1,
+.an-page-arrow:hover .an-page-v2 {
+  border-color: #9B8BFF;
+}
+
+/* Footer motto — centered, top 925.29, 563×27 */
+.an-page-motto {
+  position: absolute;
+  left: calc(50% - 563px / 2 - 0.5px);
+  top: 925.29px;
+  width: 563px;
+  height: 27px;
+  z-index: 6;
+  font-family: "Bona Nova", Georgia, serif;
+  font-weight: 400;
+  font-size: 22.268px;
+  line-height: 27px;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Entrance stagger animations for the archive-notes page */
+@keyframes an-page-enter {
+  0%   { opacity: 0; transform: translateY(16px); filter: blur(5px); }
+  100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+.an-page-canvas .an-page-portrait-img  { animation: an-page-enter 1s   cubic-bezier(0.22,1,0.36,1) 0.05s both; }
+.an-page-canvas .an-page-portrait-border { animation: an-page-enter 1s  cubic-bezier(0.22,1,0.36,1) 0.1s  both; }
+.an-page-canvas .an-page-title         { animation: an-page-enter 0.75s cubic-bezier(0.22,1,0.36,1) 0.2s  both; }
+.an-page-canvas .an-page-sub           { animation: an-page-enter 0.65s cubic-bezier(0.22,1,0.36,1) 0.28s both; }
+.an-page-canvas .an-page-row:nth-child(1) { animation: an-page-enter 0.6s cubic-bezier(0.22,1,0.36,1) 0.35s both; }
+.an-page-canvas .an-page-row:nth-child(2) { animation: an-page-enter 0.6s cubic-bezier(0.22,1,0.36,1) 0.42s both; }
+.an-page-canvas .an-page-row:nth-child(3) { animation: an-page-enter 0.6s cubic-bezier(0.22,1,0.36,1) 0.49s both; }
+.an-page-canvas .an-page-row:nth-child(4) { animation: an-page-enter 0.6s cubic-bezier(0.22,1,0.36,1) 0.56s both; }
+.an-page-canvas .an-page-motto         { animation: an-page-enter 0.55s cubic-bezier(0.22,1,0.36,1) 0.62s both; }
+.an-page-canvas .an-page-close         { animation: an-page-enter 0.5s  cubic-bezier(0.22,1,0.36,1) 0.1s  both; }
+
+/* ============================================================
     Drop Point — animasi masuk (stagger + blur-fade dari bawah)
     ============================================================ */
 

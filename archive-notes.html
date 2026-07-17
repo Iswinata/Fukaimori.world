@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#05020a" />
+  <meta name="description" content="Fukaimori — Archive Notes." />
+  <title>Fukaimori · Archive Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Maven+Pro:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="viewport">
+    <div class="canvas an-page-canvas" id="canvas">
+
+      <!-- Background: same photo as drop point -->
+      <div class="an-page-bg" aria-hidden="true"></div>
+
+      <!-- Rectangle 12: dark overlay rgba(0,0,0,0.4) -->
+      <div class="an-page-dim" aria-hidden="true"></div>
+
+      <!-- Feather particles -->
+      <canvas class="starfield" aria-hidden="true"></canvas>
+
+      <!-- Page transition -->
+      <div class="page-transition" aria-hidden="true"></div>
+
+      <!-- BGDP portrait image — left 642, top 194, 884×798 -->
+      <div class="an-page-portrait-img" aria-hidden="true"></div>
+
+      <!-- Rectangle 14: gradient + violet border + purple glow
+           centered, 884×800, top calc(50% - 400px + 54px) -->
+      <div class="an-page-portrait-border" aria-hidden="true"></div>
+
+      <!-- Close × — left 1488, top 205, 28×28, #C1AAFA — links back to droppoint.html -->
+      <a class="an-page-close" href="droppoint.html" data-transition aria-label="Back to Drop Point">
+        <span class="an-page-close-line an-page-close-line-1" aria-hidden="true"></span>
+        <span class="an-page-close-line an-page-close-line-2" aria-hidden="true"></span>
+      </a>
+
+      <!-- ARCHIVE NOTES heading — centered, top 243, 443×66 -->
+      <h1 class="an-page-title">ARCHIVE NOTES</h1>
+
+      <!-- SUBMIT YOUR RECOVERED SEQUENCE — centered, top 314, 488×32 -->
+      <p class="an-page-sub">SUBMIT YOUR RECOVERED SQUENCE</p>
+
+      <!-- ── Group 70: ARCHIVE NOTE 001 (top 370) ── -->
+      <div class="an-page-row" style="top:370px">
+        <!-- Ellipse 5: circle left 807.69, top 395, 69.05×69.05 -->
+        <div class="an-page-circle">
+          <!-- Icon: WhatsApp Image 2026-07-09 at 18.08.28 (2) — 51×52 -->
+          <div class="an-page-icon an-page-icon-1" aria-hidden="true"></div>
+        </div>
+        <!-- Label: left 913, top 414, 464.28×31 -->
+        <span class="an-page-label">ARCHIVE NOTE 001</span>
+        <!-- backward-svgrepo-com 1: left 1271, top 348, 163×163 -->
+        <button class="an-page-arrow" type="button" aria-label="View archive note 1">
+          <span class="an-page-v1" aria-hidden="true"></span>
+          <span class="an-page-v2" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- ── Group 71: ARCHIVE NOTE 002 (top 504) ── -->
+      <div class="an-page-row" style="top:504px">
+        <div class="an-page-circle">
+          <!-- Icon: WhatsApp Image 2026-07-09 at 18.08.28 (1) — 53×51 -->
+          <div class="an-page-icon an-page-icon-2" aria-hidden="true"></div>
+        </div>
+        <span class="an-page-label">ARCHIVE NOTE 002</span>
+        <!-- backward-svgrepo-com 2: left 1271, top 482 -->
+        <button class="an-page-arrow" type="button" aria-label="View archive note 2">
+          <span class="an-page-v1" aria-hidden="true"></span>
+          <span class="an-page-v2" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- ── Group 72: ARCHIVE NOTE 003 (top 638) ── -->
+      <div class="an-page-row" style="top:638px">
+        <div class="an-page-circle">
+          <!-- Icon: WhatsApp Image 2026-07-09 at 18.08.28 — 51×51 -->
+          <div class="an-page-icon an-page-icon-3" aria-hidden="true"></div>
+        </div>
+        <span class="an-page-label">ARCHIVE NOTE 003</span>
+        <!-- backward-svgrepo-com 3: left 1271, top 616 -->
+        <button class="an-page-arrow" type="button" aria-label="View archive note 3">
+          <span class="an-page-v1" aria-hidden="true"></span>
+          <span class="an-page-v2" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- ── Group 73: ARCHIVE NOTE 004 (top 772) ── -->
+      <div class="an-page-row" style="top:772px">
+        <div class="an-page-circle">
+          <!-- Icon: WhatsApp Image 2026-07-09 at 18.08.27 — 46×44 -->
+          <div class="an-page-icon an-page-icon-4" aria-hidden="true"></div>
+        </div>
+        <span class="an-page-label">ARCHIVE NOTE 004</span>
+        <!-- backward-svgrepo-com 4: left 1271, top 750 -->
+        <button class="an-page-arrow" type="button" aria-label="View archive note 4">
+          <span class="an-page-v1" aria-hidden="true"></span>
+          <span class="an-page-v2" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- Footer motto — centered, top 925.29, 563×27 -->
+      <p class="an-page-motto">THE ARCHIVE REVEALS ONLY TO THOSE WHO SEEK</p>
+
+    </div><!-- /canvas -->
+  </div><!-- /viewport -->
+
+  <script src="script.js"></script>
+</body>
+</html>
