@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#05020a" />
+  <meta name="description" content="Fukaimori — Claim Your Reward." />
+  <title>Fukaimori · Claim Your Reward</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Maven+Pro:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── CLAIM page — Frame 236 exact Figma spec ── */
+
+    .cl-canvas { background: transparent; }
+
+    /* Background: BGNEW.png, no overlay */
+    .cl-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      background-image: url("BGNEW.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      pointer-events: none;
+    }
+
+    /* Rectangle 12: visibility hidden — no overlay */
+    .cl-overlay { display: none; }
+
+    /* CLAIM YOUR REWARD — left calc(50%−728/2), top 198, 728×80 */
+    .cl-heading {
+      position: absolute;
+      left: calc(50% - 728px / 2);
+      top: 198px;
+      width: 728px;
+      height: 80px;
+      z-index: 6;
+      font-family: "Bona Nova", Georgia, serif;
+      font-weight: 400;
+      font-size: 66.7996px;
+      line-height: 80px;
+      text-align: center;
+      color: #A99AFF;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* RECOVERED BY YOU. CLAIM BY YOU. — centered, top 284.5, 469×32 */
+    .cl-sub {
+      position: absolute;
+      left: calc(50% - 469px / 2 + 0.56px);
+      top: 284.5px;
+      width: 469px;
+      height: 32px;
+      z-index: 6;
+      font-family: "Bona Nova", Georgia, serif;
+      font-weight: 400;
+      font-size: 26.3919px;
+      line-height: 32px;
+      text-align: center;
+      color: #CFB7FF;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* ── Form field labels ── */
+    .cl-label {
+      position: absolute;
+      z-index: 6;
+      font-family: "Bona Nova", Georgia, serif;
+      font-weight: 400;
+      font-size: 21.0057px;
+      line-height: 25px;
+      color: rgba(255, 243, 197, 0.59);
+      margin: 0;
+      pointer-events: none;
+    }
+    /* left 700 for all labels */
+    .cl-label-name  { left: 700px; top: 345px; }
+    .cl-label-email { left: 700px; top: 452.05px; }
+    .cl-label-addr  { left: 700px; top: 559.09px; }
+    .cl-label-phone { left: 700px; top: 666.14px; }
+
+    /* ── Form inputs — 767.85×63px, centered ── */
+    .cl-input {
+      position: absolute;
+      z-index: 6;
+      box-sizing: border-box;
+      width: 767.85px;
+      height: 63px;
+      left: calc(50% - 767.85px / 2 + 0.08px);
+      background: rgba(120, 107, 199, 0.08);
+      border: 1.24728px solid #786BC7;
+      font-family: "Bona Nova", Georgia, serif;
+      font-weight: 400;
+      font-size: 19px;
+      color: #E8DEFF;
+      padding: 0 18px;
+      outline: none;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .cl-input:focus {
+      border-color: #A99AFF;
+      box-shadow: 0 0 12px rgba(155, 100, 255, 0.35);
+    }
+    .cl-input::placeholder {
+      color: rgba(255, 243, 197, 0.3);
+    }
+    /* vertical positions from Figma */
+    .cl-input-name  { top: 376.96px; }
+    .cl-input-email { top: 483.96px; }
+    .cl-input-addr  { top: 590.96px; }
+    .cl-input-phone { top: 697.96px; }
+
+    /* ── Checkbox + label row — flex, centered, top 784 ── */
+    .cl-agree-wrap {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 784px;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    /* Checkbox: 24×24, border #786BC7 */
+    .cl-checkbox {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      box-sizing: border-box;
+      border: 0.923913px solid #786BC7;
+      background: transparent;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .cl-checkbox:checked {
+      background: rgba(120, 107, 199, 0.35);
+      border-color: #A99AFF;
+    }
+    .cl-checkbox:checked::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 2px;
+      width: 7px;
+      height: 12px;
+      border: 2px solid #C1AAFA;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+    .cl-checkbox:focus-visible {
+      outline: none;
+      box-shadow: 0 0 6px rgba(155, 100, 255, 0.6);
+    }
+
+    /* I AGREE label — single line, sits right of checkbox */
+    .cl-agree-label {
+      font-family: "Bona Nova", Georgia, serif;
+      font-weight: 400;
+      font-size: 14.4356px;
+      line-height: 17px;
+      color: rgba(255, 213, 142, 0.43);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    /* SUBMIT CLAIM button — centered, top 831, 307×50 */
+    .cl-submit-btn {
+      position: absolute;
+      left: calc(50% - 307px / 2 - 0.29px);
+      top: 831px;
+      width: 307px;
+      height: 50px;
+      z-index: 7;
+      box-sizing: border-box;
+      background: rgba(0, 61, 0, 0.36);
+      border: 1.20554px solid #694EAB;
+      font-family: "Bona Nova", Georgia, serif;
+      font-weight: 400;
+      font-size: 25.8389px;
+      line-height: 31px;
+      text-align: center;
+      color: #FFFFFF;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .cl-submit-btn:hover,
+    .cl-submit-btn:focus-visible {
+      background: rgba(0, 80, 0, 0.5);
+      box-shadow: 0 0 18px 4px rgba(105, 78, 171, 0.5);
+      outline: none;
+    }
+    .cl-submit-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* Close × — left 1488, top 160, 28×28 */
+    .cl-close {
+      position: absolute;
+      left: 1488px;
+      top: 160px;
+      width: 28px;
+      height: 28px;
+      z-index: 9;
+      display: block;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.3s ease;
+    }
+    .cl-close:hover,
+    .cl-close:focus-visible {
+      transform: scale(1.15);
+      outline: none;
+    }
+    .cl-close-line {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 2px;
+      height: calc(28px * 0.658);
+      background: #C1AAFA;
+      border-radius: 1px;
+      display: block;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .cl-close-line-1 { transform: translate(-50%, -50%) rotate(45deg); }
+    .cl-close-line-2 { transform: translate(-50%, -50%) rotate(-45deg); }
+    .cl-close:hover .cl-close-line,
+    .cl-close:focus-visible .cl-close-line {
+      background: #e8deff;
+      box-shadow: 0 0 8px rgba(193, 170, 250, 0.9);
+    }
+
+    /* ── Mystical flicker overlay ── */
+    @keyframes cl-flicker {
+      0%   { opacity: 0; }
+      4%   { opacity: 0.07; }
+      8%   { opacity: 0; }
+      18%  { opacity: 0.11; }
+      22%  { opacity: 0; }
+      37%  { opacity: 0.05; }
+      39%  { opacity: 0; }
+      55%  { opacity: 0.09; }
+      60%  { opacity: 0.03; }
+      65%  { opacity: 0; }
+      80%  { opacity: 0.08; }
+      85%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    @keyframes cl-dim-pulse {
+      0%, 100% { opacity: 0.15; }
+      50%       { opacity: 0.28; }
+    }
+    .cl-mist {
+      position: fixed;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 40%, rgba(80, 40, 160, 0.18) 0%, rgba(10, 5, 30, 0.38) 70%, rgba(0,0,0,0.48) 100%);
+      animation: cl-dim-pulse 6s ease-in-out infinite, cl-flicker 9s step-end infinite;
+    }
+
+    /* ── Entrance animations ── */
+    @keyframes cl-enter {
+      0%   { opacity: 0; transform: translateY(16px); filter: blur(5px); }
+      100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+    }
+    .cl-canvas .cl-heading,
+    .cl-canvas .cl-sub,
+    .cl-canvas .cl-label,
+    .cl-canvas .cl-input,
+    .cl-canvas .cl-checkbox,
+    .cl-canvas .cl-agree-label,
+    .cl-canvas .cl-submit-btn,
+    .cl-canvas .cl-close { animation: cl-enter 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both; }
+  </style>
+</head>
+<body>
+  <div class="viewport">
+    <div class="canvas cl-canvas" id="canvas">
+
+      <!-- Background: BGNEW.png -->
+      <div class="cl-bg" aria-hidden="true"></div>
+      <!-- Rectangle 12: hidden -->
+      <div class="cl-overlay" aria-hidden="true"></div>
+
+      <!-- Mystical mist overlay -->
+      <div class="cl-mist" aria-hidden="true"></div>
+
+      <!-- Feather particles -->
+      <canvas class="starfield" aria-hidden="true"></canvas>
+
+      <!-- Page transition -->
+      <div class="page-transition" aria-hidden="true"></div>
+
+      <!-- CLAIM YOUR REWARD -->
+      <h1 class="cl-heading">CLAIM YOUR REWARD</h1>
+
+      <!-- RECOVERED BY YOU. CLAIM BY YOU. -->
+      <p class="cl-sub">RECOVERED BY YOU. CLAIM BY YOU.</p>
+
+      <!-- FULL NAME -->
+      <label class="cl-label cl-label-name" for="cl-name">FULL NAME</label>
+      <input class="cl-input cl-input-name" id="cl-name" type="text" name="fullname" autocomplete="name" required />
+
+      <!-- EMAIL ADDRESS -->
+      <label class="cl-label cl-label-email" for="cl-email">EMAIL ADDRESS</label>
+      <input class="cl-input cl-input-email" id="cl-email" type="email" name="email" autocomplete="email" required />
+
+      <!-- SHIPPING ADDRESS -->
+      <label class="cl-label cl-label-addr" for="cl-addr">SHIPPING ADDRESS</label>
+      <input class="cl-input cl-input-addr" id="cl-addr" type="text" name="address" autocomplete="street-address" required />
+
+      <!-- PHONE NUMBER -->
+      <label class="cl-label cl-label-phone" for="cl-phone">PHONE NUMBER</label>
+      <input class="cl-input cl-input-phone" id="cl-phone" type="tel" name="phone" autocomplete="tel" required />
+
+      <!-- Checkbox + label row — flex centered, top 784 -->
+      <div class="cl-agree-wrap">
+        <input class="cl-checkbox" type="checkbox" id="cl-agree" name="agree" required />
+        <label class="cl-agree-label" for="cl-agree">I AGREE TO THE TERMS OF FUKAIMORI ARCHIVE PROTOCOL.</label>
+      </div>
+
+      <!-- SUBMIT CLAIM button — centered, top 831 -->
+      <button class="cl-submit-btn" type="button" id="cl-submit" disabled>SUBMIT CLAIM</button>
+
+      <!-- Close × -->
+      <a class="cl-close" href="index.html" data-transition aria-label="Close — return to entrance">
+        <span class="cl-close-line cl-close-line-1" aria-hidden="true"></span>
+        <span class="cl-close-line cl-close-line-2" aria-hidden="true"></span>
+      </a>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Enable SUBMIT CLAIM only when checkbox is checked
+    var agree  = document.getElementById('cl-agree');
+    var submit = document.getElementById('cl-submit');
+    agree.addEventListener('change', function () {
+      submit.disabled = !agree.checked;
+    });
+    // Navigate to submitted.html on click
+    submit.addEventListener('click', function () {
+      window.location.href = 'submitted.html';
+    });
+  </script>
+</body>
+</html>

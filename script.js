@@ -347,23 +347,36 @@
        - close via the × button, the backdrop, or the Esc key
      -------------------------------------------------------- */
   (function initArcModal() {
-    var modal = document.getElementById("arc-modal");
+    var modal   = document.getElementById("arc-modal");
     var trigger = document.querySelector('.arc-card[data-entry="seshomaru"]');
     if (!modal || !trigger) return;
 
     var lastFocusedModal = null;
 
+    /* Scale 1557×776.54 panel to fit viewport with padding, never grow beyond 1 */
+    function applyModalScale() {
+      var panel = modal.querySelector(".arc-modal-panel");
+      if (!panel) return;
+      var scaleX = (window.innerWidth  * 0.78) / 1557;
+      var scaleY = (window.innerHeight * 0.78) / 776.54;
+      var scale  = Math.min(scaleX, scaleY, 1);
+      panel.style.transform = "scale(" + scale + ")";
+    }
+
     function openModal() {
       lastFocusedModal = document.activeElement;
-      modal.classList.add("is-open");
+      applyModalScale();
+      modal.classList.add("open");
       modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
       var closeBtn = modal.querySelector(".arc-modal-close");
       if (closeBtn) closeBtn.focus();
     }
 
     function closeModal() {
-      modal.classList.remove("is-open");
+      modal.classList.remove("open");
       modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
       if (lastFocusedModal && typeof lastFocusedModal.focus === "function") {
         lastFocusedModal.focus();
       }
@@ -377,14 +390,22 @@
       }
     });
 
-    // Close on backdrop / × button (any element marked data-close)
+    // Close on backdrop click (outside the panel) or × button
     modal.addEventListener("click", function (e) {
-      if (e.target.closest("[data-close]")) closeModal();
+      var panel = modal.querySelector(".arc-modal-panel");
+      if (panel && !panel.contains(e.target)) closeModal();
+    });
+    var closeBtn = modal.querySelector(".arc-modal-close");
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+
+    // Recalculate scale on resize while modal is open
+    window.addEventListener("resize", function () {
+      if (modal.classList.contains("open")) applyModalScale();
     });
 
     // Close on Escape
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && modal.classList.contains("is-open")) {
+      if (e.key === "Escape" && modal.classList.contains("open")) {
         closeModal();
       }
     });

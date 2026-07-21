@@ -11,70 +11,212 @@
   <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Maven+Pro:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* ── KEYNOTE page — Frame 223 exact Figma spec ── */
+    /* ── KEYNOTE page — Frame 239 exact Figma spec ── */
 
     .kn-canvas { background: transparent; }
 
-    /* Background: same as landing (BGLP.png) */
+    /* Background: BGNEW.png, no overlay */
     .kn-bg {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
       z-index: 2;
-      background-image: url("BGLP.png");
+      background-image: url("BGNEW.png");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       pointer-events: none;
     }
 
-    /* Rectangle 12: dark overlay rgba(0,0,0,0.4) */
-    .kn-overlay {
-      position: fixed;
-      inset: 0;
+    /* Rectangle 12: visibility hidden */
+    .kn-overlay { display: none; }
+
+    /* ARCHIVE NOTE heading — centered, top 168, 502×80 */
+    .kn-title {
+      position: absolute;
+      left: calc(50% - 502px / 2 - 1.06px);
+      top: 168px;
+      width: 502px;
+      height: 80px;
+      z-index: 6;
+      font-family: "Bona Nova", Georgia, serif;
+      font-weight: 400;
+      font-size: 66.7996px;
+      line-height: 80px;
+      text-align: center;
+      color: #A99AFF;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* SEARCH. OBSERVE. UNCOVER THE TRUTH. — centered, top 254.5, 668×39 */
+    .kn-sub {
+      position: absolute;
+      left: calc(50% - 668px / 2 - 1px);
+      top: 254.5px;
+      width: 668px;
+      height: 39px;
+      z-index: 6;
+      font-family: "Bona Nova", Georgia, serif;
+      font-weight: 400;
+      font-size: 32.1534px;
+      line-height: 39px;
+      text-align: center;
+      color: #CFB7FF;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* ── Note rows — 745×119px, centered ── */
+    .kn-row {
+      position: absolute;
+      left: calc(50% - 745px / 2 - 0.5px);
+      width: 745px;
+      height: 119px;
+      z-index: 6;
+      cursor: pointer;
+      perspective: 800px;
+    }
+    .kn-row:focus-visible { outline: none; }
+
+    /* Inner card that flips rotateX */
+    .kn-card {
+      position: relative;
       width: 100%;
       height: 100%;
-      z-index: 3;
-      background: rgba(0, 0, 0, 0.4);
-      pointer-events: none;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    }
+    .kn-row.flipped .kn-card {
+      transform: rotateX(180deg);
     }
 
-    /* BGDP portrait image — left 642, top 202, 884×787 */
-    .kn-portrait-img {
+    /* Front and back faces */
+    .kn-face {
       position: absolute;
-      left: 642px;
-      top: 202px;
-      width: 884px;
-      height: 787px;
-      z-index: 4;
-      background-image: url("BGDP.png");
-      background-size: cover;
-      background-position: center top;
-      background-repeat: no-repeat;
-      pointer-events: none;
-    }
-
-    /* Rectangle 14: gradient + violet border + purple glow */
-    .kn-portrait-border {
-      position: absolute;
-      left: calc(50% - 884px / 2);
-      top: calc(50% - 787px / 2 + 55.5px);
-      width: 884px;
-      height: 787px;
-      z-index: 5;
+      inset: 0;
       box-sizing: border-box;
-      background: linear-gradient(180deg, rgba(3, 3, 3, 0.36) 54.81%, rgba(105, 105, 105, 0) 100%);
-      border: 1px solid #9B8BFF;
-      box-shadow: 0 0 24.4px 9px rgba(185, 65, 255, 0.25);
+      border: 1.47332px solid #786BC7;
+      box-shadow: 0 0 118.058px -36.5547px #6D61B5;
+      background: rgba(255, 255, 255, 0.01);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      padding: 0 28px 0 24px;
+      gap: 20px;
+    }
+    .kn-face-back {
+      transform: rotateX(-180deg);
+    }
+    .kn-face .kn-circle {
+      position: relative;
+      left: auto;
+      top: auto;
+      transform: none;
+      flex-shrink: 0;
+    }
+    .kn-row:hover .kn-face-front,
+    .kn-row:focus-visible .kn-face-front {
+      background: rgba(120, 107, 199, 0.09);
+      box-shadow: 0 0 118.058px -20px #7B6FD0;
+    }
+
+    /* Ellipse 5: circle 69.05×69.05, border #B3A7FF */
+    .kn-circle {
+      width: 69.05px;
+      height: 69.05px;
+      border-radius: 50%;
+      border: 1.35388px solid #B3A7FF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Icon */
+    @keyframes kn-spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .kn-icon {
+      display: block;
+      object-fit: contain;
+    }
+    .kn-icon-1 { width: 51px; height: 52px; }
+    .kn-icon-2 { width: 53px; height: 51px; }
+    .kn-icon-3 { width: 46px; height: 46px; }
+    .kn-icon-4 { width: 43px; height: 42px; }
+    .kn-icon.spinning {
+      animation: kn-spin 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    /* Label */
+    .kn-label {
+      flex: 1;
+      font-family: "Century", "Times New Roman", Georgia, serif;
+      font-weight: 400;
+      font-size: 25.9592px;
+      line-height: 31px;
+      color: #BFB4FF;
+      white-space: nowrap;
       pointer-events: none;
     }
 
-    /* Close × — left 1488, top 213, 28×28, #C1AAFA */
+    /* Arrow — reverse.png, 46×47px, absolute right side
+       Row left ≈ calc(50%−372.5px−0.5px). Arrow at left 1386px absolute.
+       Relative to row: 1386 − (50%−373) = 1386 − 711.5 = 674.5 → use right edge offset */
+    .kn-row-arrow {
+      flex-shrink: 0;
+      width: 46px;
+      height: 47px;
+      pointer-events: none;
+      display: block;
+      object-fit: contain;
+      transition: filter 0.25s ease;
+    }
+    .kn-row:hover .kn-row-arrow,
+    .kn-row:focus-visible .kn-row-arrow {
+      filter: brightness(1.4) drop-shadow(0 0 4px rgba(105, 78, 171, 0.7));
+    }
+
+    /* Back face hint text */
+    .kn-hint {
+      font-family: "Bona Nova", Georgia, serif;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 28px;
+      color: #BFB4FF;
+      white-space: normal;
+      margin: 0;
+      text-align: left;
+      flex: 1;
+    }
+
+    /* Footer motto — centered, top 885.29, 563×27 */
+    .kn-motto {
+      position: absolute;
+      left: calc(50% - 563px / 2 - 0.5px);
+      top: 885.29px;
+      width: 563px;
+      height: 27px;
+      z-index: 6;
+      font-family: "Bona Nova", Georgia, serif;
+      font-weight: 400;
+      font-size: 22.268px;
+      line-height: 27px;
+      text-align: center;
+      color: #C0B5FF;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* Close × — left 1474, top 154, 28×28 */
     .kn-close {
       position: absolute;
-      left: 1488px;
-      top: 213px;
+      left: 1474px;
+      top: 154px;
       width: 28px;
       height: 28px;
       z-index: 9;
@@ -107,209 +249,45 @@
       box-shadow: 0 0 8px rgba(193, 170, 250, 0.9);
     }
 
-    /* ARCHIVE NOTES heading — centered, top 243, 443×66 */
-    .kn-title {
-      position: absolute;
-      left: calc(50% - 443px / 2 + 1.5px);
-      top: 243px;
-      width: 443px;
-      height: 66px;
-      z-index: 6;
-      font-family: "Bona Nova", Georgia, serif;
-      font-weight: 400;
-      font-size: 54.83px;
-      line-height: 66px;
-      text-align: center;
-      color: #A99AFF;
-      margin: 0;
-      white-space: nowrap;
+    /* ── Mystical flicker overlay ── */
+    @keyframes kn-flicker {
+      0%   { opacity: 0; }
+      4%   { opacity: 0.07; }
+      8%   { opacity: 0; }
+      18%  { opacity: 0.11; }
+      22%  { opacity: 0; }
+      37%  { opacity: 0.05; }
+      39%  { opacity: 0; }
+      55%  { opacity: 0.09; }
+      60%  { opacity: 0.03; }
+      65%  { opacity: 0; }
+      80%  { opacity: 0.08; }
+      85%  { opacity: 0; }
+      100% { opacity: 0; }
     }
-
-    /* SUBMIT YOUR RECOVERED SQUENCE — centered, top 314, 488×32 */
-    .kn-sub {
-      position: absolute;
-      left: calc(50% - 488px / 2 + 1px);
-      top: 314px;
-      width: 488px;
-      height: 32px;
-      z-index: 6;
-      font-family: "Bona Nova", Georgia, serif;
-      font-weight: 400;
-      font-size: 26.3919px;
-      line-height: 32px;
-      text-align: center;
-      color: #CFB7FF;
-      margin: 0;
-      white-space: nowrap;
+    @keyframes kn-dim-pulse {
+      0%, 100% { opacity: 0.15; }
+      50%       { opacity: 0.28; }
     }
-
-    /* ── Note rows (Group 70–73) — perspective wrapper ── */
-    .kn-row {
-      position: absolute;
-      left: calc(50% - 637px / 2 + 0.5px);
-      width: 637px;
-      height: 119px;
-      z-index: 6;
-      cursor: pointer;
-      perspective: 800px;
-    }
-    .kn-row:focus-visible { outline: none; }
-
-    /* Inner card that flips rotateX (top-to-bottom) */
-    .kn-card {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.6s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-    }
-    .kn-row.flipped .kn-card {
-      transform: rotateX(180deg);
-    }
-
-    /* Front and back faces */
-    .kn-face {
-      position: absolute;
+    .kn-mist {
+      position: fixed;
       inset: 0;
-      box-sizing: border-box;
-      border: 1.47332px solid #786BC7;
-      box-shadow: 0 0 118.058px -36.5547px #6D61B5;
-      background: rgba(255, 255, 255, 0.01);
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      display: flex;
-      align-items: center;
-      padding: 0 28px 0 24px;
-      gap: 20px;
-    }
-    /* Back face starts rotated so it's hidden on load */
-    .kn-face-back {
-      transform: rotateX(-180deg);
-    }
-    /* Override absolute positioning for circle inside both faces */
-    .kn-face .kn-circle {
-      position: relative;
-      left: auto;
-      top: auto;
-      transform: none;
-      flex-shrink: 0;
-    }
-    .kn-row:hover .kn-face-front,
-    .kn-row:focus-visible .kn-face-front {
-      background: rgba(120, 107, 199, 0.09);
-      box-shadow: 0 0 118.058px -20px #7B6FD0;
-    }
-
-    /* Ellipse 5: circle 69.05×69.05, border #B3A7FF */
-    .kn-circle {
-      position: absolute;
-      left: 24px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 69.05px;
-      height: 69.05px;
-      border-radius: 50%;
-      border: 1.35388px solid #B3A7FF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    /* Icon spin keyframe */
-    @keyframes kn-spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-    .kn-icon {
-      display: block;
-      object-fit: contain;
-    }
-    .kn-icon-1 { width: 51px; height: 52px; }
-    .kn-icon-2 { width: 53px; height: 51px; }
-    .kn-icon-3 { width: 46px; height: 46px; }
-    .kn-icon-4 { width: 44px; height: 44px; }
-    .kn-icon.spinning {
-      animation: kn-spin 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    /* Front face: label — flex item, fills space after circle */
-    .kn-label {
-      flex: 1;
-      font-family: "Century", "Times New Roman", Georgia, serif;
-      font-weight: 400;
-      font-size: 25.9592px;
-      line-height: 31px;
-      color: #BFB4FF;
-      white-space: nowrap;
+      z-index: 8;
       pointer-events: none;
+      background: radial-gradient(ellipse at 50% 40%, rgba(80, 40, 160, 0.18) 0%, rgba(10, 5, 30, 0.38) 70%, rgba(0,0,0,0.48) 100%);
+      animation: kn-dim-pulse 6s ease-in-out infinite, kn-flicker 9s step-end infinite;
     }
 
-    /* Arrow icon — reverse.png, 46×47px
-       Figma left 1333, row left 766 → relative left = 567px
-       Each row has its own top offset so the arrow is centered vertically
-       (top values: row1=406-370=36, row2=540-504=36, row3=674-638=36, row4=808-772=36) */
-    .kn-row-arrow {
-      position: absolute;
-      left: 567px;
-      top: 36px;
-      width: 46px;
-      height: 47px;
-      pointer-events: none;
-      display: block;
-      object-fit: contain;
-      transition: filter 0.25s ease;
-    }
-    .kn-row:hover .kn-row-arrow,
-    .kn-row:focus-visible .kn-row-arrow {
-      filter: brightness(1.4) drop-shadow(0 0 4px rgba(105, 78, 171, 0.7));
-    }
-
-    /* Back face: hint text — left-aligned with front label */
-    .kn-hint {
-      font-family: "Bona Nova", Georgia, serif;
-      font-weight: 400;
-      font-size: 22px;
-      line-height: 28px;
-      color: #BFB4FF;
-      white-space: normal;
-      margin: 0;
-      text-align: left;
-      flex: 1;
-    }
-
-    /* Footer motto — centered, top 925.29, 563×27 */
-    .kn-motto {
-      position: absolute;
-      left: calc(50% - 563px / 2 + 0.5px);
-      top: 925.29px;
-      width: 563px;
-      height: 27px;
-      z-index: 6;
-      font-family: "Bona Nova", Georgia, serif;
-      font-weight: 400;
-      font-size: 22.268px;
-      line-height: 27px;
-      text-align: center;
-      color: #C0B5FF;
-      margin: 0;
-      white-space: nowrap;
-    }
-
-    /* ── Entrance stagger animations ── */
+    /* ── Entrance animations ── */
     @keyframes kn-enter {
       0%   { opacity: 0; transform: translateY(16px); filter: blur(5px); }
       100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
     }
-    /* Portrait, title, sub, motto, close — enter at 0.1s */
-    .kn-canvas .kn-portrait-img,
-    .kn-canvas .kn-portrait-border,
     .kn-canvas .kn-title,
     .kn-canvas .kn-sub,
     .kn-canvas .kn-motto,
     .kn-canvas .kn-close { animation: kn-enter 0.75s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
 
-    /* All 4 rows fade in slowly, starting at the same 0.1s — longer duration for a gentle reveal */
     .kn-canvas .kn-row:nth-of-type(1),
     .kn-canvas .kn-row:nth-of-type(2),
     .kn-canvas .kn-row:nth-of-type(3),
@@ -320,11 +298,13 @@
   <div class="viewport">
     <div class="canvas kn-canvas" id="canvas">
 
-      <!-- Background: object-remover photo -->
+      <!-- Background: BGNEW.png -->
       <div class="kn-bg" aria-hidden="true"></div>
-
-      <!-- Rectangle 12: dark overlay rgba(0,0,0,0.4) -->
+      <!-- Rectangle 12: hidden -->
       <div class="kn-overlay" aria-hidden="true"></div>
+
+      <!-- Mystical mist overlay -->
+      <div class="kn-mist" aria-hidden="true"></div>
 
       <!-- Feather particles -->
       <canvas class="starfield" aria-hidden="true"></canvas>
@@ -332,26 +312,20 @@
       <!-- Page transition -->
       <div class="page-transition" aria-hidden="true"></div>
 
-      <!-- BGDP portrait image — left 642, top 194, 884×798 -->
-      <div class="kn-portrait-img" aria-hidden="true"></div>
-
-      <!-- Rectangle 14: gradient border overlay -->
-      <div class="kn-portrait-border" aria-hidden="true"></div>
-
       <!-- Close × — links back to droppoint.html -->
       <a class="kn-close" href="droppoint.html" data-transition aria-label="Back to Drop Point">
         <span class="kn-close-line kn-close-line-1" aria-hidden="true"></span>
         <span class="kn-close-line kn-close-line-2" aria-hidden="true"></span>
       </a>
 
-      <!-- ARCHIVE NOTES — centered, top 243 -->
-      <h1 class="kn-title">ARCHIVE NOTES</h1>
+      <!-- ARCHIVE NOTE — centered, top 168 -->
+      <h1 class="kn-title">ARCHIVE NOTE</h1>
 
-      <!-- SUBMIT YOUR RECOVERED SQUENCE — centered, top 314 -->
-      <p class="kn-sub">SUBMIT YOUR RECOVERED SQUENCE</p>
+      <!-- SEARCH. OBSERVE. UNCOVER THE TRUTH. — centered, top 254.5 -->
+      <p class="kn-sub">SEARCH. OBSERVE. UNCOVER THE TRUTH.</p>
 
-      <!-- ── Group 70: ARCHIVE NOTE 001 (top 370) ── -->
-      <div class="kn-row" style="top:370px" role="button" tabindex="0" aria-label="Archive Note 001 — click to reveal hint">
+      <!-- ── Group 70: ARCHIVE NOTE 001 (top 330) ── -->
+      <div class="kn-row" style="top:330px" role="button" tabindex="0" aria-label="Archive Note 001 — click to reveal hint">
         <div class="kn-card">
           <div class="kn-face kn-face-front">
             <div class="kn-circle" aria-hidden="true">
@@ -369,8 +343,8 @@
         </div>
       </div>
 
-      <!-- ── Group 71: ARCHIVE NOTE 002 (top 504) ── -->
-      <div class="kn-row" style="top:504px" role="button" tabindex="0" aria-label="Archive Note 002 — click to reveal hint">
+      <!-- ── Group 71: ARCHIVE NOTE 002 (top 464) ── -->
+      <div class="kn-row" style="top:464px" role="button" tabindex="0" aria-label="Archive Note 002 — click to reveal hint">
         <div class="kn-card">
           <div class="kn-face kn-face-front">
             <div class="kn-circle" aria-hidden="true">
@@ -388,8 +362,8 @@
         </div>
       </div>
 
-      <!-- ── Group 72: ARCHIVE NOTE 003 (top 638) ── -->
-      <div class="kn-row" style="top:638px" role="button" tabindex="0" aria-label="Archive Note 003 — click to reveal hint">
+      <!-- ── Group 72: ARCHIVE NOTE 003 (top 598) ── -->
+      <div class="kn-row" style="top:598px" role="button" tabindex="0" aria-label="Archive Note 003 — click to reveal hint">
         <div class="kn-card">
           <div class="kn-face kn-face-front">
             <div class="kn-circle" aria-hidden="true">
@@ -407,8 +381,8 @@
         </div>
       </div>
 
-      <!-- ── Group 73: ARCHIVE NOTE 004 (top 772) ── -->
-      <div class="kn-row" style="top:772px" role="button" tabindex="0" aria-label="Archive Note 004 — click to reveal hint">
+      <!-- ── Group 73: ARCHIVE NOTE 004 (top 732) ── -->
+      <div class="kn-row" style="top:732px" role="button" tabindex="0" aria-label="Archive Note 004 — click to reveal hint">
         <div class="kn-card">
           <div class="kn-face kn-face-front">
             <div class="kn-circle" aria-hidden="true">
@@ -426,7 +400,7 @@
         </div>
       </div>
 
-      <!-- Footer motto — centered, top 925.29 -->
+      <!-- Footer motto — centered, top 885.29 -->
       <p class="kn-motto">THE ARCHIVE REVEALS ONLY TO THOSE WHO SEEK</p>
 
     </div><!-- /canvas -->
@@ -441,7 +415,7 @@
       function spinIcon() {
         icons.forEach(function(icon) {
           icon.classList.remove('spinning');
-          void icon.offsetWidth; // force reflow so animation restarts
+          void icon.offsetWidth;
           icon.classList.add('spinning');
           icon.addEventListener('animationend', function() {
             icon.classList.remove('spinning');
