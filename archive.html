@@ -11,22 +11,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Cantarell:wght@400;700&family=Maven+Pro:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
-    /* ── Logo mark ── */
+    /* Hard reset — prevents browser default margins from shifting mobile layout on any server */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* ── Logo brand (mark + text) ── */
     .arc-logo {
       position: absolute;
-      left: 51px;
-      top: 44px;
-      width: 36.01px;
-      height: 40.7px;
+      left: 80px;
+      top: 64px;
       z-index: 11;
-      background-image: url("Subtract.png");
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
-      display: block;
-      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 40.7px;
       text-decoration: none;
       -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
       transition: filter 0.4s ease, transform 0.3s ease;
     }
     .arc-logo:hover,
@@ -35,8 +42,29 @@
               drop-shadow(0 0 16px rgba(105, 78, 171, 0.75))
               drop-shadow(0 0 32px rgba(80, 40, 180, 0.5))
               brightness(1.35);
-      transform: scale(1.08);
       outline: none;
+    }
+    .arc-logo-mark {
+      flex-shrink: 0;
+      width: 36.01px;
+      height: 40.7px;
+      background-image: url("Subtract.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .arc-logo-text {
+      font-family: "Cantarell", system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 20.19px;
+      line-height: 1;
+      letter-spacing: 0.4em;
+      white-space: nowrap;
+      background: linear-gradient(90deg, #4616BC 0%, #9367FF 100%);
+      -webkit-background-clip: text;
+              background-clip: text;
+      -webkit-text-fill-color: transparent;
+              color: transparent;
     }
 
     /* ── ARCHIVE page — Frame 241 exact Figma spec ── */
@@ -57,11 +85,11 @@
       pointer-events: none;
     }
 
-    /* ARCHIVE heading — centered, top 102, 477×129 */
+    /* ARCHIVE heading — centered, top 136, 477×129 */
     .arc-title {
       position: absolute;
       left: calc(50% - 477px / 2 - 0.5px);
-      top: 102px;
+      top: 136px;
       width: 477px;
       height: 129px;
       z-index: 6;
@@ -71,15 +99,20 @@
       line-height: 129px;
       text-align: center;
       color: #FFFFFF;
+      text-shadow:
+        0 0 8px rgba(255,255,255,0.9),
+        0 0 20px rgba(220,210,255,0.75),
+        0 0 40px rgba(160,110,255,0.55),
+        0 0 70px rgba(120,75,220,0.35);
       margin: 0;
       white-space: nowrap;
     }
 
-    /* Description — centered, top 219, 1010×34 */
+    /* Description — centered, top 253, 1010×34 */
     .arc-desc {
       position: absolute;
       left: calc(50% - 1010px / 2);
-      top: 219px;
+      top: 253px;
       width: 1010px;
       height: 34px;
       z-index: 6;
@@ -92,12 +125,33 @@
       margin: 0;
     }
 
+    /* ── Slideshow wrapper ── */
+    .arc-slides-wrap {
+      position: absolute;
+      left: 0;
+      top: 345px;
+      width: 2168px;
+      height: 650px;
+      z-index: 10;
+      overflow: visible;
+    }
+    .arc-slides-track {
+      display: flex;
+      width: 200%;        /* 2 slides × 100% */
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(0.22,1,0.36,1);
+    }
+    .arc-slide {
+      flex: 0 0 50%;      /* each slide = 1 canvas width */
+      position: relative;
+      height: 100%;
+    }
+
     /* ── Thumbnail wrappers — absolute containers that handle hover ── */
-    /* The img inside fills the wrapper; hover applies to wrapper */
     .arc-card {
       position: absolute;
-      top: 334px;
-      z-index: 10;         /* above mist (z-index 8) */
+      top: 0;
+      z-index: 1;
       display: block;
       overflow: visible;
       transition: filter 0.6s ease, transform 0.55s cubic-bezier(0.22,1,0.36,1);
@@ -110,11 +164,14 @@
       pointer-events: none;
     }
 
-    /* Card positions & sizes */
-    .arc-card-1 { left: 107px;   width: 426.77px; height: 603px; cursor: pointer; }
-    .arc-card-2 { left: 632px;   width: 410.88px; height: 603px; cursor: not-allowed; }
-    .arc-card-3 { left: 1141px;  width: 410.88px; height: 603px; cursor: not-allowed; }
-    .arc-card-4 { left: 1650px;  width: 410.88px; height: 603px; cursor: not-allowed; }
+    /* Card positions & sizes (left relative to slide) — Figma: 117 / 624.77 / 1132.65 / 1640.53 */
+    .arc-card-1 { left: 117px;      width: 410.88px; height: 603px; cursor: pointer; }
+    .arc-card-2 { left: 624.77px;   width: 410.88px; height: 603px; cursor: not-allowed; }
+    .arc-card-3 { left: 1132.65px;  width: 410.88px; height: 603px; cursor: not-allowed; }
+    .arc-card-4 { left: 1640.53px;  width: 410.88px; height: 603px; cursor: not-allowed; }
+
+    /* Slide 2 cards — all locked */
+    .arc-card-5, .arc-card-6, .arc-card-7, .arc-card-8 { cursor: not-allowed; }
 
     /* Unlocked — very soft purple glow + gentle lift on hover */
     .arc-card-1:hover {
@@ -124,14 +181,72 @@
       transform: scale(1.02) translateY(-10px) !important;
     }
 
-    /* Locked — very soft red glow + gentle lift on hover */
-    .arc-card-2:hover,
-    .arc-card-3:hover,
-    .arc-card-4:hover {
-      filter: drop-shadow(0 0 6px rgba(255, 60, 60, 0.28))
-              drop-shadow(0 0 14px rgba(200, 20, 20, 0.14))
-              brightness(0.98) !important;
-      transform: scale(1.015) translateY(-10px) !important;
+    /* Slide 1 locked — subtle dim on hover */
+    #arc-slide-1 .arc-card-2:hover,
+    #arc-slide-1 .arc-card-3:hover,
+    #arc-slide-1 .arc-card-4:hover {
+      filter: brightness(0.92) !important;
+      transform: scale(1.015) translateY(-6px) !important;
+    }
+
+    /* Slide 2 — subtle dim hover, same as slide 1 locked */
+    #arc-slide-2 .arc-card-5:hover,
+    #arc-slide-2 .arc-card-6:hover,
+    #arc-slide-2 .arc-card-7:hover,
+    #arc-slide-2 .arc-card-8:hover {
+      filter: brightness(0.92) !important;
+      transform: scale(1.015) translateY(-6px) !important;
+    }
+
+    /* ── Slide dot indicators — Group 139, top 1002 ── */
+    .arc-dots {
+      position: absolute;
+      left: calc(50% - 59px / 2 - 0.5px);
+      top: 1002px;
+      width: 59px;
+      height: 17px;
+      z-index: 11;
+      display: flex;
+      align-items: center;
+      gap: 21px;   /* 1054 and 1096 centers → gap ≈ 21px */
+    }
+    .arc-dot {
+      width: 17px;
+      height: 17px;
+      border-radius: 26.3327px;
+      flex-shrink: 0;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      outline: none;
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    }
+    .arc-dot:focus,
+    .arc-dot:focus-visible {
+      outline: none;
+    }
+    .arc-dot.active {
+      background: #D8D8D8;
+      box-shadow: 0 0 6px 2px rgba(220, 220, 220, 0.45),
+                  0 0 12px 4px rgba(200, 200, 200, 0.2);
+      transform: scale(1.1);
+    }
+    @keyframes arc-dot-pulse {
+      0%, 100% { box-shadow: 0 0 6px 2px rgba(220,220,220,0.45), 0 0 12px 4px rgba(200,200,200,0.2); }
+      50%       { box-shadow: 0 0 8px 3px rgba(230,230,230,0.6),  0 0 18px 6px rgba(210,210,210,0.3); }
+    }
+    .arc-dot.active {
+      animation: arc-dot-pulse 2s ease-in-out infinite;
+    }
+    .arc-dot.inactive {
+      background: rgba(221, 206, 255, 0.62);
+      border: 0.461977px solid #694EAB;
+      box-shadow: none;
+      transform: scale(1);
+    }
+    .arc-dot.inactive:hover {
+      background: rgba(221, 206, 255, 0.85);
+      transform: scale(1.12);
     }
 
 
@@ -164,16 +279,24 @@
       animation: arc-dim-pulse 6s ease-in-out infinite, arc-flicker 9s step-end infinite;
     }
 
-    /* ── Frame 243 Modal overlay ── */
+    /* ── Frame 242 Modal overlay ── */
 
-    /* Backdrop: fixed fullscreen, dims the archive behind it */
+    /* Hapus outline dari semua button di kedua overlay panel */
+    .arc-modal-panel button,
+    .arc-own-panel button,
+    .arc-modal-panel a,
+    .arc-own-panel a {
+      outline: none !important;
+    }
+
+    /* Backdrop: absolute within canvas — Rectangle 20 blur */
     .arc-modal-backdrop {
-      position: fixed;
+      position: absolute;
       inset: 0;
       z-index: 9999;
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(10, 4, 22, 0.45);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -186,7 +309,7 @@
       pointer-events: all;
     }
 
-    /* Panel: Frame 243 / Rectangle 19 — 1557 × 776.54 */
+    /* Panel: Rectangle 19 — 1557×776.54, centered */
     .arc-modal-panel {
       position: relative;
       flex: none;
@@ -195,32 +318,68 @@
       height: 776.54px;
       background: rgba(0, 0, 0, 0.27);
       border: 1.3095px solid #786BC7;
-      box-shadow: 0 0 35.71px 6.25px #6D61B5;
-      backdrop-filter: blur(28.66px);
-      -webkit-backdrop-filter: blur(28.66px);
+      box-shadow: 0 0 35.7082px 6.24893px #6D61B5;
+      backdrop-filter: blur(28.6558px);
+      -webkit-backdrop-filter: blur(28.6558px);
       overflow: hidden;
       transform-origin: center center;
-      /* transform scale set inline by JS */
+      cursor: default;
+    }
+    /* Default cursor on panel — teks bisa diselect tapi cursor tidak text */
+    .arc-modal-panel {
+      user-select: text;
+      -webkit-user-select: text;
+    }
+    /* Teks non-interaktif: bisa diselect, cursor default (bukan text cursor) */
+    .arc-modal-panel .arc-m-file,
+    .arc-modal-panel .arc-m-name,
+    .arc-modal-panel .arc-m-desc,
+    .arc-modal-panel .arc-m-theme-label,
+    .arc-modal-panel .arc-m-theme-val,
+    .arc-modal-panel .arc-m-q-label,
+    .arc-modal-panel .arc-m-q-body,
+    .arc-modal-panel .arc-m-avail {
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      cursor: text !important;
+    }
+    /* Hanya tombol yang interaktif dengan pointer cursor */
+    .arc-modal-panel .arc-modal-close,
+    .arc-modal-panel .arc-m-own {
+      cursor: pointer !important;
+      pointer-events: auto !important;
+      user-select: none !important;
+      -webkit-user-select: none !important;
+    }
+    @keyframes arc-modal-enter {
+      from { opacity: 0; transform: scale(0.97) translateY(12px); filter: blur(4px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0);    filter: none; }
+    }
+    .arc-modal-backdrop.open .arc-modal-panel {
+      animation: arc-modal-enter 0.4s cubic-bezier(0.22,1,0.36,1) both;
     }
 
-    /* Character image — left 0, top 1.79 */
+    /* Character image — canvas left 305, top 154.79 → panel left ≈0, top ≈3 */
     .arc-modal-img {
       position: absolute;
+      left: 0;
+      top: 3px;
       width: 721.34px;
       height: 771.26px;
-      left: 0;
-      top: 1.79px;
       object-fit: cover;
       object-position: center top;
       pointer-events: none;
       user-select: none;
+      box-shadow: inset 4px 4px 70px 50px #000000;
     }
 
-    /* Close button — left 1516.71, top 16.96 */
+    /* Close button — Figma canvas left 1821.71, top 168.96
+       Panel left = 1821.71 - (2168 - 1557) / 2 = 1821.71 - 305.5 = 1516.21
+       Panel top  = 168.96 - (1080 - 776.54) / 2 = 168.96 - 151.73 = 17.23 */
     .arc-modal-close {
       position: absolute;
-      left: 1516.71px;
-      top: 16.96px;
+      left: 1516.21px;
+      top: 17.23px;
       width: 25px;
       height: 25px;
       z-index: 10;
@@ -237,100 +396,82 @@
     .arc-modal-close:hover { opacity: 1; transform: scale(1.15); }
     .arc-modal-close svg { width: 25px; height: 25px; }
 
-    /* All text — exact Figma coords relative to panel (1557×776.54) */
+    /* All text — Figma canvas coords converted to panel-relative:
+       panel left offset = (2168-1557)/2 = 305.5
+       panel top  offset = (1080-776.54)/2 = 151.73
+       text left in panel = figma_left - 305.5
+       text top  in panel = figma_top  - 151.73  */
 
-    /* FILE OPENED — left 793.62, top 69.27 */
+    /* FILE OPENED — canvas left 1083.06, top 231 → panel 777.56, 79.27 */
     .arc-m-file {
       position: absolute;
-      left: 793.62px; top: 69.27px;
+      left: 777.56px; top: 79.27px;
       font-family: "Bona Nova", Georgia, serif;
-      font-size: 17.7957px; line-height: 21px;
-      color: #B293FF; white-space: nowrap;
+      font-size: 28.5612px; line-height: 34px;
+      color: #745DFF; white-space: nowrap;
     }
-    /* AW - 001 — left 793.62, top 103.32 */
-    .arc-m-id {
-      position: absolute;
-      left: 793.62px; top: 103.32px;
-      font-family: "Century", Georgia, serif;
-      font-size: 17.7957px; line-height: 21px;
-      color: rgba(255,243,197,0.59); white-space: nowrap;
-    }
-    /* SESHOMARU — left 793.62, top 119.03 */
+    /* SESSHOMARU — canvas left 1083.06, top 275 → panel 777.56, 123.27 */
     .arc-m-name {
       position: absolute;
-      left: 793.62px; top: 119.03px;
-      width: 437px;
+      left: 777.56px; top: 123.27px;
+      width: 475px;
       font-family: "Bona Nova", Georgia, serif;
       font-weight: 400;
       font-size: 68.9329px; line-height: 83px;
       color: rgba(255,243,197,0.59);
       margin: 0;
     }
-    /* THE DEMON — left 793.62, top 197.07 */
-    .arc-m-subtitle {
+    /* Description body — canvas left 1083.44, top 361 → panel 777.94, 209.27
+       "He never sought power..." */
+    .arc-m-desc {
       position: absolute;
-      left: 793.62px; top: 197.07px;
+      left: 777.94px; top: 209.27px;
+      width: 723px;
       font-family: "Bona Nova", Georgia, serif;
-      font-size: 24.469px; line-height: 29px;
-      color: #645B37; white-space: nowrap;
+      font-size: 21.0656px; line-height: 25px;
+      color: #969074; margin: 0;
     }
-    /* THEME — left 793.56, top 251.29 */
+    /* THEME label — canvas left 1083, top 488 → panel 777.5, 336.27 */
     .arc-m-theme-label {
       position: absolute;
-      left: 793.56px; top: 251.29px;
+      left: 777.5px; top: 336.27px;
       font-family: "Bona Nova", Georgia, serif;
-      font-size: 20.4487px; line-height: 25px;
-      color: #6D61B5; white-space: nowrap;
+      font-size: 23.7511px; line-height: 29px;
+      color: #9383F3; white-space: nowrap;
     }
-    /* FULL DEMON — left 793.56, top 279.88 */
+    /* PRIDE — canvas left 1083.44, top 519.54 → panel 777.94, 367.81 */
     .arc-m-theme-val {
       position: absolute;
-      left: 793.56px; top: 279.88px;
+      left: 777.94px; top: 367.81px;
       font-family: "Bona Nova", Georgia, serif;
-      font-size: 20.4481px; line-height: 25px;
+      font-size: 33.9719px; line-height: 41px;
       color: rgba(255,243,197,0.59); white-space: nowrap;
     }
-    /* QUESTION — left 793.56, top 332.26 */
+    /* QUESTION label — canvas left 1083, top 587 → panel 777.5, 435.27 */
     .arc-m-q-label {
       position: absolute;
-      left: 793.56px; top: 332.26px;
+      left: 777.5px; top: 435.27px;
       font-family: "Bona Nova", Georgia, serif;
-      font-size: 20.4481px; line-height: 25px;
-      color: #6D61B5;
+      font-size: 23.7504px; line-height: 29px;
+      color: #9383F3;
     }
-    /* Question body — left 793.56, top 365.37, w 555.23 */
+    /* Question body — canvas left 1083.44, top 618.49 → panel 777.94, 466.76 */
     .arc-m-q-body {
       position: absolute;
-      left: 793.56px; top: 365.37px;
-      width: 555.23px;
+      left: 777.94px; top: 466.76px;
+      width: 487px;
       font-family: "Bona Nova", Georgia, serif;
-      font-size: 21.0656px; line-height: 25px;
+      font-size: 34.9978px; line-height: 42px;
       color: #969074; margin: 0;
     }
-    /* PHILOSOPHY — left 793.56, top 467.51 */
-    .arc-m-p-label {
-      position: absolute;
-      left: 793.56px; top: 467.51px;
-      font-family: "Bona Nova", Georgia, serif;
-      font-size: 20.4481px; line-height: 25px;
-      color: #6D61B5;
-    }
-    /* Philosophy body — left 793.56, top 500.61, w 418.3 */
-    .arc-m-p-body {
-      position: absolute;
-      left: 793.56px; top: 500.61px;
-      width: 418.3px;
-      font-family: "Bona Nova", Georgia, serif;
-      font-size: 21.0656px; line-height: 25px;
-      color: #969074; margin: 0;
-    }
-    /* OWN THE ARCHIVE — left 793.56, top 631.48 */
+    /* ADD TO ARCHIVE — canvas left 1083, top 790.05 → panel 777.5, 638.32 */
     .arc-m-own {
       position: absolute;
-      left: 793.56px; top: 631.48px;
+      left: 777.5px; top: 638.32px;
+      width: 359px; height: 50px;
       font-family: "Bona Nova", Georgia, serif;
-      font-size: 38.4932px; line-height: 46px;
-      color: #694EAB; white-space: nowrap;
+      font-size: 41.7495px; line-height: 50px;
+      color: #EDE5FF; white-space: nowrap;
       text-decoration: none;
       display: inline-block;
       cursor: pointer;
@@ -339,40 +480,19 @@
       padding: 0;
       transition: color 0.3s ease, text-shadow 0.3s ease;
     }
-    .arc-m-own::after {
-      content: "";
-      display: block;
-      height: 1.5px;
-      background: #694EAB;
-      width: 0;
-      transition: width 0.3s ease;
-    }
     .arc-m-own:hover,
     .arc-m-own:focus-visible {
-      color: #A499E4;
-      text-shadow: 0 0 12px rgba(105, 78, 171, 0.6);
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(220, 200, 255, 0.7);
       outline: none;
     }
-    .arc-m-own:hover::after,
-    .arc-m-own:focus-visible::after {
-      width: 100%;
-      background: #A499E4;
-    }
-    /* CURRENTLY AVAILABLE — left 793.56, top 683.43 */
+    /* CURRENTLY AVAILABLE — canvas left 1083, top 846 → panel 777.5, 694.27 */
     .arc-m-avail {
       position: absolute;
-      left: 793.56px; top: 683.43px;
+      left: 777.5px; top: 694.27px;
       font-family: "Bona Nova", Georgia, serif;
       font-size: 20.4857px; line-height: 25px;
-      color: #A499E4; white-space: nowrap;
-    }
-    /* Frame 244 / Vector divider dot — left 938.01, top 284.4, 15×15 */
-    .arc-m-divider {
-      position: absolute;
-      left: 938.01px; top: 284.4px;
-      width: 15.05px; height: 15.05px;
-      background: #786BC7;
-      border-radius: 50%;
+      color: #745DFF; white-space: nowrap;
     }
 
     /* ── Entrance animations ── */
@@ -395,10 +515,9 @@
 
     /* ── Frame 244 — Own the Archive overlay ── */
     .arc-own-backdrop {
-      position: fixed; inset: 0; z-index: 10000;
-      /* Rectangle 20: blur backdrop */
-      background: rgba(22, 7, 38, 0.01);
-      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      position: absolute; inset: 0; z-index: 10000;
+      background: rgba(10, 4, 22, 0.45);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none;
       transition: opacity 0.35s ease;
@@ -409,7 +528,7 @@
     .arc-own-panel {
       position: relative; flex: none; box-sizing: border-box;
       width: 1557px; height: 776.54px;
-      background: #000000;
+      background: rgba(0, 0, 0, 0.25);
       border: 1.3095px solid #786BC7;
       box-shadow: 0px 0px 35.7082px 6.24893px #6D61B5;
       backdrop-filter: blur(28.6558px); -webkit-backdrop-filter: blur(28.6558px);
@@ -423,11 +542,11 @@
       animation: arc-own-enter 0.4s cubic-bezier(0.22,1,0.36,1) both;
     }
 
-    /* Group 101 — product image: 721.34 × 771.26, left 0, top 3 */
+    /* Group 101 — product image: 721.34 × 771.26, left 0, top 2 */
     .arc-own-img {
       position: absolute;
       width: 721.34px; height: 771.26px;
-      left: 0; top: 3px;
+      left: 0; top: 2px;
       object-fit: cover; object-position: center top;
       pointer-events: none; user-select: none;
       box-shadow: inset 4px 4px 70px 50px #000000;
@@ -445,19 +564,84 @@
     .arc-own-close:hover { opacity: 1; transform: scale(1.15); }
     .arc-own-close svg { width: 25px; height: 25px; }
 
-    /* Slide indicator dots — left 27.23, top 314, vertical */
-    .arc-own-dots {
-      position: absolute; left: 27.23px; top: 314px;
-      display: flex; flex-direction: column; gap: 34.27px;
+    /* ── Image navigation dots — absolute posisi per Figma (Ellipse 19–22) ── */
+    .arc-own-img-dots {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
     }
-    .arc-own-dot {
-      width: 11.77px; height: 11.77px; border-radius: 50%;
-      border: none; cursor: pointer;
+    .arc-own-img-dot {
+      position: absolute;
+      left: 32.37px;
+      width: 15.49px; height: 15.49px; border-radius: 50%;
+      border: none; cursor: pointer; pointer-events: auto;
       transition: background 0.25s, transform 0.2s;
     }
-    .arc-own-dot:hover { transform: scale(1.25); }
-    .arc-own-dot.active   { background: #A798FF; }
-    .arc-own-dot.inactive { background: rgba(221,216,255,0.44); }
+    /* Posisi top tiap dot — Figma Ellipse 19–22 */
+    .arc-own-img-dot:nth-child(1) { top: 309px; }
+    .arc-own-img-dot:nth-child(2) { top: 356.52px; }
+    .arc-own-img-dot:nth-child(3) { top: 404.05px; }
+    .arc-own-img-dot:nth-child(4) { top: 451.57px; }
+    .arc-own-img-dot:hover { transform: scale(1.15); }
+    .arc-own-img-dot.active {
+      background: #A798FF;
+      box-shadow: 0 0 8px 3px rgba(167, 152, 255, 0.75),
+                  0 0 16px 6px rgba(167, 152, 255, 0.35);
+      animation: arc-own-dot-glow 1.8s ease-in-out infinite;
+    }
+    @keyframes arc-own-dot-glow {
+      0%, 100% { box-shadow: 0 0 6px 2px rgba(167, 152, 255, 0.65), 0 0 12px 5px rgba(167, 152, 255, 0.3); }
+      50%       { box-shadow: 0 0 10px 4px rgba(167, 152, 255, 0.9), 0 0 20px 8px rgba(167, 152, 255, 0.45); }
+    }
+    .arc-own-img-dot.inactive { background: rgba(221, 216, 255, 0.44); }
+
+    /* ── Color selector — kotak terpisah, bercahaya saat dipilih ── */
+    .arc-own-color-selector {
+      position: absolute;
+      left: 158px; top: 680px;
+      display: flex; align-items: center; gap: 10px;
+      z-index: 6;
+    }
+    /* Track tidak dipakai lagi — sembunyikan */
+    .arc-own-color-track { display: none; }
+
+    .arc-own-color-btn {
+      box-sizing: border-box;
+      width: 125px; height: 52px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(255,255,255,0.35);
+      border-radius: 0;
+      cursor: pointer;
+      font-family: "Cantarell", system-ui, sans-serif;
+      font-weight: 600; font-size: 18px;
+      line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      white-space: nowrap;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      padding: 0;
+    }
+    .arc-own-color-btn:hover {
+      border-color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.85);
+      box-shadow: 0 0 8px 2px rgba(255,255,255,0.15);
+    }
+    /* Active — violet fill + glow */
+    .arc-own-color-btn.active {
+      background: rgba(120,107,199,0.18);
+      border-color: #786BC7;
+      color: #FFFFFF;
+      box-shadow:
+        0 0 0 1.5px #786BC7,
+        0 0 12px 4px rgba(120,107,199,0.65),
+        0 0 24px 8px rgba(120,107,199,0.3);
+    }
+    .arc-own-color-btn.inactive {
+      color: rgba(255,255,255,0.45);
+    }
 
     /* AW 001 — left 782.15, top 83 */
     .arc-own-id {
@@ -516,14 +700,14 @@
       color: #C5BAFF;
     }
 
-    /* Description body — left 782, top 314 */
+    /* Description body — left 782, top 321 */
     .arc-own-desc-body {
-      position: absolute; left: 782px; top: 314px;
-      width: 718px; height: 70px;
+      position: absolute; left: 782px; top: 321px;
+      width: 700px; height: 60px;
       font-family: "Bona Nova", Georgia, serif;
-      font-size: 26.9436px; line-height: 130%;
+      font-size: 23px; line-height: 130%;
       display: flex; align-items: flex-end;
-      color: #FFFFFF; margin: 0;
+      color: #969074; margin: 0;
     }
 
     /* Features label — left 782.15, top 394 */
@@ -547,22 +731,19 @@
     .arc-own-feat-item {
       position: absolute;
       font-family: "Bona Nova", Georgia, serif;
-      font-size: 26.9436px; line-height: 130%;
+      font-size: 26px; line-height: 31px;
       display: flex; align-items: flex-end;
-      color: #FFFFFF; margin: 0;
+      color: #969074; margin: 0;
     }
-    /* Row 1: dot left 782 top 452, text left 805 top 439, w 320 h 35 */
-    .arc-own-feat-dot-1  { left: 782px; top: 452px; }
-    .arc-own-feat-item-1 { left: 805px; top: 439px; width: 320px; height: 35px; }
-    /* Row 2: dot left 782 top 485, text left 805 top 472, w 316 h 35 */
-    .arc-own-feat-dot-2  { left: 782px; top: 485px; }
-    .arc-own-feat-item-2 { left: 805px; top: 472px; width: 316px; height: 35px; }
-    /* Row 3: dot left 782 top 518, text left 805 top 505, w 266 h 35 */
-    .arc-own-feat-dot-3  { left: 782px; top: 518px; }
-    .arc-own-feat-item-3 { left: 805px; top: 505px; width: 266px; height: 35px; }
-    /* Row 4: dot left 782 top 551, text left 805 top 538, w 433 h 35 */
-    .arc-own-feat-dot-4  { left: 782px; top: 551px; }
-    .arc-own-feat-item-4 { left: 805px; top: 538px; width: 433px; height: 35px; }
+    /* Row 1: dot left 782 top 454, text left 805 top 443, w 305 h 31 */
+    .arc-own-feat-dot-1  { left: 782px; top: 454px; }
+    .arc-own-feat-item-1 { left: 805px; top: 443px; width: 305px; height: 31px; }
+    /* Row 2: dot left 782 top 488, text left 805 top 477, w 261 h 31 */
+    .arc-own-feat-dot-2  { left: 782px; top: 488px; }
+    .arc-own-feat-item-2 { left: 805px; top: 477px; width: 261px; height: 31px; }
+    /* Row 3: dot left 782 top 522, text left 805 top 511, w 368 h 31 */
+    .arc-own-feat-dot-3  { left: 782px; top: 522px; }
+    .arc-own-feat-item-3 { left: 805px; top: 511px; width: 368px; height: 31px; }
 
     /* Order Here label — left 782.15, top 590 */
     .arc-own-order-label {
@@ -574,44 +755,528 @@
       color: #C5BAFF;
     }
 
-    /* WA icon — left 782, top 644 */
+    /* Group 139 — WA icon left 779, top 641 — size 43×43 */
     .arc-own-wa-icon {
-      position: absolute; left: 782px; top: 644px;
-      width: 26px; height: 26px;
+      position: absolute; left: 779px; top: 641px;
+      width: 43px; height: 43px;
       display: flex; align-items: center;
     }
-    .arc-own-wa-icon img { width: 26px; height: 26px; }
+    .arc-own-wa-icon img { width: 43px; height: 43px; }
 
-    /* WA number — left 816, top 641 */
-    .arc-own-wa-num {
-      position: absolute; left: 816px; top: 641px;
-      width: 200px; height: 32px;
-      font-family: "Bona Nova", Georgia, serif;
-      font-size: 26.4306px; line-height: 120%;
-      display: flex; align-items: flex-end;
-      color: #694EAB; text-decoration: none; white-space: nowrap;
-    }
-
-    /* IG icon — left 1062, top 644 */
+    /* IG icon — left 832, top 641.31 — size 43.31×42.69 */
     .arc-own-ig-icon {
-      position: absolute; left: 1062px; top: 644px;
-      width: 26.19px; height: 25.81px;
+      position: absolute; left: 832px; top: 641.31px;
+      width: 43.31px; height: 42.69px;
       display: flex; align-items: center;
     }
-    .arc-own-ig-icon img { width: 26.19px; height: 25.81px; }
+    .arc-own-ig-icon img { width: 43.31px; height: 42.69px; }
+    /* ============================================================
+       Mobile layout — 474 × 814 px (Figma Frame 257)
+       Shown only when viewport width ≤ 768 px.
+       Desktop layout (.viewport) shown above 768 px.
+    ============================================================ */
+    .viewport     { display: flex; }
+    .mob-arc-viewport { display: none; }
 
-    /* IG link — left 1101.66, top 641 */
-    .arc-own-ig-link {
-      position: absolute; left: 1101.66px; top: 641px;
-      width: 188px; height: 32px;
-      font-family: "Bona Nova", Georgia, serif;
-      font-size: 26.4306px; line-height: 120%;
-      display: flex; align-items: flex-end;
-      color: #694EAB; text-decoration: none; white-space: nowrap;
+    @media (max-width: 768px) {
+      .viewport         { display: none; }
+      .mob-arc-viewport { display: flex; }
+    }
+
+    .mob-arc-viewport {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      align-items: center;
+      justify-content: center;
+      background: #05020a;
+      overflow: hidden;
+    }
+
+    .mob-arc-canvas {
+      position: relative;
+      width: 474px;
+      height: 814px;
+      flex: none;
+      overflow: hidden;
+      transform: scale(var(--mob-arc-scale, 1));
+      transform-origin: center center;
+    }
+
+    .mob-arc-bg {
+      position: absolute;
+      width: 474px;
+      height: 814px;
+      left: 0;
+      top: 0;
+      background: url("BGMN.png") center center / cover no-repeat;
+      z-index: 1;
+    }
+
+    .mob-arc-brand {
+      position: absolute;
+      width: 146.41px;
+      height: 21px;
+      left: calc(50% - 146.41px / 2 + 0.21px);
+      top: 34px;
+      z-index: 9;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mob-arc-brand-mark {
+      flex-shrink: 0;
+      width: 16.16px;
+      height: 18.13px;
+      background: url("Subtract.png") center center / contain no-repeat;
+    }
+    .mob-arc-brand-text {
+      font-family: 'Cantarell', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 14.8308px;
+      line-height: 21px;
+      letter-spacing: 0.21em;
+      white-space: nowrap;
+      background: linear-gradient(90deg, #786BC7 0%, #442ADD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ARCHIVE title — white + glow, matches desktop */
+    .mob-arc-title {
+      position: absolute;
+      width: 160px;
+      height: 43px;
+      left: calc(50% - 160px / 2 - 0.25px);
+      top: 91px;
+      z-index: 5;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-weight: 400;
+      font-size: 35.9296px;
+      line-height: 43px;
+      text-align: center;
+      color: #FFFFFF;
+      white-space: nowrap;
+      text-shadow:
+        0 0 8px rgba(255,255,255,0.9),
+        0 0 20px rgba(220,210,255,0.75),
+        0 0 40px rgba(160,110,255,0.55),
+        0 0 70px rgba(120,75,220,0.35);
+    }
+
+    /* Description — Figma: 347×40, centered, top 131.2, size 16.302, lh 20 */
+    .mob-arc-desc {
+      position: absolute;
+      width: 347px;
+      height: 40px;
+      left: calc(50% - 347px / 2 + 0.5px);
+      top: 131.2px;
+      z-index: 5;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-weight: 400;
+      font-size: 16.302px;
+      line-height: 20px;
+      text-align: center;
+      color: #C2B8FF;
+    }
+
+    /* Cards — Figma: 180.61×265.06 */
+    .mob-arc-card {
+      position: absolute;
+      width: 180.61px;
+      height: 265.06px;
+      display: block;
+      text-decoration: none;
+      overflow: hidden;
+      border-radius: 2px;
+      z-index: 5;
+      -webkit-tap-highlight-color: transparent;
+      transition: filter 0.25s ease, transform 0.2s ease;
+    }
+    .mob-arc-card:active { filter: brightness(1.15); transform: scale(0.97); }
+    .mob-arc-card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mob-arc-card--locked { cursor: default; filter: brightness(0.55) saturate(0.5); }
+    .mob-arc-card--locked:active { filter: brightness(0.55) saturate(0.5); transform: none; }
+
+    /* ── Slide track — Figma Group 170: top 191, height 547 ── */
+    .mob-arc-slides-wrap {
+      position: absolute;
+      left: 0;
+      top: 191px;
+      width: 474px;
+      height: 547px;
+      overflow: hidden;
+      z-index: 5;
+    }
+    .mob-arc-slides-track {
+      display: flex;
+      width: 200%;
+      height: 100%;
+      transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+    }
+    .mob-arc-slide {
+      flex: 0 0 50%;
+      position: relative;
+      height: 100%;
+    }
+
+    /* Cards — Figma exact coords (canvas-absolute), top offset relative to slide wrap top 191px */
+    .mob-arc-card-1 { left: 48px;     top: 0px; }       /* aw 3 2: canvas top 191 */
+    .mob-arc-card-2 { left: 245.48px; top: 0px; }       /* aw 3 1: canvas top 191 */
+    .mob-arc-card-3 { left: 48px;     top: 281.94px; }  /* aw 3 3: canvas top 472.94 → 472.94-191 */
+    .mob-arc-card-4 { left: 245.48px; top: 281.94px; }  /* aw 3 4: canvas top 472.94 → 472.94-191 */
+
+    /* Dots — centered flexbox, reliable across all browsers/devices */
+    .mob-arc-dots {
+      position: absolute;
+      left: 0;
+      top: 762px;
+      width: 474px;
+      height: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      pointer-events: none;
+      z-index: 6;
+    }
+    .mob-arc-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: none;
+      padding: 0;
+      flex-shrink: 0;
+      cursor: pointer;
+      pointer-events: all;
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mob-arc-dot.active {
+      background: #9C8CFF;
+      box-shadow:
+        0 0 6px 2px rgba(156, 140, 255, 0.85),
+        0 0 14px 5px rgba(156, 140, 255, 0.45);
+      transform: scale(1.25);
+      animation: mob-dot-glow 2s ease-in-out infinite;
+    }
+    @keyframes mob-dot-glow {
+      0%, 100% {
+        box-shadow: 0 0 6px 2px rgba(156,140,255,0.85), 0 0 14px 5px rgba(156,140,255,0.45);
+      }
+      50% {
+        box-shadow: 0 0 10px 4px rgba(156,140,255,1), 0 0 22px 8px rgba(156,140,255,0.6);
+      }
+    }
+
+    /* ── Mobile card detail overlay (Frame 258) ── */
+    .mob-arc-overlay-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      background: rgba(10, 4, 22, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mob-arc-overlay-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    /* Panel — 418×386, centered, top offset +12 */
+    .mob-arc-overlay-panel {
+      position: absolute;
+      width: 418px;
+      height: 386px;
+      left: calc(50% - 418px / 2);
+      top: calc(50% - 386px / 2 + 12px);
+      background: rgba(0, 0, 0, 0.27);
+      box-shadow: 0 0 13.4px 2px #6D61B5;
+      backdrop-filter: blur(12.2px);
+      -webkit-backdrop-filter: blur(12.2px);
+      overflow: hidden;
+    }
+    @keyframes mob-arc-overlay-enter {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0); }
+    }
+    .mob-arc-overlay-backdrop.open .mob-arc-overlay-panel {
+      animation: mob-arc-overlay-enter 0.35s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    /* ── Mobile overlay elements — panel left=28, panel top=226 ── */
+    /* Image: canvas 44,240 → panel 16,14; new size 120×128 */
+    .mob-arc-ov-img {
+      position: absolute;
+      width: 120px;
+      height: 128px;
+      left: 16px;
+      top: 14px;
+      object-fit: cover;
+      object-position: center top;
+      pointer-events: none;
+      box-shadow: inset 2.31px 2.31px 40.48px 21px #000000;
+    }
+    /* Close button — top-right of panel */
+    .mob-arc-ov-close {
+      position: absolute;
+      right: 12px;
+      top: 10px;
+      width: 20px;
+      height: 20px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      opacity: 0.75;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mob-arc-ov-close:active { opacity: 1; transform: scale(1.1); }
+    .mob-arc-ov-close svg { width: 18px; height: 18px; }
+    /* FILE OPENED: canvas 172,246 → panel 144,20 */
+    .mob-arc-ov-file {
+      position: absolute;
+      left: 144px; top: 20px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-size: 10.7211px; line-height: 13px;
+      color: #A394FF; white-space: nowrap;
+    }
+    /* AWAKENING - 001: canvas 172.16,261 → panel 144.16,35 */
+    .mob-arc-ov-id {
+      position: absolute;
+      left: 144.16px; top: 35px;
+      width: 116px;
+      font-family: 'Century', Georgia, serif;
+      font-size: 12.633px; line-height: 15px;
+      color: rgba(255,243,197,0.59); white-space: nowrap;
+    }
+    /* THEME label: canvas 172,284 → panel 144,58 */
+    .mob-arc-ov-theme-label {
+      position: absolute;
+      left: 144px; top: 58px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-size: 8.83225px; line-height: 11px;
+      color: #9383F3; white-space: nowrap;
+    }
+    /* PRIDE: canvas 172.16,295.73 → panel 144.16,69.73 */
+    .mob-arc-ov-theme-val {
+      position: absolute;
+      left: 144.16px; top: 69.73px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-size: 12.633px; line-height: 15px;
+      color: rgba(255,243,197,0.59); white-space: nowrap;
+    }
+    /* QUESTION label: canvas 172,319 → panel 144,93 */
+    .mob-arc-ov-q-label {
+      position: absolute;
+      left: 144px; top: 93px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-size: 8.832px; line-height: 11px;
+      color: #9383F3;
+    }
+    /* Question body: canvas 172.16,330.71 → panel 144.16,104.71 */
+    .mob-arc-ov-q-body {
+      position: absolute;
+      left: 144.16px; top: 104.71px;
+      width: 181.1px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-size: 13.0145px; line-height: 16px;
+      color: #969074; margin: 0;
+    }
+    /* SESSHOMARU name: canvas 44,375 → panel 16,149 — color #9383F3 */
+    .mob-arc-ov-name {
+      position: absolute;
+      left: 16px; top: 149px;
+      width: 162px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-weight: 400;
+      font-size: 23.4677px; line-height: 28px;
+      color: #9383F3;
+      margin: 0;
+    }
+    /* Description: canvas 44,407 → panel 16,181; w:387 fs:15.17 */
+    .mob-arc-ov-desc {
+      position: absolute;
+      left: 16px; top: 181px;
+      width: 387px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-size: 15.1706px; line-height: 18px;
+      color: #969074; margin: 0;
+    }
+    /* ADD TO ARCHIVE: canvas 46,545 → panel 18,319 */
+    .mob-arc-ov-own {
+      position: absolute;
+      left: 18px; top: 319px;
+      width: 210px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-size: 24.4217px; line-height: 29px;
+      color: #EDE5FF;
+      background: none; border: none; padding: 0;
+      cursor: pointer; text-align: left;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* CURRENTLY AVAILABLE: canvas 46,577.73 → panel 18,351.73 */
+    .mob-arc-ov-avail {
+      position: absolute;
+      left: 18px; top: 351.73px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-size: 11.9833px; line-height: 14px;
+      color: #745DFF; white-space: nowrap;
+    }
+
+    .mob-arc-page-transition {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      pointer-events: none;
+      background: #05020a;
+      opacity: 0;
+    }
+    .mob-arc-page-transition.is-leaving {
+      pointer-events: all;
+      animation: mob-arc-pt-out 0.35s ease forwards;
+    }
+    .mob-arc-page-transition.is-entering {
+      opacity: 1;
+      pointer-events: none;
+      animation: mob-arc-pt-in 0.4s ease forwards;
+    }
+    @keyframes mob-arc-pt-out { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes mob-arc-pt-in  { from { opacity: 1; } to { opacity: 0; } }
+
+    @keyframes mob-arc-fade-up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .mob-arc-title  { animation: mob-arc-fade-up 0.6s cubic-bezier(0.22,1,0.36,1) 0.15s both; }
+    .mob-arc-desc   { animation: mob-arc-fade-up 0.6s cubic-bezier(0.22,1,0.36,1) 0.22s both; }
+    .mob-arc-card-1 { animation: mob-arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.28s both; }
+    .mob-arc-card-2 { animation: mob-arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.34s both; }
+    .mob-arc-card-3 { animation: mob-arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.40s both; }
+    .mob-arc-card-4 { animation: mob-arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.46s both; }
+
+    @media (min-width: 769px) {
+      .mob-arc-page-transition { display: none; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ═══════════════════════════════════════════════════
+       MOBILE LAYOUT (≤ 768px) — Figma Frame 257, 474×814
+  ═══════════════════════════════════════════════════ -->
+  <div class="mob-arc-viewport" aria-hidden="true">
+    <div class="mob-arc-canvas" id="mobArcCanvas">
+
+      <div class="mob-arc-bg" aria-hidden="true"></div>
+
+      <!-- Brand → index.html -->
+      <a class="mob-arc-brand" href="index.html" aria-label="Fukaimori — Back to home" tabindex="-1">
+        <span class="mob-arc-brand-mark" aria-hidden="true"></span>
+        <span class="mob-arc-brand-text">FUKAIMORI</span>
+      </a>
+
+      <h1 class="mob-arc-title">ARCHIVE</h1>
+      <p class="mob-arc-desc">This archive stores every record and collectible you have unlocked so far.</p>
+
+      <!-- Slide track -->
+      <div class="mob-arc-slides-wrap" id="mobArcSlidesWrap">
+        <div class="mob-arc-slides-track" id="mobArcSlidesTrack">
+
+          <!-- Slide 1: 1 unlocked + 3 locked -->
+          <div class="mob-arc-slide" id="mob-arc-slide-1">
+            <!-- Card 1: K1.png — unlocked -->
+            <a class="mob-arc-card mob-arc-card-1" href="archive-notes.html" aria-label="Archive entry 1" tabindex="-1">
+              <img src="K1.png" alt="Archive entry 1" class="mob-arc-card-img" />
+            </a>
+            <!-- Cards 2–4: locked -->
+            <div class="mob-arc-card mob-arc-card-2 mob-arc-card--locked" aria-label="Locked" role="img">
+              <img src="KL.png" alt="Locked entry" class="mob-arc-card-img" />
+            </div>
+            <div class="mob-arc-card mob-arc-card-3 mob-arc-card--locked" aria-label="Locked" role="img">
+              <img src="KL.png" alt="Locked entry" class="mob-arc-card-img" />
+            </div>
+            <div class="mob-arc-card mob-arc-card-4 mob-arc-card--locked" aria-label="Locked" role="img">
+              <img src="KL.png" alt="Locked entry" class="mob-arc-card-img" />
+            </div>
+          </div>
+
+          <!-- Slide 2: all locked -->
+          <div class="mob-arc-slide" id="mob-arc-slide-2">
+            <div class="mob-arc-card mob-arc-card-1 mob-arc-card--locked" aria-label="Locked" role="img">
+              <img src="KL.png" alt="Locked entry" class="mob-arc-card-img" />
+            </div>
+            <div class="mob-arc-card mob-arc-card-2 mob-arc-card--locked" aria-label="Locked" role="img">
+              <img src="KL.png" alt="Locked entry" class="mob-arc-card-img" />
+            </div>
+            <div class="mob-arc-card mob-arc-card-3 mob-arc-card--locked" aria-label="Locked" role="img">
+              <img src="KL.png" alt="Locked entry" class="mob-arc-card-img" />
+            </div>
+            <div class="mob-arc-card mob-arc-card-4 mob-arc-card--locked" aria-label="Locked" role="img">
+              <img src="KL.png" alt="Locked entry" class="mob-arc-card-img" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Dot indicators -->
+      <div class="mob-arc-dots" role="tablist" aria-label="Archive slides">
+        <button class="mob-arc-dot active"   id="mob-arc-dot-1" role="tab" aria-selected="true"  aria-label="Slide 1" tabindex="-1"></button>
+        <button class="mob-arc-dot"          id="mob-arc-dot-2" role="tab" aria-selected="false" aria-label="Slide 2" tabindex="-1"></button>
+      </div>
+
+      <!-- ── Mobile card detail overlay (Frame 258) ── -->
+      <div class="mob-arc-overlay-backdrop" id="mobArcOverlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Archive entry detail">
+        <div class="mob-arc-overlay-panel">
+          <!-- Character image: Figma left 44, top 240 canvas → panel-relative top=26 -->
+          <img class="mob-arc-ov-img" src="sesom.png" alt="Sesshomaru archive entry" />
+          <!-- Close button -->
+          <button class="mob-arc-ov-close" id="mobArcOvClose" aria-label="Close">
+            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 5L23 23M23 5L5 23" stroke="#C1AAFA" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <!-- FILE OPENED: canvas 172,246 → panel 144,20 -->
+          <span class="mob-arc-ov-file">FILE OPENED</span>
+          <!-- AWAKENING - 001: canvas 172.16,261 → panel 144.16,35 -->
+          <span class="mob-arc-ov-id">AWAKENING - 001</span>
+          <!-- THEME label: canvas 172,284 → panel 144,58 -->
+          <span class="mob-arc-ov-theme-label">THEME</span>
+          <!-- PRIDE: canvas 172.16,295.73 → panel 144.16,69.73 -->
+          <span class="mob-arc-ov-theme-val">PRIDE</span>
+          <!-- QUESTION label: canvas 172,319 → panel 144,93 -->
+          <span class="mob-arc-ov-q-label">QUESTION</span>
+          <!-- Question body: canvas 172.16,330.71 → panel 144.16,104.71 -->
+          <p class="mob-arc-ov-q-body">Is your pride worth preserving?</p>
+          <!-- SESSHOMARU name: canvas 44,375 → panel 16,149 -->
+          <h2 class="mob-arc-ov-name">SESSHOMARU</h2>
+          <!-- Description: canvas 44,407 → panel 16,181 -->
+          <p class="mob-arc-ov-desc">He never sought power because he believed true strength required no validation. As the eldest son of Tōga, he rejected the Shikon Jewel and walked his own path without relying on borrowed power. His unwavering self-belief embodies the essence of Pride.</p>
+          <!-- ADD TO ARCHIVE: canvas 46,545 → panel 18,319 -->
+          <button class="mob-arc-ov-own" id="mobArcOvOwn">ADD TO ARCHIVE</button>
+          <!-- CURRENTLY AVAILABLE: canvas 46,577.73 → panel 18,351.73 -->
+          <span class="mob-arc-ov-avail">CURRENTLY AVAILABLE</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile page transition overlay -->
+  <div class="mob-arc-page-transition" id="mobArcPageTransition" aria-hidden="true"></div>
+
   <div class="viewport">
     <div class="canvas arc-canvas" id="canvas">
 
@@ -627,8 +1292,10 @@
       <!-- Page transition -->
       <div class="page-transition" aria-hidden="true"></div>
 
-      <!-- Logo mark — top-left, links to landing -->
-      <a class="arc-logo" href="index.html" data-transition aria-label="Fukaimori — back to entrance"></a>
+      <!-- Logo brand — top-left, links to landing -->
+      <a class="arc-logo" href="index.html" data-transition aria-label="Fukaimori — back to entrance">
+        <span class="arc-logo-mark" aria-hidden="true"></span>
+      </a>
 
       <!-- Drop point — top-right, links to droppoint.html -->
       <a class="drop-point" href="droppoint.html" data-transition aria-label="Drop Point — submit recovered sequence">
@@ -636,37 +1303,63 @@
         <span class="drop-dot" aria-hidden="true"></span>
       </a>
 
-      <!-- ARCHIVE — centered, top 142 -->
+      <!-- ARCHIVE — centered, top 136 -->
       <h1 class="arc-title">ARCHIVE</h1>
 
-      <!-- Description — centered, top 259 -->
+      <!-- Description — centered, top 253 -->
       <p class="arc-desc">This archive stores every record and collectible you have unlocked so far.</p>
 
-      <!-- sesothumb.png — unlocked, left 107, top 334 -->
-      <div class="arc-card arc-card-1" tabindex="0" role="button" aria-label="Archive entry 1 — unlocked" data-entry="seshomaru">
-        <img src="SESOTHUMB.png" alt="Archive thumbnail 1" />
+      <!-- ── Slideshow: 2 slides ── -->
+      <div class="arc-slides-wrap" id="arc-slides-wrap" aria-label="Archive collection slides">
+        <div class="arc-slides-track" id="arc-slides-track">
+
+          <!-- Slide 1: 1 unlocked + 3 locked -->
+          <div class="arc-slide" id="arc-slide-1" role="region" aria-label="Slide 1 of 2">
+            <!-- SESOTHUMB — unlocked, left 117 -->
+            <div class="arc-card arc-card-1" tabindex="0" role="button" aria-label="Archive entry 1 — unlocked" data-entry="seshomaru">
+              <img src="SESOTHUMB.png" alt="Archive thumbnail 1 — Seshomaru" />
+            </div>
+            <!-- locked, left 624.77 -->
+            <div class="arc-card arc-card-2" aria-label="Archive entry 2 — locked">
+              <img src="lockedfix.png" alt="Locked archive entry" />
+            </div>
+            <!-- locked, left 1132.65 -->
+            <div class="arc-card arc-card-3" aria-label="Archive entry 3 — locked">
+              <img src="lockedfix.png" alt="Locked archive entry" />
+            </div>
+            <!-- locked, left 1640.53 -->
+            <div class="arc-card arc-card-4" aria-label="Archive entry 4 — locked">
+              <img src="lockedfix.png" alt="Locked archive entry" />
+            </div>
+          </div>
+
+          <!-- Slide 2: all locked -->
+          <div class="arc-slide" id="arc-slide-2" role="region" aria-label="Slide 2 of 2">
+            <div class="arc-card arc-card-5 arc-card-2" style="left:117px;width:410.88px;height:603px;" aria-label="Archive entry 5 — locked">
+              <img src="lockedfix.png" alt="Locked archive entry" />
+            </div>
+            <div class="arc-card arc-card-6 arc-card-3" style="left:624.77px;width:410.88px;height:603px;" aria-label="Archive entry 6 — locked">
+              <img src="lockedfix.png" alt="Locked archive entry" />
+            </div>
+            <div class="arc-card arc-card-7 arc-card-4" style="left:1132.65px;width:410.88px;height:603px;" aria-label="Archive entry 7 — locked">
+              <img src="lockedfix.png" alt="Locked archive entry" />
+            </div>
+            <div class="arc-card arc-card-8 arc-card-4" style="left:1640.53px;width:410.88px;height:603px;" aria-label="Archive entry 8 — locked">
+              <img src="lockedfix.png" alt="Locked archive entry" />
+            </div>
+          </div>
+
+        </div><!-- /.arc-slides-track -->
+      </div><!-- /.arc-slides-wrap -->
+
+      <!-- Dot indicators — Group 139, top 1002 -->
+      <div class="arc-dots" role="tablist" aria-label="Archive slides">
+        <button class="arc-dot active"   id="arc-dot-1" role="tab" aria-selected="true"  aria-controls="arc-slide-1" aria-label="Slide 1"></button>
+        <button class="arc-dot inactive" id="arc-dot-2" role="tab" aria-selected="false" aria-controls="arc-slide-2" aria-label="Slide 2"></button>
       </div>
 
-      <!-- aw 3 — locked, left 632, top 334 -->
-      <div class="arc-card arc-card-2" aria-label="Archive entry 2 — locked">
-        <img src="aw 3.png" alt="Archive thumbnail 2" />
-      </div>
-
-      <!-- aw 4 — locked, left 1141, top 334 -->
-      <div class="arc-card arc-card-3" aria-label="Archive entry 3 — locked">
-        <img src="aw 4.png" alt="Archive thumbnail 3" />
-      </div>
-
-      <!-- aw 2 — locked, left 1650, top 334 -->
-      <div class="arc-card arc-card-4" aria-label="Archive entry 4 — locked">
-        <img src="aw 2.png" alt="Archive thumbnail 4" />
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ── Frame 243 Modal — card 1 detail ── -->
-  <div class="arc-modal-backdrop" id="arc-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Archive entry — Seshomaru detail">
+      <!-- ── Frame 243 Modal — card 1 detail ── -->
+      <div class="arc-modal-backdrop" id="arc-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Archive entry — Seshomaru detail">
 
     <!-- Rectangle 19 panel — all content inside, scaled by JS -->
     <div class="arc-modal-panel">
@@ -682,17 +1375,13 @@
       </button>
 
       <span class="arc-m-file">FILE OPENED</span>
-      <span class="arc-m-id">AW - 001</span>
-      <h2 class="arc-m-name">SESHOMARU</h2>
-      <span class="arc-m-subtitle">THE DEMON</span>
+      <h2 class="arc-m-name">SESSHOMARU</h2>
+      <p class="arc-m-desc">He never sought power because he believed true strength required no validation. As the eldest son of Tōga, he rejected the Shikon Jewel and walked his own path without relying on borrowed power. His unwavering self-belief embodies the essence of Pride.</p>
       <span class="arc-m-theme-label">THEME</span>
-      <span class="arc-m-theme-val">FULL DEMON</span>
+      <span class="arc-m-theme-val">PRIDE</span>
       <span class="arc-m-q-label">QUESTION</span>
-      <p class="arc-m-q-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis velit ac fermentum euismod. Fusce eget sapien nisl.</p>
-      <span class="arc-m-p-label">PHILOSOPHY</span>
-      <p class="arc-m-p-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis velit ac fermentum euismod. Fusce eget sapien nisl.</p>
-      <div class="arc-m-divider" aria-hidden="true"></div>
-      <button class="arc-m-own" id="arc-own-trigger" aria-haspopup="dialog">OWN THE ARCHIVE</button>
+      <p class="arc-m-q-body">Is your pride worth preserving?</p>
+      <button class="arc-m-own" id="arc-own-trigger" aria-haspopup="dialog">ADD TO ARCHIVE</button>
       <span class="arc-m-avail">CURRENTLY AVAILABLE</span>
 
     </div><!-- /.arc-modal-panel -->
@@ -701,82 +1390,304 @@
   <!-- ── Frame 244 — Own the Archive overlay ── -->
   <div class="arc-own-backdrop" id="arc-own-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Own the Archive — Sesshomaru">
     <div class="arc-own-panel">
+
+      <!-- Product image (left panel) -->
       <img class="arc-own-img" id="arc-own-img" src="kp1.png" alt="Sesshomaru product photo 1" />
-      <div class="arc-own-dots" role="tablist" aria-label="Product photos">
-        <button class="arc-own-dot active"   role="tab" aria-selected="true"  aria-label="Photo 1" data-img="kp1.png"></button>
-        <button class="arc-own-dot inactive" role="tab" aria-selected="false" aria-label="Photo 2" data-img="kp2.png"></button>
-        <button class="arc-own-dot inactive" role="tab" aria-selected="false" aria-label="Photo 3" data-img="kp3.png"></button>
-        <button class="arc-own-dot inactive" role="tab" aria-selected="false" aria-label="Photo 4" data-img="kp4.png"></button>
+
+      <!-- Image navigation dots — vertical, left side (Figma: Ellipse 19–22) -->
+      <div class="arc-own-img-dots" role="tablist" aria-label="Product photos">
+        <button class="arc-own-img-dot active"   role="tab" aria-selected="true"  aria-label="Photo 1" data-img="kp1.png"></button>
+        <button class="arc-own-img-dot inactive" role="tab" aria-selected="false" aria-label="Photo 2" data-img="kp2.png"></button>
+        <button class="arc-own-img-dot inactive" role="tab" aria-selected="false" aria-label="Photo 3" data-img="kp3.png"></button>
+        <button class="arc-own-img-dot inactive" role="tab" aria-selected="false" aria-label="Photo 4" data-img="kp4.png"></button>
       </div>
+
+      <!-- Close button — left 1516.71, top 16.96 -->
       <button class="arc-own-close" id="arc-own-close" aria-label="Close">
         <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M5 5L23 23M23 5L5 23" stroke="#C1AAFA" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
       </button>
+
+      <!-- AW 001 -->
       <span class="arc-own-id">AW 001</span>
+      <!-- SESSHOMARU -->
       <h2 class="arc-own-name">SESSHOMARU</h2>
+      <!-- Prices -->
       <span class="arc-own-price-old">Rp. 499.000</span>
       <span class="arc-own-price-new">Rp. 399.000</span>
+      <!-- Divider -->
       <div class="arc-own-line" aria-hidden="true"></div>
+      <!-- Description -->
       <span class="arc-own-desc-label">Description</span>
-      <p class="arc-own-desc-body">Inspired by Sesshomaru's unmatched strength and elegance, this comfortable anime T-shirt is made for everyday style.</p>
+      <p class="arc-own-desc-body">An original interpretation, brought into the world of FUKAIMORI. Each on its own, together into something larger.</p>
+      <!-- Features -->
       <span class="arc-own-feat-label">Features</span>
-      <!-- Feature bullet rows — Ellipse 23–26 dots + Group 114–117 text -->
       <span class="arc-own-feat-dot arc-own-feat-dot-1" aria-hidden="true"></span>
-      <p class="arc-own-feat-item arc-own-feat-item-1">Premium soft cotton fabric</p>
+      <p class="arc-own-feat-item arc-own-feat-item-1">Heavy Cotton Combed 20s</p>
       <span class="arc-own-feat-dot arc-own-feat-dot-2" aria-hidden="true"></span>
-      <p class="arc-own-feat-item arc-own-feat-item-2">High-quality, durable print</p>
+      <p class="arc-own-feat-item arc-own-feat-item-2">Manual Screen Printed</p>
       <span class="arc-own-feat-dot arc-own-feat-dot-3" aria-hidden="true"></span>
-      <p class="arc-own-feat-item arc-own-feat-item-3">Comfortable unisex fit</p>
-      <span class="arc-own-feat-dot arc-own-feat-dot-4" aria-hidden="true"></span>
-      <p class="arc-own-feat-item arc-own-feat-item-4">Perfect for anime fans and collectors</p>
+      <p class="arc-own-feat-item arc-own-feat-item-3">A Limited Release, Then History</p>
+
+      <!-- Color selector pill — Group 146/147: White / Black / Washed -->
+      <div class="arc-own-color-selector" role="group" aria-label="Color options">
+        <div class="arc-own-color-track" id="arc-own-color-track" aria-hidden="true"></div>
+        <button class="arc-own-color-btn active"   data-color="white"  aria-pressed="true">White</button>
+        <button class="arc-own-color-btn inactive" data-color="black"  aria-pressed="false">Black</button>
+        <button class="arc-own-color-btn inactive" data-color="washed" aria-pressed="false">Washed</button>
+      </div>
+
+      <!-- Order Here -->
       <span class="arc-own-order-label">Order Here</span>
-      <!-- WA icon — left 782, top 644 -->
-      <span class="arc-own-wa-icon" aria-hidden="true">
+      <!-- Social icons -->
+      <a class="arc-own-wa-icon" href="https://wa.me/6282212314123" target="_blank" rel="noopener" aria-label="Order via WhatsApp">
         <img src="walogo.png" alt="" />
-      </span>
-      <!-- WA number — left 816, top 641 -->
-      <a class="arc-own-wa-num" href="https://wa.me/6282212314123" target="_blank" rel="noopener">0822123141233</a>
-      <!-- IG icon — left 1062, top 644 -->
-      <span class="arc-own-ig-icon" aria-hidden="true">
+      </a>
+      <a class="arc-own-ig-icon" href="https://instagram.com/fukaimori.world" target="_blank" rel="noopener" aria-label="Follow on Instagram">
         <img src="iglogo.png" alt="" />
-      </span>
-      <!-- IG link — left 1101.66, top 641 -->
-      <a class="arc-own-ig-link" href="https://fukaimori.world" target="_blank" rel="noopener">Fukaimori.world</a>
+      </a>
+
     </div>
   </div><!-- /.arc-own-backdrop -->
 
   <script>
+    // ── CONTAIN scaler — overrides script.js COVER scale for archive page ──
+    // Runs immediately so there's no flash before script.js fires
+    (function overrideScaler() {
+      var canvas = document.getElementById('canvas');
+      if (!canvas) return;
+      function applyContain() {
+        var vw = window.innerWidth;
+        var vh = window.innerHeight;
+        var dw = 2168;
+        var dh = 1080;
+        var sx = vw / dw;
+        var sy = vh / dh;
+        // CONTAIN: use the smaller ratio so nothing is ever cropped
+        var s = Math.min(sx, sy);
+        canvas.style.setProperty('--scale-x', String(s));
+        canvas.style.setProperty('--scale-y', String(s));
+      }
+      applyContain();
+      window.addEventListener('resize', applyContain);
+      window.addEventListener('orientationchange', applyContain);
+      window.addEventListener('load', applyContain);
+    })();
+
     // After entrance animation ends, lock opacity so CSS hover works cleanly
     document.querySelectorAll('.arc-card').forEach(function(el) {
       el.addEventListener('animationend', function() {
-        el.style.cssText = 'opacity: 1;';
+        el.style.opacity = '1';
       }, { once: true });
     });
 
-    // ── Frame 244 Own-the-Archive overlay ──
-    (function initOwnModal() {
-      var backdrop = document.getElementById('arc-own-modal');
-      var trigger  = document.getElementById('arc-own-trigger');
-      var closeBtn = document.getElementById('arc-own-close');
-      var panel    = backdrop ? backdrop.querySelector('.arc-own-panel') : null;
-      var imgEl    = document.getElementById('arc-own-img');
-      var dots     = backdrop ? backdrop.querySelectorAll('.arc-own-dot') : [];
-      if (!backdrop || !trigger) return;
+    // ── Archive slide switching ──
+    (function initSlides() {
+      var track   = document.getElementById('arc-slides-track');
+      var dots    = document.querySelectorAll('.arc-dot');
+      var current = 0;
+      if (!track || !dots.length) return;
+
+      function goTo(index) {
+        current = index;
+        // Slide track: each slide is 50% of track width = 100% of viewport
+        track.style.transform = 'translateX(-' + (index * 50) + '%)';
+        dots.forEach(function(d, i) {
+          if (i === index) {
+            d.classList.remove('inactive');
+            d.classList.add('active');
+            d.setAttribute('aria-selected', 'true');
+          } else {
+            d.classList.remove('active');
+            d.classList.add('inactive');
+            d.setAttribute('aria-selected', 'false');
+          }
+        });
+      }
+
+      dots.forEach(function(dot, i) {
+        dot.addEventListener('click', function() { goTo(i); });
+        dot.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goTo(i); }
+        });
+      });
+
+      // Keyboard arrow navigation when not in a modal
+      document.addEventListener('keydown', function(e) {
+        if (document.querySelector('.arc-modal-backdrop.open') ||
+            document.querySelector('.arc-own-backdrop.open')) return;
+        if (e.key === 'ArrowRight' && current < dots.length - 1) goTo(current + 1);
+        if (e.key === 'ArrowLeft'  && current > 0)               goTo(current - 1);
+      });
+    })();
+
+    // ── Frame 242 Modal — card 1 detail ──
+    (function initModal() {
+      var backdrop  = document.getElementById('arc-modal');
+      var panel     = backdrop ? backdrop.querySelector('.arc-modal-panel') : null;
+      var closeBtn  = backdrop ? backdrop.querySelector('.arc-modal-close') : null;
+      var card1     = document.querySelector('.arc-card-1');
+      if (!backdrop || !card1) return;
 
       var lastFocused = null;
 
       function applyScale() {
         if (!panel) return;
-        var sx = (window.innerWidth  * 0.82) / 1557;
-        var sy = (window.innerHeight * 0.82) / 776.54;
+        // Use the canvas scale factor so the panel fits within the scaled canvas
+        var canvasScale = parseFloat(getComputedStyle(document.getElementById('canvas')).getPropertyValue('--scale-x')) || 1;
+        var availW = window.innerWidth  / canvasScale * 0.9;
+        var availH = window.innerHeight / canvasScale * 0.9;
+        var sx = availW / 1557;
+        var sy = availH / 776.54;
         var s  = Math.min(sx, sy, 1);
         panel.style.transform = 'scale(' + s + ')';
       }
 
-      function openOwn() {
+      function openModal() {
         lastFocused = document.activeElement;
         applyScale();
+        backdrop.classList.add('open');
+        backdrop.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        if (closeBtn) closeBtn.focus();
+      }
+
+      function closeModal() {
+        backdrop.classList.remove('open');
+        backdrop.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+      }
+
+      card1.addEventListener('click', openModal);
+      card1.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
+      });
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+      backdrop.addEventListener('click', function(e) {
+        if (panel && !panel.contains(e.target)) closeModal();
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && backdrop.classList.contains('open')) {
+          e.stopImmediatePropagation();
+          closeModal();
+        }
+      });
+
+      window.addEventListener('resize', function() {
+        if (backdrop.classList.contains('open')) applyScale();
+      });
+    })();
+
+    // ── Frame 244 Own-the-Archive overlay ──
+    (function initOwnModal() {
+      var backdrop   = document.getElementById('arc-own-modal');
+      var trigger    = document.getElementById('arc-own-trigger');
+      var closeBtn   = document.getElementById('arc-own-close');
+      var panel      = backdrop ? backdrop.querySelector('.arc-own-panel') : null;
+      var imgEl      = document.getElementById('arc-own-img');
+      var imgDots    = backdrop ? backdrop.querySelectorAll('.arc-own-img-dot') : [];
+      var colorBtns  = backdrop ? backdrop.querySelectorAll('.arc-own-color-btn') : [];
+      var colorTrack = document.getElementById('arc-own-color-track');
+      if (!backdrop || !trigger) return;
+
+      var lastFocused = null;
+
+      // Images per color variant
+      var colorImages = {
+        white:  ['kp1.png', 'kp2.png', 'kp3.png', 'kp4.png'],
+        black:  ['KB1.png', 'kb2.png', 'kb3.png', 'kb4.png'],
+        washed: ['ws1.png', 'ws2.png']
+      };
+      var currentColor = 'white';
+      var currentImgIdx = 0;
+
+      function applyScale() {
+        if (!panel) return;
+        var canvasScale = parseFloat(getComputedStyle(document.getElementById('canvas')).getPropertyValue('--scale-x')) || 1;
+        var availW = window.innerWidth  / canvasScale * 0.82;
+        var availH = window.innerHeight / canvasScale * 0.82;
+        var s = Math.min(availW / 1557, availH / 776.54, 1);
+        panel.style.transform = 'scale(' + s + ')';
+      }
+
+      // Posisi top default tiap dot (4 dots, spacing ~47px, mulai 309px)
+      var dotTops = [309, 356.52, 404.05, 451.57];
+
+      function updateImgDots() {
+        var total = colorImages[currentColor].length;
+        // Hitung posisi center vertikal untuk jumlah dot yang tampil
+        // Panel tinggi 776.54px, spacing antar dot 47.52px
+        var spacing = 47.52;
+        var totalHeight = (total - 1) * spacing;
+        var startTop = (776.54 - totalHeight) / 2;
+
+        imgDots.forEach(function(d, i) {
+          d.style.display = i < total ? '' : 'none';
+          d.classList.toggle('active',   i === currentImgIdx);
+          d.classList.toggle('inactive', i !== currentImgIdx);
+          d.setAttribute('aria-selected', String(i === currentImgIdx));
+          // Posisi: 4 dots → posisi default, < 4 dots → center vertikal
+          if (total < 4 && i < total) {
+            d.style.top = (startTop + i * spacing) + 'px';
+          } else if (i < total) {
+            d.style.top = dotTops[i] + 'px';
+          }
+        });
+      }
+
+      function setImage(idx) {
+        var total = colorImages[currentColor].length;
+        currentImgIdx = Math.min(idx, total - 1);
+        updateImgDots();
+        if (imgEl) {
+          imgEl.style.opacity = '0';
+          setTimeout(function() {
+            imgEl.src = colorImages[currentColor][currentImgIdx];
+            imgEl.alt = 'Sesshomaru — Photo ' + (currentImgIdx + 1);
+            imgEl.style.opacity = '1';
+          }, 180);
+        }
+      }
+
+      // Color selector — toggle active/inactive per kotak
+      function setColor(colorBtn) {
+        var btns = Array.from(colorBtns);
+        var idx  = btns.indexOf(colorBtn);
+        currentColor = colorBtn.getAttribute('data-color');
+
+        btns.forEach(function(b, i) {
+          b.classList.toggle('active',   i === idx);
+          b.classList.toggle('inactive', i !== idx);
+          b.setAttribute('aria-pressed', String(i === idx));
+        });
+
+        // Reset to first photo of new color, update visible dots
+        currentImgIdx = 0;
+        updateImgDots();
+        if (imgEl) {
+          imgEl.style.opacity = '0';
+          setTimeout(function() {
+            imgEl.src = colorImages[currentColor][0];
+            imgEl.alt = 'Sesshomaru — Photo 1';
+            imgEl.style.opacity = '1';
+          }, 180);
+        }
+      }
+
+      function openOwn() {
+        lastFocused = document.activeElement;
+        var firstModal = document.getElementById('arc-modal');
+        if (firstModal) {
+          firstModal.classList.remove('open');
+          firstModal.setAttribute('aria-hidden', 'true');
+        }
+        applyScale();
+        history.pushState({ modal: 'arc-own-modal' }, '');
         backdrop.classList.add('open');
         backdrop.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
@@ -789,6 +1700,10 @@
         document.body.style.overflow = '';
         if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
       }
+
+      window.addEventListener('popstate', function() {
+        if (backdrop.classList.contains('open')) closeOwn();
+      });
 
       trigger.addEventListener('click', openOwn);
       trigger.addEventListener('keydown', function(e) {
@@ -812,28 +1727,218 @@
         if (backdrop.classList.contains('open')) applyScale();
       });
 
-      dots.forEach(function(dot) {
-        dot.addEventListener('click', function() {
-          dots.forEach(function(d) {
-            d.classList.remove('active');
-            d.classList.add('inactive');
-            d.setAttribute('aria-selected', 'false');
-          });
-          dot.classList.remove('inactive');
-          dot.classList.add('active');
-          dot.setAttribute('aria-selected', 'true');
-          if (imgEl) {
-            imgEl.style.opacity = '0';
-            setTimeout(function() {
-              imgEl.src = dot.getAttribute('data-img');
-              imgEl.alt = 'Sesshomaru — ' + dot.getAttribute('aria-label');
-              imgEl.style.opacity = '1';
-            }, 180);
-          }
-        });
+      // Image dot clicks
+      imgDots.forEach(function(dot, i) {
+        dot.addEventListener('click', function() { setImage(i); });
+      });
+
+      // Color button clicks
+      colorBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() { setColor(btn); });
       });
     })();
   </script>
   <script src="script.js"></script>
+  <script>
+    /* ── Mobile archive layout scripts ── */
+    (function () {
+      'use strict';
+
+      function isMobileLayout() {
+        return window.matchMedia('(max-width: 768px)').matches;
+      }
+
+      /* Accessibility sync */
+      function syncAccessibility() {
+        var desktop = document.querySelector('.viewport');
+        var mobile  = document.querySelector('.mob-arc-viewport');
+        if (!desktop || !mobile) return;
+        var onMobile = isMobileLayout();
+        desktop.setAttribute('aria-hidden', onMobile ? 'true' : 'false');
+        desktop.querySelectorAll('a, button, [tabindex]').forEach(function (el) {
+          if (onMobile) {
+            el.setAttribute('data-saved-ti', el.getAttribute('tabindex') || '');
+            el.setAttribute('tabindex', '-1');
+          } else {
+            var s = el.getAttribute('data-saved-ti');
+            if (s !== null && s !== '') { el.setAttribute('tabindex', s); }
+            else { el.removeAttribute('tabindex'); }
+            el.removeAttribute('data-saved-ti');
+          }
+        });
+        mobile.setAttribute('aria-hidden', onMobile ? 'false' : 'true');
+        mobile.querySelectorAll('a, button').forEach(function (el) {
+          if (onMobile) { el.removeAttribute('tabindex'); }
+          else          { el.setAttribute('tabindex', '-1'); }
+        });
+      }
+      syncAccessibility();
+      window.addEventListener('resize', syncAccessibility);
+
+      /* Mobile canvas scaler */
+      (function scaler() {
+        var canvas = document.getElementById('mobArcCanvas');
+        if (!canvas) return;
+        var DW = 474, DH = 814;
+        function apply() {
+          if (!isMobileLayout()) return;
+          var scale = Math.max(window.innerWidth / DW,
+            (window.innerHeight || document.documentElement.clientHeight) / DH);
+          canvas.style.setProperty('--mob-arc-scale', String(scale));
+        }
+        apply();
+        window.addEventListener('resize', apply);
+        window.addEventListener('orientationchange', function () { setTimeout(apply, 100); });
+      })();
+
+      /* Mobile page transition */
+      (function initTransition() {
+        var overlay = document.getElementById('mobArcPageTransition');
+        if (!overlay) return;
+
+        if (overlay.classList.contains('is-leaving')) {
+          overlay.classList.remove('is-leaving');
+          overlay.style.cssText = 'opacity:0;animation:none';
+          void overlay.offsetWidth;
+          overlay.style.cssText = '';
+        }
+
+        if (isMobileLayout()) {
+          overlay.classList.add('is-entering');
+          overlay.addEventListener('animationend', function onIn() {
+            overlay.classList.remove('is-entering');
+            overlay.removeEventListener('animationend', onIn);
+          });
+        }
+
+        window.addEventListener('pageshow', function (e) {
+          if (!e.persisted || !isMobileLayout()) return;
+          overlay.classList.remove('is-leaving', 'is-entering');
+          overlay.style.cssText = 'opacity:0;animation:none';
+          void overlay.offsetWidth;
+          overlay.style.cssText = '';
+          overlay.classList.add('is-entering');
+          overlay.addEventListener('animationend', function onR() {
+            overlay.classList.remove('is-entering');
+            overlay.removeEventListener('animationend', onR);
+          });
+        });
+
+        function navigate(href) {
+          overlay.classList.remove('is-entering');
+          overlay.classList.add('is-leaving');
+          overlay.addEventListener('animationend', function onLeft() {
+            overlay.removeEventListener('animationend', onLeft);
+            window.location.href = href;
+          });
+        }
+
+        document.querySelectorAll('.mob-arc-brand').forEach(function (link) {
+          var href = link.getAttribute('href');
+          if (!href || href === '#') return;
+          link.addEventListener('click', function (e) {
+            if (!isMobileLayout()) return;
+            e.preventDefault();
+            navigate(href);
+          });
+        });
+
+        /* Card 1 on slide 1 — open overlay instead of navigating */
+        var card1 = document.querySelector('#mob-arc-slide-1 .mob-arc-card-1');
+        if (card1) {
+          card1.addEventListener('click', function (e) {
+            if (!isMobileLayout()) return;
+            e.preventDefault();
+            openMobOverlay();
+          });
+        }
+      })();
+
+      /* Mobile card-detail overlay */
+      (function initMobOverlay() {
+        var backdrop = document.getElementById('mobArcOverlay');
+        var closeBtn = document.getElementById('mobArcOvClose');
+        var panel    = backdrop ? backdrop.querySelector('.mob-arc-overlay-panel') : null;
+        if (!backdrop) return;
+
+        function openMobOverlay() {
+          backdrop.classList.add('open');
+          backdrop.setAttribute('aria-hidden', 'false');
+        }
+        /* expose so initTransition can call it */
+        window._openMobArcOverlay = openMobOverlay;
+
+        function closeMobOverlay() {
+          backdrop.classList.remove('open');
+          backdrop.setAttribute('aria-hidden', 'true');
+        }
+
+        if (closeBtn) {
+          closeBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            closeMobOverlay();
+          });
+        }
+
+        backdrop.addEventListener('click', function (e) {
+          if (panel && !panel.contains(e.target)) closeMobOverlay();
+        });
+      })();
+
+      /* Patch: allow initTransition's card1 listener to call overlay */
+      function openMobOverlay() {
+        if (window._openMobArcOverlay) window._openMobArcOverlay();
+      }
+
+      /* Mobile slide switching */
+      (function initMobSlides() {
+        var track = document.getElementById('mobArcSlidesTrack');
+        var dots  = document.querySelectorAll('.mob-arc-dot');
+        if (!track || !dots.length) return;
+        var current = 0;
+
+        function goTo(idx) {
+          current = idx;
+          /* Each slide = 50% of track (which is 200% wide), so translateX by idx * 50% */
+          track.style.transform = 'translateX(-' + (idx * 50) + '%)';
+          dots.forEach(function (d, i) {
+            if (i === idx) {
+              d.classList.add('active');
+              d.setAttribute('aria-selected', 'true');
+            } else {
+              d.classList.remove('active');
+              d.setAttribute('aria-selected', 'false');
+            }
+          });
+        }
+
+        dots.forEach(function (dot, i) {
+          dot.addEventListener('click', function (e) {
+            if (!isMobileLayout()) return;
+            goTo(i);
+          });
+        });
+
+        /* Touch swipe */
+        var wrap = document.getElementById('mobArcSlidesWrap');
+        if (wrap) {
+          var startX = 0, dragging = false;
+          wrap.addEventListener('touchstart', function (e) {
+            startX = e.touches[0].clientX;
+            dragging = true;
+          }, { passive: true });
+          wrap.addEventListener('touchend', function (e) {
+            if (!dragging) return;
+            dragging = false;
+            var dx = e.changedTouches[0].clientX - startX;
+            if (Math.abs(dx) < 40) return;
+            if (dx < 0 && current < dots.length - 1) goTo(current + 1);
+            if (dx > 0 && current > 0)               goTo(current - 1);
+          }, { passive: true });
+        }
+      })();
+
+    })();
+  </script>
 </body>
 </html>

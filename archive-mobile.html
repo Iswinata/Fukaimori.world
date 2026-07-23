@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#05020a" />
+  <meta name="description" content="Fukaimori — Archive" />
+  <title>Fukaimori · Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Cantarell:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       Fukaimori · Archive Mobile
+       Design base: 474 × 814 px (Figma Frame 257)
+       JS scales the canvas to COVER the device viewport.
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #05020a;
+      overflow: hidden;
+    }
+
+    /* Full-viewport centering stage */
+    .arc-viewport {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #05020a;
+      overflow: hidden;
+    }
+
+    /* ── Design canvas: 474 × 814 — scaled by JS to COVER screen ── */
+    .arc-canvas {
+      position: relative;
+      width: 474px;
+      height: 814px;
+      flex: none;
+      overflow: hidden;
+      transform: scale(var(--arc-scale, 1));
+      transform-origin: center center;
+    }
+
+    /* ── Background: BGMN.png ── */
+    .arc-bg {
+      position: absolute;
+      width: 474px;
+      height: 814px;
+      left: 0;
+      top: 0;
+      background: url("BGMN.png") center center / cover no-repeat;
+      z-index: 1;
+    }
+
+    /* ── Hamburger — Group 168: left 27, top 38 ── */
+    .arc-hamburger {
+      position: absolute;
+      left: 27px;
+      top: 38px;
+      width: 20.22px;
+      height: 12.77px;
+      z-index: 9;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .arc-hamburger-line {
+      display: block;
+      width: 20.22px;
+      height: 0;
+      border-top: 2.12889px solid #7960FF;
+      border-radius: 1px;
+    }
+
+    /* ── Brand — Group 143: centered, top 34, 146.41 × 21 ── */
+    .arc-brand {
+      position: absolute;
+      width: 146.41px;
+      height: 21px;
+      left: calc(50% - 146.41px / 2 + 0.21px);
+      top: 34px;
+      z-index: 9;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .arc-brand-mark {
+      flex-shrink: 0;
+      width: 16.16px;
+      height: 18.13px;
+      background: url("Subtract.png") center center / contain no-repeat;
+    }
+    .arc-brand-text {
+      font-family: 'Cantarell', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 14.8308px;
+      line-height: 21px;
+      letter-spacing: 0.21em;
+      white-space: nowrap;
+      background: linear-gradient(90deg, #786BC7 0%, #442ADD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── ARCHIVE heading — centered, top 97, 160 × 43 ── */
+    .arc-title {
+      position: absolute;
+      width: 160px;
+      height: 43px;
+      left: calc(50% - 160px / 2 - 0.25px);
+      top: 97px;
+      z-index: 5;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-weight: 400;
+      font-size: 35.9296px;
+      line-height: 43px;
+      text-align: center;
+      color: #786BC7;
+      white-space: nowrap;
+    }
+
+    /* ── Description — centered, top 136, 298 × 34 ── */
+    .arc-desc {
+      position: absolute;
+      width: 298px;
+      height: 34px;
+      left: calc(50% - 298px / 2);
+      top: 136px;
+      z-index: 5;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+      text-align: center;
+      color: #C2B8FF;
+    }
+
+    /* ── Card grid — 4 cards in 2×2, exact Figma coords ── */
+
+    /* Card base */
+    .arc-card {
+      position: absolute;
+      width: 160.59px;
+      height: 235.67px;
+      display: block;
+      text-decoration: none;
+      overflow: hidden;
+      border-radius: 2px;
+      z-index: 5;
+      -webkit-tap-highlight-color: transparent;
+      transition: filter 0.25s ease, transform 0.2s ease;
+    }
+    .arc-card:active {
+      filter: brightness(1.15);
+      transform: scale(0.97);
+    }
+
+    /* Card image fills the card */
+    .arc-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Locked card — no pointer events, slightly dimmed */
+    .arc-card--locked {
+      cursor: default;
+      filter: brightness(0.55) saturate(0.5);
+    }
+    .arc-card--locked:active {
+      filter: brightness(0.55) saturate(0.5);
+      transform: none;
+    }
+
+    /* aw 3 2 (Seshomaru) — top-left: left 57, top 196 */
+    .arc-card-1 {
+      left: 57px;
+      top: 196px;
+    }
+
+    /* aw 3 1 — top-right: left 255.45, top 196 */
+    .arc-card-2 {
+      left: 255.45px;
+      top: 196px;
+    }
+
+    /* aw 3 3 — bottom-left: left 57, top 466.72 */
+    .arc-card-3 {
+      left: 57px;
+      top: 466.72px;
+    }
+
+    /* aw 3 4 — bottom-right: left 255.21, top 466.72 */
+    .arc-card-4 {
+      left: 255.21px;
+      top: 466.72px;
+    }
+
+    /* ── Dot indicators — Ellipse 29 & 30 ── */
+    /* Ellipse 29: left 213, top 728, 13.53 × 13.53, #9C8CFF (active) */
+    .arc-dot-active {
+      position: absolute;
+      width: 13.53px;
+      height: 13.53px;
+      left: 213px;
+      top: 728px;
+      border-radius: 50%;
+      background: #9C8CFF;
+      z-index: 6;
+    }
+
+    /* Ellipse 30: left 244.58, top 728, 13.53 × 13.53, rgba(208,200,255,0.33) */
+    .arc-dot-inactive {
+      position: absolute;
+      width: 13.53px;
+      height: 13.53px;
+      left: 244.58px;
+      top: 728px;
+      border-radius: 50%;
+      background: rgba(208, 200, 255, 0.33);
+      z-index: 6;
+    }
+
+    /* ── Page transition overlay ── */
+    .arc-page-transition {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      pointer-events: none;
+      background: #05020a;
+      opacity: 0;
+    }
+    .arc-page-transition.is-leaving {
+      pointer-events: all;
+      animation: arc-pt-out 0.35s ease forwards;
+    }
+    .arc-page-transition.is-entering {
+      opacity: 1;
+      pointer-events: none;
+      animation: arc-pt-in 0.4s ease forwards;
+    }
+    @keyframes arc-pt-out {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes arc-pt-in {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+
+    /* ── Entrance animations ── */
+    @keyframes arc-fade-up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .arc-title  { animation: arc-fade-up 0.6s cubic-bezier(0.22,1,0.36,1) 0.15s both; }
+    .arc-desc   { animation: arc-fade-up 0.6s cubic-bezier(0.22,1,0.36,1) 0.22s both; }
+    .arc-card-1 { animation: arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.28s both; }
+    .arc-card-2 { animation: arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.34s both; }
+    .arc-card-3 { animation: arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.40s both; }
+    .arc-card-4 { animation: arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.46s both; }
+  </style>
+</head>
+<body>
+  <div class="arc-viewport">
+    <div class="arc-canvas" id="arcCanvas">
+
+      <!-- BGMN.png background -->
+      <div class="arc-bg" aria-hidden="true"></div>
+
+      <!-- Feather particles -->
+      <canvas class="arc-starfield" aria-hidden="true" style="position:absolute;inset:0;width:474px;height:814px;z-index:2;pointer-events:none;display:block;"></canvas>
+
+      <!-- Hamburger → droppoint.html -->
+      <a class="arc-hamburger" href="droppoint.html" aria-label="Drop Point">
+        <span class="arc-hamburger-line"></span>
+        <span class="arc-hamburger-line"></span>
+        <span class="arc-hamburger-line"></span>
+      </a>
+
+      <!-- Brand → back to index -->
+      <a class="arc-brand" href="index.html" aria-label="Fukaimori — Back to home">
+        <span class="arc-brand-mark" aria-hidden="true"></span>
+        <span class="arc-brand-text">FUKAIMORI</span>
+      </a>
+
+      <!-- ARCHIVE heading -->
+      <h1 class="arc-title">ARCHIVE</h1>
+
+      <!-- Description -->
+      <p class="arc-desc">This archive stores every record and collectible you have unlocked so far.</p>
+
+      <!-- Card 1: K1.png — unlocked (top-left, Figma "aw 3 2") -->
+      <a class="arc-card arc-card-1" href="archive.html" aria-label="Archive entry 1">
+        <img src="K1.png" alt="Archive entry 1" class="arc-card-img" />
+      </a>
+
+      <!-- Card 2: locked (top-right, Figma "aw 3 1") -->
+      <div class="arc-card arc-card-2 arc-card--locked" aria-label="Locked" role="img">
+        <img src="KL.png" alt="Locked entry" class="arc-card-img" />
+      </div>
+
+      <!-- Card 3: locked (bottom-left, Figma "aw 3 3") -->
+      <div class="arc-card arc-card-3 arc-card--locked" aria-label="Locked" role="img">
+        <img src="KL.png" alt="Locked entry" class="arc-card-img" />
+      </div>
+
+      <!-- Card 4: locked (bottom-right, Figma "aw 3 4") -->
+      <div class="arc-card arc-card-4 arc-card--locked" aria-label="Locked" role="img">
+        <img src="KL.png" alt="Locked entry" class="arc-card-img" />
+      </div>
+
+      <!-- Pagination dots -->
+      <span class="arc-dot-active" aria-hidden="true"></span>
+      <span class="arc-dot-inactive" aria-hidden="true"></span>
+
+    </div>
+  </div>
+
+  <!-- Page transition overlay -->
+  <div class="arc-page-transition" id="arcPageTransition" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* ── Scale canvas to COVER viewport ── */
+      (function scaler() {
+        var canvas = document.getElementById('arcCanvas');
+        if (!canvas) return;
+        var DW = 474, DH = 814;
+
+        function apply() {
+          var vw = window.innerWidth;
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var scale = Math.max(vw / DW, vh / DH);
+          canvas.style.setProperty('--arc-scale', String(scale));
+        }
+
+        apply();
+        window.addEventListener('resize', apply);
+        window.addEventListener('orientationchange', function () { setTimeout(apply, 100); });
+      })();
+
+      /* ── Page transition ── */
+      (function initTransition() {
+        var overlay = document.getElementById('arcPageTransition');
+        if (!overlay) return;
+
+        // Safety reset stuck state
+        if (overlay.classList.contains('is-leaving')) {
+          overlay.classList.remove('is-leaving');
+          overlay.style.opacity = '0';
+          overlay.style.animation = 'none';
+          void overlay.offsetWidth;
+          overlay.style.opacity = '';
+          overlay.style.animation = '';
+        }
+
+        // Fade in on load
+        overlay.classList.add('is-entering');
+        overlay.addEventListener('animationend', function onIn() {
+          overlay.classList.remove('is-entering');
+          overlay.removeEventListener('animationend', onIn);
+        });
+
+        // bfcache restore
+        window.addEventListener('pageshow', function (e) {
+          if (!e.persisted) return;
+          overlay.classList.remove('is-leaving', 'is-entering');
+          overlay.style.opacity = '0';
+          overlay.style.animation = 'none';
+          void overlay.offsetWidth;
+          overlay.style.opacity = '';
+          overlay.style.animation = '';
+          overlay.classList.add('is-entering');
+          overlay.addEventListener('animationend', function onR() {
+            overlay.classList.remove('is-entering');
+            overlay.removeEventListener('animationend', onR);
+          });
+        });
+
+        function navigate(href) {
+          overlay.classList.remove('is-entering');
+          overlay.classList.add('is-leaving');
+          overlay.addEventListener('animationend', function onLeft() {
+            overlay.removeEventListener('animationend', onLeft);
+            window.location.href = href;
+          });
+        }
+
+        // Intercept all nav links
+        document.querySelectorAll('a[href]').forEach(function (link) {
+          var href = link.getAttribute('href');
+          if (!href || href === '#') return;
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            navigate(href);
+          });
+        });
+      })();
+
+      /* ── Feather particles ── */
+      (function initFeathers() {
+        var cvs = document.querySelector('.arc-starfield');
+        if (!cvs) return;
+        var ctx = cvs.getContext('2d');
+        var W = 474, H = 814;
+        cvs.width = W; cvs.height = H;
+        var feathers = [], NUM = 40;
+        var palette = [
+          [180,100,255],[210,140,255],[150,70,230],
+          [220,160,255],[130,50,210],[255,200,255],[170,90,255]
+        ];
+        function rnd() {
+          var col = palette[Math.floor(Math.random()*palette.length)];
+          return { x:Math.random()*W, y:Math.random()*H,
+            angle:Math.random()*Math.PI*2, drift:Math.random()*Math.PI*2,
+            spin:(Math.random()-0.5)*0.018, speed:Math.random()*0.18+0.04,
+            len:Math.random()*18+6, width:Math.random()*1.4+0.4, col:col,
+            baseAlpha:Math.random()*0.5+0.3,
+            twinklePeriod:Math.random()*160+70, twinklePhase:Math.random()*Math.PI*2 };
+        }
+        for (var i=0;i<NUM;i++) feathers.push(rnd());
+        var frame=0;
+        function draw() {
+          ctx.clearRect(0,0,W,H); frame++;
+          for (var j=0;j<feathers.length;j++) {
+            var f=feathers[j];
+            f.x+=Math.cos(f.drift)*f.speed; f.y+=Math.sin(f.drift)*f.speed; f.angle+=f.spin;
+            if(f.x<-f.len)f.x=W+f.len; if(f.x>W+f.len)f.x=-f.len;
+            if(f.y<-f.len)f.y=H+f.len; if(f.y>H+f.len)f.y=-f.len;
+            var tw=Math.sin(frame/f.twinklePeriod*Math.PI*2+f.twinklePhase);
+            var fa=Math.max(0.06,Math.min(0.92,f.baseAlpha+tw*0.28));
+            ctx.save(); ctx.translate(f.x,f.y); ctx.rotate(f.angle);
+            var g=ctx.createLinearGradient(-f.len/2,0,f.len/2,0);
+            g.addColorStop(0,'rgba('+f.col+',0)');
+            g.addColorStop(0.25,'rgba('+f.col+','+(fa*0.5).toFixed(2)+')');
+            g.addColorStop(0.5,'rgba('+f.col+','+fa.toFixed(2)+')');
+            g.addColorStop(0.75,'rgba('+f.col+','+(fa*0.5).toFixed(2)+')');
+            g.addColorStop(1,'rgba('+f.col+',0)');
+            ctx.shadowColor='rgba('+f.col+','+(fa*0.9).toFixed(2)+')';
+            ctx.shadowBlur=8; ctx.beginPath();
+            ctx.moveTo(-f.len/2,0); ctx.lineTo(f.len/2,0);
+            ctx.strokeStyle=g; ctx.lineWidth=f.width*2.2; ctx.stroke();
+            ctx.restore();
+          }
+          requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+
+    })();
+  </script>
+</body>
+</html>

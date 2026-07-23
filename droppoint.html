@@ -8,7 +8,7 @@
   <title>Fukaimori · Drop Point</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Maven+Pro:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Maven+Pro:wght@400;500&family=Cantarell:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* ── DROP POINT page — Frame 233 exact Figma spec ── */
@@ -29,8 +29,20 @@
       pointer-events: none;
     }
 
-    /* Rectangle 12: visibility hidden — no overlay */
-    .dp-overlay { display: none; }
+    /* Rectangle 12: fullscreen overlay matching background */
+    .dp-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      background-image: url("BGNEW.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      opacity: 0.55;
+    }
 
     /* DROP POINT heading — left calc(50%−416/2−0.06px), top 319, 416×80 */
     .dp-heading {
@@ -68,10 +80,10 @@
       white-space: nowrap;
     }
 
-    /* RECOVERED SEQUENCE label — left 637.15, top 475.13, 208×23 */
+    /* RECOVERED SEQUENCE label — centered over 6 boxes */
     .dp-label {
       position: absolute;
-      left: 637.15px;
+      left: calc(50% - 208px / 2);
       top: 475.13px;
       width: 208px;
       height: 23px;
@@ -85,7 +97,7 @@
       margin: 0;
     }
 
-    /* 9 input boxes — individually positioned, all top 515.33, 85.88×85.88 */
+    /* 6 input boxes — centered, all top 515.33, 85.88×85.88 */
     .dp-seq-box {
       position: absolute;
       top: 515.33px;
@@ -113,16 +125,13 @@
       border-color: #FF2D2D;
       color: #FF2D2D;
     }
-    /* Individual left positions from Figma */
-    .dp-seq-box:nth-child(1) { left: 637px; }
-    .dp-seq-box:nth-child(2) { left: 738.12px; }
-    .dp-seq-box:nth-child(3) { left: 839.24px; }
-    .dp-seq-box:nth-child(4) { left: 940.36px; }
-    .dp-seq-box:nth-child(5) { left: 1041.48px; }
-    .dp-seq-box:nth-child(6) { left: 1142.6px; }
-    .dp-seq-box:nth-child(7) { left: 1243.71px; }
-    .dp-seq-box:nth-child(8) { left: 1344.83px; }
-    .dp-seq-box:nth-child(9) { left: 1445.95px; }
+    /* 6 boxes centered on 2168px canvas, gap 101.12px between centers */
+    .dp-seq-box:nth-child(1) { left: 788.26px; }
+    .dp-seq-box:nth-child(2) { left: 889.38px; }
+    .dp-seq-box:nth-child(3) { left: 990.50px; }
+    .dp-seq-box:nth-child(4) { left: 1091.62px; }
+    .dp-seq-box:nth-child(5) { left: 1192.74px; }
+    .dp-seq-box:nth-child(6) { left: 1293.86px; }
 
     /* Shake wrapper for wrong answer */
     @keyframes dp-shake {
@@ -137,10 +146,10 @@
     .dp-seq-box { pointer-events: auto; }
     .dp-seq.shake .dp-seq-box { animation: dp-shake 0.4s ease; }
 
-    /* VERIFY button — left 998, top 632, 174×52 */
+    /* VERIFY button — centered under 6 boxes, top 632, 174×52 */
     .dp-verify {
       position: absolute;
-      left: 998px;
+      left: calc(50% - 87px);
       top: 632px;
       width: 174px;
       height: 52px;
@@ -230,18 +239,28 @@
     /* Close × — left 1488, top 205, 28×28, #C1AAFA */
     .dp-close {
       position: absolute;
-      left: 1488px;
-      top: 205px;
-      width: 28px;
-      height: 28px;
+      left: 1484px;
+      top: 201px;
+      width: 36px;
+      height: 36px;
       z-index: 9;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-decoration: none;
       -webkit-tap-highlight-color: transparent;
-      transition: transform 0.3s ease;
+      box-sizing: border-box;
+      border: 1px solid rgba(193, 170, 250, 0.45);
+      border-radius: 2px;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .dp-close:hover,
-    .dp-close:focus-visible { transform: scale(1.15); outline: none; }
+    .dp-close:focus-visible {
+      transform: scale(1.1);
+      border-color: rgba(193, 170, 250, 0.85);
+      box-shadow: 0 0 8px rgba(193, 170, 250, 0.35);
+      outline: none;
+    }
     .dp-close-line {
       position: absolute;
       left: 50%; top: 50%;
@@ -333,6 +352,18 @@
       }
     }
 
+    /* ── Correct answer: green glow on boxes ── */
+    .dp-seq-box.correct {
+      border-color: #3DFF8F;
+      color: #3DFF8F;
+      box-shadow: 0 0 12px 4px rgba(61, 255, 143, 0.55),
+                  0 0 24px 8px rgba(61, 255, 143, 0.25);
+      background: rgba(61, 255, 143, 0.06);
+      transition: border-color 0.25s ease, color 0.25s ease,
+                  box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+
     /* ── Entrance animations ── */
     @keyframes dp-enter {
       0%   { opacity: 0; transform: translateY(16px); filter: blur(5px); }
@@ -356,6 +387,172 @@
     .dp-assist-dot.dp-dot-purple {
       opacity: 1;
     }
+
+    /* ── Hide desktop / show mobile on small screens ── */
+    @media (max-width: 768px) {
+      .viewport { display: none !important; }
+      .m-viewport { display: flex !important; }
+    }
+    @media (min-width: 769px) {
+      .m-viewport { display: none !important; }
+    }
+
+    /* ══ MOBILE LAYOUT (Frame 262) ══ */
+    .m-viewport {
+      display: none;
+      position: fixed;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #000;
+    }
+    .m-frame {
+      position: relative;
+      width: 474px;
+      height: 814px;
+      background: #000;
+      overflow: hidden;
+      flex-shrink: 0;
+      transform-origin: center center;
+    }
+    .m-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: url('BGMN.png') center/cover no-repeat;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .m-mist {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 40%, rgba(80,40,160,0.18) 0%, rgba(10,5,30,0.4) 70%, rgba(0,0,0,0.5) 100%);
+      animation: m-dim 6s ease-in-out infinite;
+    }
+    @keyframes m-dim { 0%,100%{opacity:.18} 50%{opacity:.30} }
+    .m-logo-group {
+      position: absolute;
+      width: 146.41px; height: 21px;
+      left: calc(50% - 146.41px/2 + 0.21px); top: 34px;
+      z-index: 5;
+    }
+    .m-logo-icon {
+      position: absolute;
+      width: 16.16px; height: 18.13px;
+      left: 0; top: 2.13px;
+      background: url('Subtract.png') center/contain no-repeat;
+    }
+    .m-logo-text {
+      position: absolute;
+      width: 122px; height: 21px;
+      left: 24.41px; top: 0;
+      font-family: 'Cantarell', sans-serif;
+      font-weight: 700; font-size: 14.8308px; line-height: 21px;
+      letter-spacing: 0.21em;
+      background: linear-gradient(90deg, #786BC7 0%, #442ADD 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; white-space: nowrap;
+    }
+    .m-dp-heading {
+      position: absolute;
+      width: 217px; height: 42px;
+      left: calc(50% - 217px/2 + 0.43px); top: 270px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-weight: 400; font-size: 34.8144px; line-height: 42px;
+      text-align: center; color: #A99AFF; z-index: 5; white-space: nowrap;
+    }
+    .m-dp-sub {
+      position: absolute;
+      width: 460px; height: 23px;
+      left: calc(50% - 460px/2); top: 316.14px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-weight: 400; font-size: 16.5px; line-height: 23px;
+      text-align: center; color: #CFB7FF; z-index: 5;
+      white-space: nowrap; letter-spacing: 0.02em;
+    }
+    .m-dp-label {
+      position: absolute;
+      width: 240px; height: 19px;
+      left: calc(50% - 240px/2); top: 362.29px;
+      font-family: 'Maven Pro', sans-serif;
+      font-weight: 500; font-size: 13.5px; line-height: 19px;
+      text-align: center; color: #A99AFF; z-index: 5;
+      white-space: nowrap; letter-spacing: 0.04em;
+    }
+    .m-seq-box {
+      position: absolute; top: 389.97px;
+      width: 46.14px; height: 46.14px;
+      border: 0.772531px solid #786BC7; background: transparent;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-weight: 400; font-size: 22px; text-align: center;
+      color: #C1AAFA; outline: none; caret-color: #A99AFF;
+      z-index: 6; text-transform: uppercase;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .m-seq-box:nth-child(1){left:77.3px}
+    .m-seq-box:nth-child(2){left:131.64px}
+    .m-seq-box:nth-child(3){left:185.97px}
+    .m-seq-box:nth-child(4){left:240.3px}
+    .m-seq-box:nth-child(5){left:294.64px}
+    .m-seq-box:nth-child(6){left:348.97px}
+    .m-seq-box:focus{border-color:#A99AFF;box-shadow:0 0 8px rgba(155,100,255,.4)}
+    .m-seq-box.wrong{border-color:#FF2D2D;color:#FF2D2D}
+    .m-seq-box.correct{border-color:#3DFF8F;color:#3DFF8F;box-shadow:0 0 10px rgba(61,255,143,.5);background:rgba(61,255,143,.05)}
+    .m-seq-group{position:absolute;inset:0;pointer-events:none;z-index:6}
+    .m-seq-group .m-seq-box{pointer-events:auto}
+    @keyframes m-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+    .m-seq-group.shake .m-seq-box{animation:m-shake .4s ease}
+    .m-verify {
+      position: absolute;
+      width: 131.99px; height: 39.45px;
+      left: calc(50% - 131.99px/2 + 1.09px); top: 445.35px;
+      background: rgba(55,22,255,.19); border: 0.744598px solid #786BC7;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-weight: 400; font-size: 14.9441px; line-height: 18px;
+      text-align: center; color: #786BC7; cursor: pointer; z-index: 6;
+      transition: background .25s ease, box-shadow .25s ease;
+    }
+    .m-verify:hover,.m-verify:focus-visible{background:rgba(55,22,255,.32);box-shadow:0 0 14px rgba(105,78,171,.5);outline:none}
+    .m-verify:disabled{opacity:.6;cursor:default}
+    .m-assist-q {
+      position: absolute;
+      width: 130px; height: 17px;
+      left: calc(50% - 130px/2 - 0.08px); top: 497.64px;
+      font-family: 'Maven Pro', sans-serif;
+      font-weight: 500; font-size: 14.2243px; line-height: 17px;
+      color: rgba(226,214,255,.59); z-index: 5; white-space: nowrap;
+    }
+    .m-assist-link {
+      position: absolute;
+      width: 153px; height: 16px;
+      left: calc(50% - 153px/2 - 7.06px); top: 518.9px;
+      font-family: 'Maven Pro', sans-serif;
+      font-weight: 500; font-size: 13.285px; line-height: 16px;
+      text-align: center; color: rgba(226,214,255,.59);
+      text-decoration: none; z-index: 6; white-space: nowrap;
+      transition: color .2s ease;
+    }
+    .m-assist-link:hover,.m-assist-link:focus-visible{color:rgba(226,214,255,.9);outline:none}
+    .m-dot {
+      position: absolute;
+      width: 9.24px; height: 9.24px;
+      left: 311.47px; top: 522.59px;
+      background: #FF2D2D; border-radius: 50%;
+      z-index: 6; pointer-events: none;
+      opacity: 0; transition: opacity .4s ease, background .3s ease;
+    }
+    .m-dot.active{opacity:1;animation:m-dot-pulse 2.2s ease-in-out infinite}
+    .m-dot.purple{opacity:1;background:#9B6FFF;animation:m-dot-purple 1.4s ease-in-out infinite}
+    @keyframes m-dot-pulse{0%,100%{box-shadow:0 0 3px 1px rgba(255,45,45,.55)}50%{box-shadow:0 0 5px 2px rgba(255,45,45,.75)}}
+    @keyframes m-dot-purple{0%,100%{box-shadow:0 0 4px 1px rgba(155,111,255,.6)}50%{box-shadow:0 0 7px 3px rgba(155,111,255,.85)}}
+    @keyframes m-enter{from{opacity:0;transform:translateY(14px);filter:blur(4px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+    .m-logo-group,.m-dp-heading,.m-dp-sub,.m-dp-label,.m-seq-box,.m-verify,.m-assist-q,.m-assist-link{animation:m-enter .7s cubic-bezier(.22,1,.36,1) .1s both}
+    .m-transition{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;z-index:99;transition:opacity .45s ease}
+    .m-transition.fade-out{opacity:1;pointer-events:auto}
   </style>
 </head>
 <body>
@@ -364,12 +561,6 @@
 
       <!-- Background: BGNEW.png -->
       <div class="dp-bg" aria-hidden="true"></div>
-      <!-- Rectangle 12: hidden -->
-      <div class="dp-overlay" aria-hidden="true"></div>
-
-      <!-- Mystical mist/flicker overlay -->
-      <div class="dp-mist" aria-hidden="true"></div>
-
       <!-- Feather particles -->
       <canvas class="starfield" aria-hidden="true"></canvas>
       <!-- Page transition -->
@@ -392,9 +583,6 @@
         <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 4" autocomplete="off" />
         <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 5" autocomplete="off" />
         <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 6" autocomplete="off" />
-        <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 7" autocomplete="off" />
-        <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 8" autocomplete="off" />
-        <input class="dp-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 9" autocomplete="off" />
       </div>
 
       <!-- VERIFY button -->
@@ -402,11 +590,9 @@
 
       <!-- NEED ASSISTANCE? -->
       <p class="dp-assist-q">NEED ASSISTANCE?</p>
-
       <!-- ACCESS ARCHIVE NOTES -->
-      <a class="dp-assist-link" href="keynote.html" data-transition aria-label="Access archive notes">ACCESS ARCHIVE NOTES</a>
-
-      <!-- Red dot (Ellipse 14) -->
+      <a class="dp-assist-link" id="dpAssistLink" href="keynote.html" aria-label="Access archive notes">ACCESS ARCHIVE NOTES</a>
+      <!-- Red dot -->
       <span class="dp-assist-dot" aria-hidden="true"></span>
 
       <!-- Close × -->
@@ -418,10 +604,150 @@
     </div>
   </div>
 
+  <!-- ══ MOBILE LAYOUT HTML (Frame 262) ══ -->
+  <div class="m-viewport" id="mViewport">
+    <div class="m-frame" id="mFrame">
+      <div class="m-bg" aria-hidden="true"></div>
+      <canvas class="m-starfield" aria-hidden="true" style="position:absolute;inset:0;width:474px;height:814px;z-index:2;pointer-events:none;display:block;"></canvas>
+      <div class="m-mist" aria-hidden="true"></div>
+      <div class="m-logo-group" role="banner">
+        <div class="m-logo-icon" aria-hidden="true"></div>
+        <span class="m-logo-text">FUKAIMORI</span>
+      </div>
+      <h1 class="m-dp-heading">DROP POINT</h1>
+      <p class="m-dp-sub">SUBMIT YOUR RECOVERED SEQUENCE</p>
+      <p class="m-dp-label">RECOVERED SEQUENCE</p>
+      <div class="m-seq-group" id="mSeqGroup" role="group" aria-label="Enter recovered sequence">
+        <input class="m-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 1" autocomplete="off" />
+        <input class="m-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 2" autocomplete="off" />
+        <input class="m-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 3" autocomplete="off" />
+        <input class="m-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 4" autocomplete="off" />
+        <input class="m-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 5" autocomplete="off" />
+        <input class="m-seq-box" type="text" maxlength="1" inputmode="text" aria-label="Character 6" autocomplete="off" />
+      </div>
+      <button class="m-verify" id="mVerify" type="button">VERIFY</button>
+      <p class="m-assist-q">NEED ASSISTANCE?</p>
+      <a class="m-assist-link" id="mAssistLink" href="keynote.html" aria-label="Access archive notes">ACCESS ARCHIVE NOTES</a>
+      <span class="m-dot" id="mDot" aria-hidden="true"></span>
+      <div class="m-transition" id="mTransition" aria-hidden="true"></div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
   <script>
+    /* ── Mobile: scale frame to fill viewport ── */
     (function () {
-      var SECRET    = 'CR7ISGOAT';
+      var frame = document.getElementById('mFrame');
+      if (!frame) return;
+      var W = 474, H = 814;
+      function scale() {
+        var vw = window.innerWidth, vh = window.innerHeight;
+        var s = Math.max(vw / W, vh / H);
+        frame.style.transform = 'scale(' + s + ')';
+      }
+      scale();
+      window.addEventListener('resize', scale);
+    })();
+
+    /* ── Mobile: sequence input logic ── */
+    (function () {
+      var mSeqGroup = document.getElementById('mSeqGroup');
+      var mVerify   = document.getElementById('mVerify');
+      var mBoxes    = document.querySelectorAll('.m-seq-box');
+      var mTrans    = document.getElementById('mTransition');
+      if (!mVerify || !mSeqGroup || !mBoxes.length) return;
+      var SECRET = 'KAZUYA';
+      function navigate(href) {
+        mTrans.classList.add('fade-out');
+        setTimeout(function () { window.location.href = href; }, 450);
+      }
+      mVerify.addEventListener('click', function () {
+        var entered = Array.from(mBoxes).map(function (b) { return b.value; }).join('').toUpperCase();
+        if (entered === SECRET) {
+          mVerify.disabled = true;
+          mBoxes.forEach(function (b) { b.classList.add('correct'); });
+          setTimeout(function () { navigate('granted.html'); }, 700);
+        } else {
+          mBoxes.forEach(function (b) { b.classList.add('wrong'); });
+          mSeqGroup.classList.remove('shake');
+          void mSeqGroup.offsetWidth;
+          mSeqGroup.classList.add('shake');
+          mSeqGroup.addEventListener('animationend', function h() {
+            mSeqGroup.removeEventListener('animationend', h);
+            mSeqGroup.classList.remove('shake');
+            mBoxes.forEach(function (b) { b.classList.remove('wrong'); });
+          });
+        }
+      });
+      mBoxes.forEach(function (box, i) {
+        box.addEventListener('input', function () {
+          box.value = box.value.slice(-1).toUpperCase();
+          if (box.value && i < mBoxes.length - 1) mBoxes[i + 1].focus();
+        });
+        box.addEventListener('keydown', function (e) {
+          if (e.key === 'Backspace' && !box.value && i > 0) mBoxes[i - 1].focus();
+          if (e.key === 'Enter') mVerify.click();
+        });
+      });
+    })();
+
+    /* ── Desktop: red dot + assist link ── */
+    (function () {
+      var dot   = document.querySelector('.dp-assist-dot');
+      var link  = document.getElementById('dpAssistLink');
+      var overlay = document.querySelector('.page-transition');
+      if (!dot) return;
+      setTimeout(function () { dot.classList.add('dp-dot-entered'); }, 950);
+      if (link) {
+        link.addEventListener('mouseenter', function () { dot.classList.remove('dp-dot-entered'); dot.classList.add('dp-dot-purple'); });
+        link.addEventListener('mouseleave', function () { dot.classList.remove('dp-dot-purple'); dot.classList.add('dp-dot-entered'); });
+        link.addEventListener('focus',      function () { dot.classList.remove('dp-dot-entered'); dot.classList.add('dp-dot-purple'); });
+        link.addEventListener('blur',       function () { dot.classList.remove('dp-dot-purple'); dot.classList.add('dp-dot-entered'); });
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          var href = link.getAttribute('href');
+          if (overlay) {
+            overlay.classList.remove('is-entering');
+            overlay.classList.add('is-leaving');
+            overlay.addEventListener('animationend', function onLeft() {
+              overlay.removeEventListener('animationend', onLeft);
+              window.location.href = href;
+            });
+          } else {
+            window.location.href = href;
+          }
+        });
+      }
+    })();
+
+    /* ── Mobile: red dot + assist link ── */
+    (function () {
+      var dot   = document.getElementById('mDot');
+      var link  = document.getElementById('mAssistLink');
+      var trans = document.getElementById('mTransition');
+      if (!dot) return;
+      setTimeout(function () { dot.classList.add('active'); }, 850);
+      if (link) {
+        link.addEventListener('mouseenter', function () { dot.classList.remove('active'); dot.classList.add('purple'); });
+        link.addEventListener('mouseleave', function () { dot.classList.remove('purple'); dot.classList.add('active'); });
+        link.addEventListener('focus',      function () { dot.classList.remove('active'); dot.classList.add('purple'); });
+        link.addEventListener('blur',       function () { dot.classList.remove('purple'); dot.classList.add('active'); });
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          var href = link.getAttribute('href');
+          if (trans) {
+            trans.classList.add('fade-out');
+            setTimeout(function () { window.location.href = href; }, 450);
+          } else {
+            window.location.href = href;
+          }
+        });
+      }
+    })();
+
+    /* ── Desktop: sequence logic ── */
+    (function () {
+      var SECRET    = 'KAZUYA';
       var seqGroup  = document.getElementById('dp-seq');
       var verifyBtn = document.querySelector('.dp-verify');
       var boxes     = document.querySelectorAll('.dp-seq-box');
@@ -431,7 +757,14 @@
       verifyBtn.addEventListener('click', function () {
         var entered = Array.from(boxes).map(function (b) { return b.value; }).join('').toUpperCase();
         if (entered === SECRET) {
-          window.location.href = 'granted.html';
+          // 1. Disable button to prevent double-click
+          verifyBtn.disabled = true;
+          // 2. Turn all boxes green
+          boxes.forEach(function (b) { b.classList.add('correct'); });
+          // 3. Navigate after a brief pause so green is visible
+          setTimeout(function () {
+            window.location.href = 'granted.html';
+          }, 700);
         } else {
           boxes.forEach(function (b) { b.classList.add('wrong'); });
           seqGroup.classList.remove('shake');
@@ -457,35 +790,6 @@
       });
     })();
 
-    // Red dot: fade in after entrance, then pulse; hover link → purple glow
-    (function () {
-      var dot  = document.querySelector('.dp-assist-dot');
-      var link = document.querySelector('.dp-assist-link');
-      if (!dot) return;
-
-      setTimeout(function () {
-        dot.classList.add('dp-dot-entered');
-      }, 950);
-
-      if (link) {
-        link.addEventListener('mouseenter', function () {
-          dot.classList.remove('dp-dot-entered');
-          dot.classList.add('dp-dot-purple');
-        });
-        link.addEventListener('mouseleave', function () {
-          dot.classList.remove('dp-dot-purple');
-          dot.classList.add('dp-dot-entered');
-        });
-        link.addEventListener('focus', function () {
-          dot.classList.remove('dp-dot-entered');
-          dot.classList.add('dp-dot-purple');
-        });
-        link.addEventListener('blur', function () {
-          dot.classList.remove('dp-dot-purple');
-          dot.classList.add('dp-dot-entered');
-        });
-      }
-    })();
   </script>
 </body>
 </html>

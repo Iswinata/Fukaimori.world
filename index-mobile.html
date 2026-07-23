@@ -9,37 +9,37 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bona+Nova:ital,wght@0,400;0,700&family=Cantarell:wght@400;700&family=Maven+Pro:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
   <style>
     /* ============================================================
-       Mobile layout — 474 × 814 px (Figma Frame 253)
-       Shown only when viewport width ≤ 768 px.
-       Desktop layout (.viewport) shown above 768 px.
+       Fukaimori · Mobile Index
+       Design base: 474 × 814 px (Figma Frame 253)
+       JS scales the 474×814 canvas to COVER the device viewport
+       so it always fills the full screen on every mobile size.
     ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── Switch: show desktop, hide mobile by default ── */
-    .viewport     { display: flex; }   /* desktop on */
-    .mob-viewport { display: none; }   /* mobile off */
-
-    @media (max-width: 768px) {
-      .viewport     { display: none; } /* desktop off */
-      .mob-viewport { display: flex; } /* mobile on  */
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #05020a;
+      overflow: hidden;
     }
 
-    /* ── Mobile stage ── */
+    /* Full-viewport centering stage */
     .mob-viewport {
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
       height: 100dvh;
+      display: flex;
       align-items: center;
       justify-content: center;
       background: #05020a;
       overflow: hidden;
     }
 
-    /* ── Design canvas: 474 × 814 — JS scales to COVER screen ── */
+    /* ── Design canvas: 474 × 814 — scaled by JS to cover the screen ── */
     .mob-canvas {
       position: relative;
       width: 474px;
@@ -50,7 +50,7 @@
       transform-origin: center center;
     }
 
-    /* ── Background: BGM.png ── */
+    /* ── Background: BGM.png covers the canvas exactly ── */
     .mob-bg {
       position: absolute;
       width: 474px;
@@ -61,7 +61,7 @@
       z-index: 1;
     }
 
-    /* ── Feather particles canvas ── */
+    /* ── Animated feather particles ── */
     .mob-starfield {
       position: absolute;
       inset: 0;
@@ -73,6 +73,7 @@
     }
 
     /* ── Hamburger — Group 168: left 27, top 38, size 20.22 × 12.77 ── */
+    /* Three lines: Vector 5 (top 38), Vector 6 (top 44.39), Vector 7 (top 50.77) */
     .mob-hamburger {
       position: absolute;
       left: 27px;
@@ -90,6 +91,7 @@
       margin: 0;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      /* ensure button doesn't stretch */
       appearance: none;
       -webkit-appearance: none;
     }
@@ -101,97 +103,8 @@
       border-radius: 1px;
     }
 
-    /* ── Nav overlay — Frame 267 ── */
-    .mob-nav-overlay {
-      position: absolute;
-      width: 474px;
-      height: 814px;
-      left: 0;
-      top: 0;
-      z-index: 20;
-      background: rgba(5, 0, 34, 0.54);
-      backdrop-filter: blur(7.2px);
-      -webkit-backdrop-filter: blur(7.2px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    .mob-nav-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .mob-nav-close {
-      position: absolute;
-      left: 22px;
-      top: 32px;
-      width: 25px;
-      height: 25px;
-      background: none;
-      border: none;
-      outline: none;
-      padding: 0;
-      margin: 0;
-      cursor: pointer;
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      -webkit-tap-highlight-color: transparent;
-      appearance: none;
-      -webkit-appearance: none;
-    }
-    .mob-nav-close svg { width: 25px; height: 25px; display: block; }
-    .mob-nav-link {
-      position: absolute;
-      height: 33px;
-      font-family: 'Bona Nova', Georgia, serif;
-      font-weight: 400;
-      font-size: 27.2613px;
-      line-height: 33px;
-      text-align: center;
-      letter-spacing: 0.12em;
-      color: #B5A9FF;
-      text-decoration: none;
-      display: block;
-      white-space: nowrap;
-      -webkit-tap-highlight-color: transparent;
-      transition: color 0.2s ease, text-shadow 0.2s ease;
-    }
-    .mob-nav-link:active { color: #fff; text-shadow: 0 0 12px rgba(180,160,255,0.8); }
-    .mob-nav-droppoint { width: 200px; left: calc(50% - 100px - 0.25px); top: 127px; }
-    .mob-nav-archive   { width: 241px; left: calc(50% - 120.5px - 0.5px); top: 195px; }
-    .mob-nav-brand {
-      position: absolute;
-      width: 146.41px;
-      height: 21px;
-      left: calc(50% - 146.41px / 2 + 0.21px);
-      top: 34px;
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      pointer-events: none;
-    }
-    .mob-nav-brand-mark {
-      flex-shrink: 0;
-      width: 16.16px;
-      height: 18.13px;
-      background: url("Subtract.png") center center / contain no-repeat;
-    }
-    .mob-nav-brand-text {
-      font-family: 'Cantarell', system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 14.8308px;
-      line-height: 21px;
-      letter-spacing: 0.21em;
-      white-space: nowrap;
-      background: linear-gradient(90deg, #786BC7 0%, #442ADD 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* ── Brand — Group 143: centered, top 34, 146.41 × 21 ── */
+    /* ── Brand — Group 143: centered, top 34, size 146.41 × 21 ── */
+    /* Figma: left = calc(50% - 146.41px/2 + 0.21px) */
     .mob-brand {
       position: absolute;
       width: 146.41px;
@@ -205,12 +118,18 @@
       text-decoration: none;
       -webkit-tap-highlight-color: transparent;
     }
+
+    /* Subtract mark — Figma: left 164, top 36.13, size 16.16 × 18.13
+       Relative within brand: 164 - (237 - 73.205 + 0.21) = 164 - 163.995 ≈ 0px
+       Flex handles alignment naturally, mark comes first. */
     .mob-brand-mark {
       flex-shrink: 0;
       width: 16.16px;
       height: 18.13px;
       background: url("Subtract.png") center center / contain no-repeat;
     }
+
+    /* FUKAIMORI — Figma: width 122, height 21, Cantarell 700 14.8308px, letter 0.21em */
     .mob-brand-text {
       font-family: 'Cantarell', system-ui, sans-serif;
       font-weight: 700;
@@ -224,7 +143,7 @@
       background-clip: text;
     }
 
-    /* ── BGLPM moon — left 197, top 329, 79 × 80 ── */
+    /* ── BGLPM moon — Figma: left 197, top 329, size 79 × 80 ── */
     .mob-moon {
       position: absolute;
       width: 79px;
@@ -236,7 +155,7 @@
       pointer-events: none;
     }
 
-    /* ── Moon portal hitbox ── */
+    /* ── Moon portal hitbox — same position/size as moon, circular pulse ── */
     .mob-moon-link {
       position: absolute;
       width: 79px;
@@ -271,7 +190,8 @@
       }
     }
 
-    /* ── Title group — Group 52: centered, top 681, 262 × 38.74, -0.3deg ── */
+    /* ── Title group — Group 52: centered, top 681, size 262 × 38.74, rotate -0.3deg ── */
+    /* Figma: left = calc(50% - 262px/2) = 106px on 474px canvas */
     .mob-title-group {
       position: absolute;
       width: 262px;
@@ -282,7 +202,9 @@
       z-index: 8;
     }
 
-    /* AN ARCHIVE */
+    /* AN ARCHIVE — Figma absolute: left 159.17, top 681.27
+       Group left = 106px → relative left = 159.17 - 106 = 53.17px
+       top relative = 681.27 - 681 = 0.27px */
     .mob-title {
       position: absolute;
       width: 157px;
@@ -290,6 +212,7 @@
       left: 53.17px;
       top: 0.27px;
       font-family: 'Bona Nova', Georgia, serif;
+      font-style: normal;
       font-weight: 400;
       font-size: 16.9464px;
       line-height: 20px;
@@ -303,7 +226,9 @@
         0 0 16px rgba(105, 78, 171, 0.28);
     }
 
-    /* EXPLORING THE DEPTHS OF HUMANITY */
+    /* EXPLORING THE DEPTHS OF HUMANITY — Figma absolute: left 106.14, top 708.74
+       Group left = 106px → relative left = 106.14 - 106 = 0.14px
+       top relative = 708.74 - 681 = 27.74px */
     .mob-subtitle {
       position: absolute;
       width: 262px;
@@ -311,6 +236,7 @@
       left: 0.14px;
       top: 27.74px;
       font-family: 'Bona Nova', Georgia, serif;
+      font-style: normal;
       font-weight: 400;
       font-size: 9.53914px;
       line-height: 11px;
@@ -324,7 +250,120 @@
         0 0 16px rgba(105, 78, 171, 0.28);
     }
 
-    /* ── Mobile page transition ── */
+    /* ── Nav menu overlay — Frame 267 ── */
+    /* Rectangle 53: full canvas blur/dim layer */
+    .mob-nav-overlay {
+      position: absolute;
+      width: 474px;
+      height: 814px;
+      left: 0;
+      top: 0;
+      z-index: 20;
+      background: rgba(5, 0, 34, 0.54);
+      backdrop-filter: blur(7.2px);
+      -webkit-backdrop-filter: blur(7.2px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mob-nav-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    /* Close button (SVG icon) — left 22, top 32, size 25×25 */
+    .mob-nav-close {
+      position: absolute;
+      left: 22px;
+      top: 32px;
+      width: 25px;
+      height: 25px;
+      background: none;
+      border: none;
+      outline: none;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .mob-nav-close svg {
+      width: 25px;
+      height: 25px;
+      display: block;
+    }
+    /* Nav links */
+    .mob-nav-link {
+      position: absolute;
+      height: 33px;
+      font-family: 'Bona Nova', Georgia, serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 27.2613px;
+      line-height: 33px;
+      text-align: center;
+      letter-spacing: 0.12em;
+      color: #B5A9FF;
+      text-decoration: none;
+      display: block;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+    .mob-nav-link:active {
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(180,160,255,0.8);
+    }
+    /* DROP POINT — left calc(50% - 200px/2 - 0.25px), top 127 */
+    .mob-nav-droppoint {
+      width: 200px;
+      left: calc(50% - 100px - 0.25px);
+      top: 127px;
+    }
+    /* ARCHIVE NOTE — left calc(50% - 241px/2 - 0.5px), top 195 */
+    .mob-nav-archive {
+      width: 241px;
+      left: calc(50% - 120.5px - 0.5px);
+      top: 195px;
+    }
+    /* Brand visible in overlay — same position as main brand (z-index above overlay) */
+    .mob-nav-brand {
+      position: absolute;
+      width: 146.41px;
+      height: 21px;
+      left: calc(50% - 146.41px / 2 + 0.21px);
+      top: 34px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      pointer-events: none;
+    }
+    .mob-nav-brand-mark {
+      flex-shrink: 0;
+      width: 16.16px;
+      height: 18.13px;
+      background: url("Subtract.png") center center / contain no-repeat;
+    }
+    .mob-nav-brand-text {
+      font-family: 'Cantarell', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 14.8308px;
+      line-height: 21px;
+      letter-spacing: 0.21em;
+      white-space: nowrap;
+      background: linear-gradient(90deg, #786BC7 0%, #442ADD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Page transition overlay ── */
     .mob-page-transition {
       position: fixed;
       inset: 0;
@@ -351,142 +390,62 @@
       from { opacity: 1; }
       to   { opacity: 0; }
     }
-
-    /* Hide mobile transition on desktop so it doesn't interfere */
-    @media (min-width: 769px) {
-      .mob-page-transition { display: none; }
-    }
   </style>
 </head>
 <body>
-
-  <!-- ═══════════════════════════════════════════════════
-       DESKTOP LAYOUT (> 768px)
-  ═══════════════════════════════════════════════════ -->
-  <div class="viewport">
-    <div class="canvas landing-canvas" id="canvas">
-
-      <!-- Fallback cosmic scene -->
-      <div class="scene" aria-hidden="true">
-        <div class="stars"></div>
-        <div class="sigil">
-          <svg class="ring ring-outer" viewBox="0 0 400 400" role="presentation">
-            <circle cx="200" cy="200" r="196" fill="none" stroke="url(#g)" stroke-width="1" opacity="0.5"/>
-            <circle cx="200" cy="200" r="176" fill="none" stroke="url(#g)" stroke-width="0.6" stroke-dasharray="2 6" opacity="0.6"/>
-            <defs>
-              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#C5BCFF"/>
-                <stop offset="1" stop-color="#694EAB"/>
-              </linearGradient>
-            </defs>
-          </svg>
-          <svg class="ring ring-inner" viewBox="0 0 400 400" role="presentation">
-            <circle cx="200" cy="200" r="150" fill="none" stroke="url(#g)" stroke-width="0.8" opacity="0.7"/>
-            <g stroke="url(#g)" stroke-width="1" fill="none" opacity="0.85">
-              <polygon points="200,60 214,186 340,200 214,214 200,340 186,214 60,200 186,186"/>
-            </g>
-          </svg>
-          <div class="moon"><div class="moon-body"></div></div>
-        </div>
-      </div>
-
-      <!-- Background image -->
-      <div class="photo" aria-hidden="true"></div>
-
-      <!-- Clouds / fog (hidden via CSS) -->
-      <div class="clouds" aria-hidden="true">
-        <span class="cloud cloud-1"></span>
-        <span class="cloud cloud-2"></span>
-        <span class="cloud cloud-3"></span>
-      </div>
-      <div class="fog" aria-hidden="true">
-        <span class="fog-layer fog-a"></span>
-        <span class="fog-layer fog-b"></span>
-        <span class="fog-layer fog-c"></span>
-      </div>
-
-      <!-- Animated star field -->
-      <canvas class="starfield" aria-hidden="true"></canvas>
-
-      <!-- BGLP 2 moon overlay -->
-      <div class="moon-photo" aria-hidden="true"></div>
-
-      <!-- Portal hitbox -->
-      <a class="moon-link" href="archive.html" aria-label="Enter the archive" data-transition></a>
-
-      <!-- Page transition overlay -->
-      <div class="page-transition" aria-hidden="true"></div>
-
-      <!-- Brand -->
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span class="brand-text">FUKAIMORI</span>
-      </div>
-
-      <!-- Drop point -->
-      <a class="drop-point" href="droppoint.html" data-transition aria-label="Drop Point — submit recovered sequence">
-        <span class="drop-text">DROP POINT</span>
-        <span class="drop-dot" aria-hidden="true"></span>
-      </a>
-
-      <!-- Title block -->
-      <h1 class="title">AN ARCHIVE</h1>
-      <p class="subtitle">EXPLORING THE DEPTHS OF HUMANITY</p>
-
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════
-       MOBILE LAYOUT (≤ 768px) — Figma Frame 253, 474×814
-  ═══════════════════════════════════════════════════ -->
-  <div class="mob-viewport" aria-hidden="true">
+  <div class="mob-viewport">
     <div class="mob-canvas" id="mobCanvas">
 
       <!-- BGM.png background -->
       <div class="mob-bg" aria-hidden="true"></div>
 
-      <!-- Feather / star particles -->
+      <!-- Feather / star particles canvas -->
       <canvas class="mob-starfield" aria-hidden="true"></canvas>
 
       <!-- Hamburger — opens nav overlay -->
-      <button class="mob-hamburger" id="mobHamburger" aria-label="Open navigation menu" aria-expanded="false" tabindex="-1">
+      <button class="mob-hamburger" id="mobHamburger" aria-label="Open navigation menu" aria-expanded="false">
         <span class="mob-hamburger-line"></span>
         <span class="mob-hamburger-line"></span>
         <span class="mob-hamburger-line"></span>
       </button>
 
-      <!-- Nav overlay — Frame 267 -->
+      <!-- Nav overlay — Frame 267 (Rectangle 53: blur/dim + nav links) -->
       <div class="mob-nav-overlay" id="mobNavOverlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Navigation">
-        <!-- X close button: left 22, top 32, 25×25, #7960FF -->
-        <button class="mob-nav-close" id="mobNavClose" aria-label="Close navigation" tabindex="-1">
+
+        <!-- Close X icon — left 22, top 32, size 25×25, fill #7960FF -->
+        <button class="mob-nav-close" id="mobNavClose" aria-label="Close navigation">
           <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Vector: left 17.08%, right 17.09%, top 17.09%, bottom 17.08% → inner path -->
             <path d="M4.27 4.27L20.73 20.73M20.73 4.27L4.27 20.73" stroke="#7960FF" stroke-width="2.2" stroke-linecap="round"/>
           </svg>
         </button>
-        <!-- Brand inside overlay -->
+
+        <!-- Brand — Group 143: centered, top 34 -->
         <div class="mob-nav-brand" aria-hidden="true">
           <span class="mob-nav-brand-mark"></span>
           <span class="mob-nav-brand-text">FUKAIMORI</span>
         </div>
+
         <!-- DROP POINT — top 127 -->
-        <a class="mob-nav-link mob-nav-droppoint" href="droppoint.html" tabindex="-1">DROP POINT</a>
+        <a class="mob-nav-link mob-nav-droppoint" href="droppoint.html">DROP POINT</a>
         <!-- ARCHIVE NOTE — top 195 -->
-        <a class="mob-nav-link mob-nav-archive" href="archive-notes.html" tabindex="-1">ARCHIVE NOTE</a>
+        <a class="mob-nav-link mob-nav-archive" href="keynote.html">ARCHIVE NOTE</a>
+
       </div>
 
-      <!-- Brand — Group 143 → Archive -->
-      <a class="mob-brand" href="archive.html" aria-label="Fukaimori — Enter the archive" tabindex="-1">
+      <!-- Brand logo — Group 143 (Subtract mark + FUKAIMORI text) → Archive -->
+      <a class="mob-brand" href="archive.html" aria-label="Fukaimori — Enter the archive">
         <span class="mob-brand-mark" aria-hidden="true"></span>
         <span class="mob-brand-text">FUKAIMORI</span>
       </a>
 
-      <!-- BGLPM moon -->
+      <!-- BGLPM moon image (bulan di tengah) -->
       <div class="mob-moon" aria-hidden="true"></div>
 
-      <!-- Moon portal hitbox -->
-      <a class="mob-moon-link" href="archive.html" aria-label="Enter the archive" tabindex="-1"></a>
+      <!-- Moon portal hitbox — pulsing ring, tap to enter archive -->
+      <a class="mob-moon-link" href="archive.html" aria-label="Enter the archive"></a>
 
-      <!-- Title block -->
+      <!-- Title block — Group 52 (AN ARCHIVE + subtitle) -->
       <div class="mob-title-group" aria-hidden="true">
         <p class="mob-title">AN ARCHIVE</p>
         <p class="mob-subtitle">EXPLORING THE DEPTHS OF HUMANITY</p>
@@ -495,85 +454,45 @@
     </div>
   </div>
 
-  <!-- Mobile page transition overlay (separate from desktop's) -->
+  <!-- Page transition overlay -->
   <div class="mob-page-transition" id="mobPageTransition" aria-hidden="true"></div>
 
-  <script src="script.js"></script>
   <script>
-    /* ============================================================
-       Mobile-only scripts — only run when mobile layout is active
-    ============================================================ */
     (function () {
       'use strict';
 
-      function isMobileLayout() {
-        return window.matchMedia('(max-width: 768px)').matches;
-      }
-
-      /* Fix aria-hidden + tabindex on layout switch so screen readers
-         always get only the visible layout */
-      function syncAccessibility() {
-        var desktop = document.querySelector('.viewport');
-        var mobile  = document.querySelector('.mob-viewport');
-        if (!desktop || !mobile) return;
-
-        var onMobile = isMobileLayout();
-
-        // Desktop layout
-        desktop.setAttribute('aria-hidden', onMobile ? 'true' : 'false');
-        desktop.querySelectorAll('a, button, [tabindex]').forEach(function (el) {
-          if (onMobile) {
-            el.setAttribute('data-saved-tabindex', el.getAttribute('tabindex') || '');
-            el.setAttribute('tabindex', '-1');
-          } else {
-            var saved = el.getAttribute('data-saved-tabindex');
-            if (saved !== null && saved !== '') {
-              el.setAttribute('tabindex', saved);
-            } else {
-              el.removeAttribute('tabindex');
-            }
-            el.removeAttribute('data-saved-tabindex');
-          }
-        });
-
-        // Mobile layout
-        mobile.setAttribute('aria-hidden', onMobile ? 'false' : 'true');
-        mobile.querySelectorAll('a, button').forEach(function (el) {
-          if (onMobile) {
-            el.removeAttribute('tabindex');
-          } else {
-            el.setAttribute('tabindex', '-1');
-          }
-        });
-      }
-
-      syncAccessibility();
-      window.addEventListener('resize', syncAccessibility);
-
-      /* ── Mobile canvas scaler: COVER ── */
+      /* ────────────────────────────────────────────────────────
+         Scale the 474 × 814 canvas to COVER the viewport.
+         Math.max ensures no background gaps on any screen size.
+      ──────────────────────────────────────────────────────── */
       (function scaler() {
         var canvas = document.getElementById('mobCanvas');
         if (!canvas) return;
         var DW = 474, DH = 814;
 
         function apply() {
-          if (!isMobileLayout()) return;
           var vw = window.innerWidth;
           var vh = window.innerHeight || document.documentElement.clientHeight;
+          // COVER: scale by the LARGER axis ratio so canvas fills screen
           var scale = Math.max(vw / DW, vh / DH);
           canvas.style.setProperty('--mob-scale', String(scale));
         }
 
         apply();
         window.addEventListener('resize', apply);
-        window.addEventListener('orientationchange', function () { setTimeout(apply, 100); });
+        window.addEventListener('orientationchange', function () {
+          setTimeout(apply, 100);
+        });
       })();
 
-      /* ── Mobile page transition ── */
-      (function initMobTransition() {
+      /* ────────────────────────────────────────────────────────
+         Page transition — fade in on load, fade out on navigate
+      ──────────────────────────────────────────────────────── */
+      (function initTransition() {
         var overlay = document.getElementById('mobPageTransition');
         if (!overlay) return;
 
+        // Safety: clear stuck is-leaving state
         if (overlay.classList.contains('is-leaving')) {
           overlay.classList.remove('is-leaving');
           overlay.style.opacity = '0';
@@ -583,16 +502,16 @@
           overlay.style.animation = '';
         }
 
-        if (isMobileLayout()) {
-          overlay.classList.add('is-entering');
-          overlay.addEventListener('animationend', function onIn() {
-            overlay.classList.remove('is-entering');
-            overlay.removeEventListener('animationend', onIn);
-          });
-        }
+        // Fade in on first load
+        overlay.classList.add('is-entering');
+        overlay.addEventListener('animationend', function onIn() {
+          overlay.classList.remove('is-entering');
+          overlay.removeEventListener('animationend', onIn);
+        });
 
+        // bfcache restore (back/forward navigation)
         window.addEventListener('pageshow', function (e) {
-          if (!e.persisted || !isMobileLayout()) return;
+          if (!e.persisted) return;
           overlay.classList.remove('is-leaving', 'is-entering');
           overlay.style.opacity = '0';
           overlay.style.animation = 'none';
@@ -615,73 +534,67 @@
           });
         }
 
-        /* Intercept mobile nav links (brand only; hamburger now opens overlay) */
-        document.querySelectorAll('.mob-brand').forEach(function (link) {
+        // Intercept all anchor nav (except moon-link and nav overlay links handled separately)
+        document.querySelectorAll('a[href]').forEach(function (link) {
+          if (link.classList.contains('mob-moon-link')) return;
+          if (link.closest('#mobNavOverlay')) return; // nav overlay handles its own nav
           var href = link.getAttribute('href');
           if (!href || href === '#') return;
           link.addEventListener('click', function (e) {
-            if (!isMobileLayout()) return;
             e.preventDefault();
             navigate(href);
           });
         });
 
-        /* Nav overlay links — close overlay then navigate */
+        // Nav overlay links — close overlay then navigate with transition
         document.querySelectorAll('#mobNavOverlay a[href]').forEach(function (link) {
           link.addEventListener('click', function (e) {
-            if (!isMobileLayout()) return;
             e.preventDefault();
-            navigate(link.getAttribute('href'));
+            var href = link.getAttribute('href');
+            navigate(href);
           });
         });
       })();
 
-      /* ── Nav overlay open/close ── */
-      (function initMobNav() {
+      /* ────────────────────────────────────────────────────────
+         Nav overlay — open on hamburger tap, close on X
+      ──────────────────────────────────────────────────────── */
+      (function initNavOverlay() {
         var hamburger = document.getElementById('mobHamburger');
         var overlay   = document.getElementById('mobNavOverlay');
         var closeBtn  = document.getElementById('mobNavClose');
         if (!hamburger || !overlay) return;
 
         function openNav() {
-          if (!isMobileLayout()) return;
           overlay.classList.add('open');
           overlay.setAttribute('aria-hidden', 'false');
           hamburger.setAttribute('aria-expanded', 'true');
-          /* give close button keyboard focus */
-          if (closeBtn) closeBtn.focus();
         }
 
         function closeNav() {
           overlay.classList.remove('open');
           overlay.setAttribute('aria-hidden', 'true');
           hamburger.setAttribute('aria-expanded', 'false');
-          hamburger.focus();
         }
 
         hamburger.addEventListener('click', openNav);
         if (closeBtn) closeBtn.addEventListener('click', closeNav);
 
-        /* tap on the dimmed area (not on links) closes the overlay */
+        // Tap outside the overlay links/close area to dismiss
         overlay.addEventListener('click', function (e) {
           if (e.target === overlay) closeNav();
         });
-
-        /* Escape key */
-        document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape' && overlay.classList.contains('open')) closeNav();
-        });
       })();
 
-      /* ── Moon portal tap — ripple then navigate ── */
-      (function initMobMoon() {
+      /* ────────────────────────────────────────────────────────
+         Moon portal tap — ripple rings then navigate to archive
+      ──────────────────────────────────────────────────────── */
+      (function initMoonTap() {
         var link = document.querySelector('.mob-moon-link');
         if (!link) return;
 
         link.addEventListener('click', function (e) {
-          if (!isMobileLayout()) return;
           e.preventDefault();
-
           var rect = link.getBoundingClientRect();
           var cx   = rect.left + rect.width  / 2;
           var cy   = rect.top  + rect.height / 2;
@@ -708,15 +621,18 @@
                 'transition:none'
               ].join(';');
               document.body.appendChild(ring);
+
               setTimeout(function () {
                 ring.style.transition = 'transform 1.0s ease-out, opacity 1.0s ease-out';
                 ring.style.transform  = 'scale(4.5)';
                 ring.style.opacity    = '0';
               }, delay);
+
               setTimeout(function () { ring.remove(); }, delay + 1100);
             })(i * 280);
           }
 
+          // Navigate after the last ripple starts
           setTimeout(function () {
             var ov = document.getElementById('mobPageTransition');
             if (ov) {
@@ -733,8 +649,10 @@
         });
       })();
 
-      /* ── Mobile feather particles ── */
-      (function initMobFeathers() {
+      /* ────────────────────────────────────────────────────────
+         Glowing feather / star particles on the canvas
+      ──────────────────────────────────────────────────────── */
+      (function initFeathers() {
         var cvs = document.querySelector('.mob-starfield');
         if (!cvs) return;
         var ctx = cvs.getContext('2d');
@@ -754,18 +672,24 @@
         function rndFeather() {
           var col = palette[Math.floor(Math.random() * palette.length)];
           return {
-            x: Math.random() * (W || 474), y: Math.random() * (H || 814),
-            angle: Math.random() * Math.PI * 2,
-            drift: Math.random() * Math.PI * 2,
-            spin:  (Math.random() - 0.5) * 0.018,
-            speed: Math.random() * 0.18 + 0.04,
-            len:   Math.random() * 18 + 6,
-            width: Math.random() * 1.4 + 0.4,
-            col:   col,
+            x:             Math.random() * (W || 474),
+            y:             Math.random() * (H || 814),
+            angle:         Math.random() * Math.PI * 2,
+            drift:         Math.random() * Math.PI * 2,
+            spin:          (Math.random() - 0.5) * 0.018,
+            speed:         Math.random() * 0.18 + 0.04,
+            len:           Math.random() * 18 + 6,
+            width:         Math.random() * 1.4 + 0.4,
+            col:           col,
             baseAlpha:     Math.random() * 0.5 + 0.3,
             twinklePeriod: Math.random() * 160 + 70,
             twinklePhase:  Math.random() * Math.PI * 2
           };
+        }
+
+        function initAll() {
+          feathers = [];
+          for (var i = 0; i < NUM; i++) feathers.push(rndFeather());
         }
 
         var frame = 0;
@@ -788,12 +712,14 @@
             ctx.save();
             ctx.translate(f.x, f.y);
             ctx.rotate(f.angle);
+
             var g = ctx.createLinearGradient(-f.len / 2, 0, f.len / 2, 0);
             g.addColorStop(0,    'rgba(' + f.col + ',0)');
             g.addColorStop(0.25, 'rgba(' + f.col + ',' + (fa * 0.5).toFixed(2) + ')');
             g.addColorStop(0.5,  'rgba(' + f.col + ',' + fa.toFixed(2) + ')');
             g.addColorStop(0.75, 'rgba(' + f.col + ',' + (fa * 0.5).toFixed(2) + ')');
             g.addColorStop(1,    'rgba(' + f.col + ',0)');
+
             ctx.shadowColor = 'rgba(' + f.col + ',' + (fa * 0.9).toFixed(2) + ')';
             ctx.shadowBlur  = 8;
             ctx.beginPath();
@@ -808,10 +734,9 @@
         }
 
         resize();
-        feathers = [];
-        for (var i = 0; i < NUM; i++) feathers.push(rndFeather());
+        initAll();
         draw();
-        window.addEventListener('resize', function () { resize(); feathers = []; for (var i = 0; i < NUM; i++) feathers.push(rndFeather()); });
+        window.addEventListener('resize', function () { resize(); initAll(); });
       })();
 
     })();

@@ -25,6 +25,17 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── Feather / star particle canvas ── */
+.starfield {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  display: block;
+}
+
 html, body {
   height: 100%;
   background: #000;
@@ -32,11 +43,9 @@ html, body {
 }
 
 /* Full-window stage — centers the scaled design canvas.
-   The design is scaled to CONTAIN (never cropped) so on aspect
-   ratios that differ from the 1920x1050 canvas there is leftover
-   space around it. Instead of black bars, we fill that space with
-   a blurred, darkened copy of the background image (::before) so
-   the scene appears to bleed edge-to-edge on any screen. */
+   The design is scaled to CONTAIN (smaller axis) so the whole canvas
+   always fits inside the viewport on every device and orientation.
+   Any leftover space around the canvas is filled by the backdrop. */
 .viewport {
   position: fixed;
   inset: 0;
@@ -47,7 +56,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: hidden; /* clips the canvas edges that extend beyond the screen */
 }
 .viewport::before {
   content: "";
@@ -89,6 +98,9 @@ html, body {
   height: var(--design-h);
   background: #05020a;
 
+  /* COVER: canvas is scaled by the LARGER axis ratio so the canvas
+     always fills the entire viewport with no black bars — some edges
+     may be clipped on extreme aspect ratios. */
   overflow: hidden;
   color: var(--text-violet);
   transform: scaleX(var(--scale-x, 1)) scaleY(var(--scale-y, 1));
@@ -108,19 +120,6 @@ html, body {
   background: transparent;
 }
 
-/* Background landing page: .photo cover penuh canvas */
-.landing-canvas .photo {
-  display: block;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("BGLP.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 2;
-}
 
 
 
@@ -161,12 +160,20 @@ html, body {
    Animated star field canvas
    ============================================================ */
 .starfield {
+  display: block;
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 4;
   pointer-events: none;
+}
+
+/* ============================================================
+   SHADM — hanya tampil di mobile (disembunyikan di desktop)
+   ============================================================ */
+.moon-shadm {
+  display: none;
 }
 
 /* ============================================================
@@ -184,6 +191,15 @@ html, body {
   background-position: center;
   z-index: 5;
   pointer-events: none;
+  /* Reset button defaults on desktop — visually identical to the old div */
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  cursor: default;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 /* ============================================================
@@ -278,12 +294,16 @@ html, body {
   pointer-events: none;
   background: #05020a;
   opacity: 0;
+  /* Ensure no animation-fill-mode lingers */
+  animation: none;
 }
 .page-transition.is-leaving {
-  animation: pt-fade-out 0.3s ease forwards;
+  pointer-events: all;
+  animation: pt-fade-out 0.35s ease forwards;
 }
 .page-transition.is-entering {
   opacity: 1;
+  pointer-events: none;
   animation: pt-fade-in 0.4s ease forwards;
 }
 
@@ -346,16 +366,32 @@ html, body {
    Brand — top-left
    Subtract 1 (logo): left 44 top 48 size 29 x 34  (base 1920x1080)
    ============================================================ */
-.brand { position: absolute; inset: 0; z-index: 9; pointer-events: none; }
-
-/* Logo mark — Subtract.png (raised higher) */
-.brand-mark {
+.brand {
   position: absolute;
-  left: 51px;
-  top: 44px;
+  left: 80px;
+  top: 64px;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40.7px;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: filter 0.4s ease;
+}
+.brand[href]:hover,
+.brand[href]:focus-visible {
+  filter: drop-shadow(0 0 6px rgba(160, 110, 255, 0.95))
+          drop-shadow(0 0 16px rgba(105, 78, 171, 0.75))
+          brightness(1.35);
+  outline: none;
+}
+
+/* Logo mark — Subtract.png */
+.brand-mark {
+  flex-shrink: 0;
   width: 36.01px;
   height: 40.7px;
-
 
   background-image: url("Subtract.png");
 
@@ -387,17 +423,12 @@ html, body {
   border-radius: 50%;
   background: #D9D9D9;
 }
-/* FUKAIMORI text (raised to sit with the logo) */
+/* FUKAIMORI text — flex child, vertically centered by parent */
 .brand-text {
-  position: absolute;
-  left: 95.14px;
-  top: 50px;
-  width: 197px;
-
   font-family: "Cantarell", system-ui, sans-serif;
   font-weight: 700;
   font-size: 20.19px;
-  line-height: 29px;
+  line-height: 1;
   letter-spacing: 0.4em;
   white-space: nowrap;
   background: linear-gradient(90deg, #4616BC 0%, #9367FF 100%);
@@ -414,10 +445,10 @@ html, body {
    ============================================================ */
 .drop-point {
   position: absolute;
-  left: 1936px;
-  top: 50px;
+  left: 1925px;
+  top: 64px;
   width: 180.88px;
-  height: 30px;
+  height: 40.7px;
   z-index: 9;
   text-decoration: none;
   display: block;
@@ -428,7 +459,7 @@ html, body {
   font-family: "Cantarell", system-ui, sans-serif;
   font-weight: 700;
   font-size: 21.24px;
-  line-height: 30px;
+  line-height: 40.7px;
   letter-spacing: 0;
   white-space: nowrap;
   background: linear-gradient(90deg, #3300AF 2.88%, #A37DFF 100%);
@@ -444,7 +475,8 @@ html, body {
 .drop-dot {
   position: absolute;
   left: 170.64px;
-  top: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 10.24px;
   height: 10.24px;
   border-radius: 50%;
@@ -462,13 +494,13 @@ html, body {
 @keyframes pulse-dot {
   0%, 100% {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(-50%) scale(1);
     box-shadow: 0 0 5px 1px rgba(255, 68, 68, 0.9),
                 0 0 12px 3px rgba(255, 68, 68, 0.6);
   }
   50% {
     opacity: 0.5;
-    transform: scale(1.25);
+    transform: translateY(-50%) scale(1.25);
     box-shadow: 0 0 12px 4px rgba(255, 68, 68, 1),
                 0 0 26px 8px rgba(255, 68, 68, 0.7);
   }
@@ -477,13 +509,13 @@ html, body {
 @keyframes pulse-dot-purple {
   0%, 100% {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(-50%) scale(1);
     box-shadow: 0 0 6px 2px rgba(155, 65, 255, 0.9),
                 0 0 14px 4px rgba(155, 65, 255, 0.6);
   }
   50% {
     opacity: 0.6;
-    transform: scale(1.3);
+    transform: translateY(-50%) scale(1.3);
     box-shadow: 0 0 14px 5px rgba(155, 65, 255, 1),
                 0 0 30px 10px rgba(155, 65, 255, 0.7);
   }
@@ -1229,13 +1261,13 @@ html, body {
    a portrait image (left) and metadata (right).
    ============================================================ */
 .arc-modal {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 50;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3vh 2vw;
+  padding: 32px 24px;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.35s ease, visibility 0.35s ease;
@@ -1255,8 +1287,8 @@ html, body {
   position: relative;
   display: grid;
   grid-template-columns: 42% 1fr;
-  width: min(89vw, 1346px);
-  height: min(84vh, 671px);
+  width: 1560px;
+  height: 780px;
   background: #2B2B2B;
   border: 1.13px solid #786BC7;
   border-radius: 4px;
@@ -1394,221 +1426,6 @@ html, body {
   letter-spacing: 0.05em;
   color: #A499E4;
   margin: 0;
-}
-
-/* Stack the dialog on narrow screens */
-@media (max-width: 720px) {
-  .arc-modal-dialog {
-    grid-template-columns: 1fr;
-    grid-template-rows: 45% 1fr;
-    height: min(90vh, 760px);
-  }
-}
-
-/* ============================================================
-   RESPONSIVE LAYOUT
-   The design is authored for wide (landscape) screens. These
-   breakpoints keep it usable on laptops, tablets and phones —
-   in both portrait and landscape — without black bars or
-   clipped content.
-   ============================================================ */
-
-/* ============================================================
-   RESPONSIVE — WIDE / LANDSCAPE SCREENS
-   The design canvas is scaled proportionally (CONTAIN, via
-   --scale set in script.js) so the whole design fits inside the
-   viewport with no cropping and no distortion; any leftover
-   space is covered by the viewport's blurred backdrop.
-
-
-   RESPONSIVE — PHONES / PORTRAIT / SHORT WINDOWS (.reflow)
-   On small or portrait screens a wide landscape design would
-   be cropped too much, so script.js adds the .reflow class and
-   the rules below turn the page into a fluid, scrollable mobile
-   layout that adapts to any device.
-   ============================================================ */
-
-/* Let the page scroll when it has reflowed to a mobile layout.
-   Two selector sets are provided for maximum browser coverage:
-     1. .reflow-active — a class script.js adds to <html>; works in
-        every browser (the reliable primary path).
-     2. :has(.canvas.reflow) — a progressive enhancement for
-        browsers that support :has(); harmless where they don't. */
-html.reflow-active,
-html.reflow-active body {
-  overflow-x: hidden;
-  overflow-y: auto;
-  height: auto;
-}
-html:has(.canvas.reflow),
-body:has(.canvas.reflow) {
-  overflow-x: hidden;
-  overflow-y: auto;
-  height: auto;
-}
-html.reflow-active .viewport,
-.viewport:has(.canvas.reflow) {
-  position: static;
-  display: block;
-  height: auto;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow: visible;
-}
-
-/* The canvas flows naturally and grows with its content */
-.canvas.reflow {
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  min-height: 100vh;
-  min-height: 100dvh;
-  transform: none;
-  overflow: visible;
-  background: transparent;
-}
-
-/* Keep the eclipse background fixed behind the scrolling content */
-.canvas.reflow .photo,
-.canvas.reflow .scene,
-.canvas.reflow .clouds,
-.canvas.reflow .fog {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-}
-
-/* ---------- Landing page (index.html) reflow ---------- */
-.canvas.reflow:not(.archive-canvas) {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5vh;
-  padding: 16vh 8vw 12vh;
-  text-align: center;
-}
-
-/* Brand pinned top-left, laid out inline (respects notch safe area) */
-.canvas.reflow .brand {
-  position: fixed;
-  inset: auto;
-  top: calc(2.5vh + env(safe-area-inset-top, 0px));
-  left: calc(6vw + env(safe-area-inset-left, 0px));
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.canvas.reflow .brand-mark {
-  position: static;
-  left: auto;
-  top: auto;
-  width: 24px;
-  height: 28px;
-}
-.canvas.reflow .brand-text {
-  position: static;
-  left: auto;
-  top: auto;
-  width: auto;
-  font-size: 15px;
-}
-
-/* Drop point pinned top-right (respects notch safe area) */
-.canvas.reflow .drop-point {
-  position: fixed;
-  left: auto;
-  right: calc(6vw + env(safe-area-inset-right, 0px));
-  top: calc(3vh + env(safe-area-inset-top, 0px));
-  z-index: 10;
-}
-.canvas.reflow .drop-dot {
-  left: auto;
-  right: -18px;
-}
-
-/* Title + subtitle flow below the moon */
-.canvas.reflow .title {
-  position: static;
-  left: auto;
-  top: auto;
-  width: auto;
-  max-width: 90vw;
-  height: auto;
-  font-size: clamp(22px, 7vw, 40px);
-  line-height: 1.3;
-  white-space: normal;
-}
-.canvas.reflow .subtitle {
-  position: static;
-  left: auto;
-  top: auto;
-  width: auto;
-  max-width: 92vw;
-  height: auto;
-  font-size: clamp(12px, 3.8vw, 18px);
-  line-height: 1.5;
-  white-space: normal;
-  letter-spacing: 0.18em;
-}
-
-/* ---------- Archive page (archive.html) reflow ---------- */
-.canvas.reflow.archive-canvas {
-  display: block;
-  padding: 13vh 6vw 14vh;
-}
-.canvas.reflow .arc-head {
-  position: static;
-  left: auto;
-  top: auto;
-  max-width: none;
-  margin-bottom: 5vh;
-}
-.canvas.reflow .arc-title {
-  font-size: clamp(46px, 15vw, 108px);
-}
-.canvas.reflow .arc-desc {
-  width: auto;
-  max-width: 100%;
-}
-.canvas.reflow .arc-gallery {
-  position: static;
-  inset: auto;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4vw;
-  pointer-events: auto;
-}
-.canvas.reflow .arc-card {
-  position: static;
-  left: auto;
-  top: auto;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 293 / 430;
-}
-.canvas.reflow .arc-ring {
-  display: none;
-}
-.canvas.reflow .arc-nav {
-  position: fixed;
-  left: auto;
-  top: auto;
-  right: calc(6vw + env(safe-area-inset-right, 0px));
-  bottom: calc(4vh + env(safe-area-inset-bottom, 0px));
-  z-index: 12;
-}
-
-/* Single column of cards on the narrowest phones */
-@media (max-width: 520px) {
-  .canvas.reflow .arc-gallery {
-    grid-template-columns: 1fr;
-    gap: 6vw;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2432,6 +2249,7 @@ html.reflow-active .viewport,
 .dp-canvas .dp-assist-q      { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both; }
 .dp-canvas .dp-assist-row    { animation: dp-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both; }
 .dp-canvas .dp-close         { animation: dp-enter 0.5s  cubic-bezier(0.22, 1, 0.36, 1) 0.15s both; }
+
 
 
 
