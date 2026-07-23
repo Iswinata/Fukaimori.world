@@ -283,6 +283,7 @@
       z-index: 20;
       display: none;
       pointer-events: none;
+      isolation: isolate;
     }
     .arc-ov1.active {
       display: block;
@@ -538,7 +539,8 @@
       align-items: center;
       justify-content: center;
       -webkit-tap-highlight-color: transparent;
-      z-index: 5;
+      z-index: 30;
+      pointer-events: all;
     }
     /* close overlay button */
     .arc-ov1-close {
@@ -678,9 +680,9 @@
         <p class="arc-ov1-order-head">Order Here</p>
         <div class="arc-ov1-wa"></div>
         <div class="arc-ov1-ig"></div>
-        <!-- ADD TO ARCHIVE button -->
-        <button class="arc-ov1-add-btn" id="arcOv1AddBtn">ADD TO ARCHIVE</button>
       </div>
+      <!-- ADD TO ARCHIVE button — outside ov1 to avoid stacking context issues -->
+      <button class="arc-ov1-add-btn" id="arcOv1AddBtn" style="display:none;">ADD TO ARCHIVE</button>
 
       <!-- Overlay 2: blur backdrop panel only (Rectangle 19) -->
       <div class="arc-ov2" id="arcOv2" aria-hidden="true">
@@ -728,13 +730,17 @@
         function showOv1() {
           ov1.classList.add('active');
           ov1.setAttribute('aria-hidden', 'false');
+          if (ov1AddBtn) ov1AddBtn.style.display = 'flex';
         }
         function hideOv1() {
           ov1.classList.remove('active');
           ov1.setAttribute('aria-hidden', 'true');
+          if (ov1AddBtn) ov1AddBtn.style.display = 'none';
         }
         function showOv2() {
-          hideOv1();
+          ov1.classList.remove('active');
+          ov1.setAttribute('aria-hidden', 'true');
+          if (ov1AddBtn) ov1AddBtn.style.display = 'none';
           ov2.classList.add('active');
           ov2.setAttribute('aria-hidden', 'false');
         }
