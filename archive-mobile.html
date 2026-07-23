@@ -561,7 +561,7 @@
     }
     .arc-ov1-close svg { width: 18px; height: 18px; display: block; }
 
-    /* ── Overlay 2: blur backdrop panel only (Rectangle 19) ── */
+    /* ── Overlay 2: full archive page (Frame 259) ── */
     .arc-ov2 {
       position: absolute;
       inset: 0;
@@ -569,23 +569,196 @@
       height: 814px;
       z-index: 30;
       display: none;
-      pointer-events: none;
+      background: url('BGMN.png') center/cover no-repeat;
     }
-    .arc-ov2.active {
-      display: block;
-      pointer-events: all;
+    .arc-ov2.active { display: block; }
+    /* logo */
+    .arc-ov2-logo {
+      position: absolute;
+      width: 146.41px; height: 21px;
+      left: calc(50% - 146.41px/2 + 0.21px); top: 34px;
+      display: flex; align-items: center; gap: 7px;
     }
-    /* Rectangle 19 */
+    .arc-ov2-logo-mark {
+      flex-shrink: 0; width: 16.16px; height: 18.13px;
+      background: url('Subtract.png') center/contain no-repeat;
+    }
+    .arc-ov2-logo-text {
+      font-family: 'Cantarell',sans-serif; font-weight: 700;
+      font-size: 14.8308px; line-height: 21px; letter-spacing: 0.21em;
+      white-space: nowrap;
+      background: linear-gradient(90deg,#786BC7 0%,#442ADD 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    /* hamburger */
+    .arc-ov2-ham {
+      position: absolute; left: 27px; top: 38px;
+      width: 20.22px; height: 12.77px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      background: none; border: none; padding: 0; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .arc-ov2-ham-line {
+      display: block; width: 20.22px; height: 0;
+      border-top: 2.12889px solid #7960FF; border-radius: 1px;
+    }
+    /* heading */
+    .arc-ov2-title {
+      position: absolute; width: 160px; height: 43px;
+      left: calc(50% - 160px/2 - 0.25px); top: 91px;
+      font-family: 'Bona Nova',Georgia,serif; font-weight: 400;
+      font-size: 35.9296px; line-height: 43px; text-align: center;
+      color: #786BC7; margin: 0;
+    }
+    .arc-ov2-desc {
+      position: absolute; width: 347px; height: 40px;
+      left: calc(50% - 347px/2 + 0.5px); top: 131.2px;
+      font-family: 'Bona Nova',Georgia,serif; font-weight: 400;
+      font-size: 16.302px; line-height: 20px; text-align: center;
+      color: #C2B8FF; margin: 0;
+    }
+    /* image grid */
+    .arc-ov2-img {
+      position: absolute; width: 180.61px; height: 265.06px; object-fit: cover;
+    }
+    .arc-ov2-img-1 { left: 48px;     top: 191px; }
+    .arc-ov2-img-2 { left: 245.48px; top: 191px; }
+    .arc-ov2-img-3 { left: 48px;     top: 472.94px; }
+    .arc-ov2-img-4 { left: 245.48px; top: 472.94px; }
+    /* pagination dots */
+    .arc-ov2-dot-1 {
+      position: absolute; width: 13.53px; height: 13.53px;
+      left: 213px; top: 765px; border-radius: 50%; background: #9C8CFF;
+    }
+    .arc-ov2-dot-2 {
+      position: absolute; width: 13.53px; height: 13.53px;
+      left: 244.58px; top: 765px; border-radius: 50%;
+      background: rgba(208,200,255,0.33);
+    }
+    /* Rectangle 19 — blur panel on top of archive view */
     .arc-ov2-panel {
       position: absolute;
-      width: 418px;
-      height: 386px;
-      left: calc(50% - 418px/2);
-      top: calc(50% - 386px/2 + 12px);
+      width: 418px; height: 386px;
+      left: calc(50% - 418px/2); top: calc(50% - 386px/2 + 12px);
       background: rgba(0,0,0,0.27);
       box-shadow: 0 0 13.4px 2px #6D61B5;
-      backdrop-filter: blur(12.2px);
-      -webkit-backdrop-filter: blur(12.2px);
+      backdrop-filter: blur(12.2px); -webkit-backdrop-filter: blur(12.2px);
+    }
+    /* product image on panel */
+    .arc-ov2-prod-img {
+      position: absolute; width: 178px; height: 190px;
+      left: 42px; top: 240px; object-fit: cover;
+      box-shadow: inset 4.69px 4.69px 75.33px 4.42px #000;
+    }
+    /* swatches */
+    .arc-ov2-swatches {
+      position: absolute; width: 117px; height: 15.02px;
+      left: 72px; top: 402px; background: rgba(160,145,247,0.71);
+    }
+    .arc-ov2-swatch-active {
+      position: absolute; width: 34.09px; height: 12.71px;
+      left: 73.45px; top: 403.16px; background: #7960AD;
+    }
+    .arc-ov2-sw-white {
+      position: absolute; left: 81.53px; top: 405.18px;
+      font-family: 'Poppins',sans-serif; font-weight: 500;
+      font-size: 5.98632px; line-height: 9px; color: #fff;
+    }
+    .arc-ov2-sw-black {
+      position: absolute; left: 121.98px; top: calc(50% - 9px/2 + 2.68px);
+      font-family: 'Poppins',sans-serif; font-weight: 500;
+      font-size: 5.98632px; line-height: 9px; color: rgba(253,253,253,0.55);
+    }
+    .arc-ov2-sw-washed {
+      position: absolute; left: 157.51px; top: calc(50% - 9px/2 + 2.68px);
+      font-family: 'Poppins',sans-serif; font-weight: 500;
+      font-size: 5.98632px; line-height: 9px; color: rgba(253,253,253,0.55);
+    }
+    /* vertical dots */
+    .arc-ov2-vdot {
+      position: absolute; width: 4.91px; height: 4.91px;
+      border-radius: 50%; transform: matrix(0,1,1,0,0,0); left: 47.64px;
+    }
+    .arc-ov2-vdot-1 { top: 310px;    background: #A798FF; }
+    .arc-ov2-vdot-2 { top: 325.05px; background: rgba(221,216,255,0.44); }
+    .arc-ov2-vdot-3 { top: 340.11px; background: rgba(221,216,255,0.44); }
+    .arc-ov2-vdot-4 { top: 355.16px; background: rgba(221,216,255,0.44); }
+    /* serial */
+    .arc-ov2-serial {
+      position: absolute; left: 231px; top: 246px;
+      font-family: 'Century','Times New Roman',Georgia,serif; font-weight: 400;
+      font-size: 10.72px; line-height: 72%; color: #A394FF;
+    }
+    /* name */
+    .arc-ov2-name {
+      position: absolute; width: 159px; left: 231px; top: 265px;
+      font-family: 'Bona Nova',Georgia,serif; font-weight: 400;
+      font-size: 23.1789px; line-height: 72%; color: #9A937B; margin: 0;
+    }
+    /* price */
+    .arc-ov2-price-orig {
+      position: absolute; left: 231px; top: 290.5px;
+      font-family: 'Cantarell',sans-serif; font-weight: 400;
+      font-size: 14.3634px; line-height: 120%;
+      text-decoration: line-through; color: #666;
+    }
+    .arc-ov2-price-disc {
+      position: absolute; left: 325.7px; top: 289.91px;
+      font-family: 'Cantarell',sans-serif; font-weight: 700;
+      font-size: 14.3627px; line-height: 120%;
+      color: rgba(178,142,255,0.67);
+    }
+    /* divider */
+    .arc-ov2-divider {
+      position: absolute; width: 194px; left: 232px; top: 319px;
+      border: none; border-top: 0.841986px dashed #A3A3A3;
+    }
+    /* description */
+    .arc-ov2-desc-head {
+      position: absolute; left: 231.08px; top: 326px;
+      font-family: 'Bona Nova',Georgia,serif; font-weight: 400;
+      font-size: 17.1765px; line-height: 120%; color: #9383F3; margin: 0;
+    }
+    .arc-ov2-desc-text {
+      position: absolute; width: 189px; left: 231px; top: 349px;
+      font-family: 'Bona Nova',Georgia,serif; font-weight: 400;
+      font-size: 12.2819px; line-height: 130%; color: #969074; margin: 0;
+    }
+    /* features */
+    .arc-ov2-feat-head {
+      position: absolute; left: 42.09px; top: 437px;
+      font-family: 'Bona Nova',Georgia,serif; font-weight: 400;
+      font-size: 20.0969px; line-height: 130%; color: #9383F3; margin: 0;
+    }
+    .arc-ov2-feat-item {
+      position: absolute; display: flex; align-items: flex-end; gap: 8px;
+    }
+    .arc-ov2-feat-dot {
+      flex-shrink: 0; width: 5.97px; height: 5.97px;
+      border-radius: 50%; background: #BFB4FF; margin-bottom: 2px;
+    }
+    .arc-ov2-feat-text {
+      font-family: 'Bona Nova',Georgia,serif; font-weight: 400;
+      font-size: 15.5142px; line-height: 19px; color: #969074; margin: 0;
+    }
+    .arc-ov2-feat-1 { left: 42px; top: 466.24px; }
+    .arc-ov2-feat-2 { left: 42px; top: 486.53px; }
+    .arc-ov2-feat-3 { left: 42px; top: 506.81px; }
+    /* order */
+    .arc-ov2-order-head {
+      position: absolute; left: 43.63px; top: 545px;
+      font-family: 'Bona Nova',Georgia,serif; font-weight: 400;
+      font-size: 17.448px; line-height: 120%; color: #9383F3; margin: 0;
+    }
+    .arc-ov2-wa {
+      position: absolute; width: 22.28px; height: 22.28px;
+      left: 42px; top: 569.42px;
+      background: url('walogo.png') center/contain no-repeat;
+    }
+    .arc-ov2-ig {
+      position: absolute; width: 22.44px; height: 22.12px;
+      left: 68px; top: 569.58px;
+      background: url('iglogo.png') center/contain no-repeat;
     }
     /* overlay fade */
     @keyframes arc-ov-in {
@@ -684,9 +857,71 @@
       <!-- ADD TO ARCHIVE button — outside ov1 to avoid stacking context issues -->
       <button class="arc-ov1-add-btn" id="arcOv1AddBtn" style="display:none;">ADD TO ARCHIVE</button>
 
-      <!-- Overlay 2: blur backdrop panel only (Rectangle 19) -->
+      <!-- Overlay 2: full archive page (Frame 259) + detail panel -->
       <div class="arc-ov2" id="arcOv2" aria-hidden="true">
+        <!-- logo -->
+        <div class="arc-ov2-logo">
+          <span class="arc-ov2-logo-mark"></span>
+          <span class="arc-ov2-logo-text">FUKAIMORI</span>
+        </div>
+        <!-- hamburger -->
+        <button class="arc-ov2-ham" aria-label="Menu">
+          <span class="arc-ov2-ham-line"></span>
+          <span class="arc-ov2-ham-line"></span>
+          <span class="arc-ov2-ham-line"></span>
+        </button>
+        <!-- ARCHIVE heading -->
+        <h1 class="arc-ov2-title">ARCHIVE</h1>
+        <p class="arc-ov2-desc">This archive stores every record and collectible you have unlocked so far.</p>
+        <!-- image grid -->
+        <img class="arc-ov2-img arc-ov2-img-1" src="SESOTHUMB.png" alt="Sesshomaru" />
+        <img class="arc-ov2-img arc-ov2-img-2" src="KL.png" alt="Locked" />
+        <img class="arc-ov2-img arc-ov2-img-3" src="KL.png" alt="Locked" />
+        <img class="arc-ov2-img arc-ov2-img-4" src="KL.png" alt="Locked" />
+        <!-- pagination dots -->
+        <span class="arc-ov2-dot-1"></span>
+        <span class="arc-ov2-dot-2"></span>
+        <!-- Rectangle 19 panel -->
         <div class="arc-ov2-panel"></div>
+        <!-- product image -->
+        <img class="arc-ov2-prod-img" src="kp1.png" alt="SESSHOMARU product" />
+        <!-- swatches -->
+        <div class="arc-ov2-swatches"></div>
+        <div class="arc-ov2-swatch-active"></div>
+        <span class="arc-ov2-sw-white">White</span>
+        <span class="arc-ov2-sw-black">Black</span>
+        <span class="arc-ov2-sw-washed">Washed</span>
+        <!-- vertical dots -->
+        <span class="arc-ov2-vdot arc-ov2-vdot-1"></span>
+        <span class="arc-ov2-vdot arc-ov2-vdot-2"></span>
+        <span class="arc-ov2-vdot arc-ov2-vdot-3"></span>
+        <span class="arc-ov2-vdot arc-ov2-vdot-4"></span>
+        <!-- product info -->
+        <span class="arc-ov2-serial">AW 001</span>
+        <p class="arc-ov2-name">SESSHOMARU</p>
+        <span class="arc-ov2-price-orig">Rp. 499.000</span>
+        <span class="arc-ov2-price-disc">Rp. 399.000</span>
+        <hr class="arc-ov2-divider" />
+        <p class="arc-ov2-desc-head">Description</p>
+        <p class="arc-ov2-desc-text">An original interpretation, brought into the world of FUKAIMORI. Each on its own, together into something larger.</p>
+        <!-- features -->
+        <p class="arc-ov2-feat-head">Features</p>
+        <div class="arc-ov2-feat-item arc-ov2-feat-1">
+          <span class="arc-ov2-feat-dot"></span>
+          <span class="arc-ov2-feat-text">Heavy Cotton Combed 20s</span>
+        </div>
+        <div class="arc-ov2-feat-item arc-ov2-feat-2">
+          <span class="arc-ov2-feat-dot"></span>
+          <span class="arc-ov2-feat-text">Manual Screen Printed</span>
+        </div>
+        <div class="arc-ov2-feat-item arc-ov2-feat-3">
+          <span class="arc-ov2-feat-dot"></span>
+          <span class="arc-ov2-feat-text">A Limited Release, Then History</span>
+        </div>
+        <!-- order -->
+        <p class="arc-ov2-order-head">Order Here</p>
+        <div class="arc-ov2-wa"></div>
+        <div class="arc-ov2-ig"></div>
       </div>
 
       <!-- Card 2: locked (top-right, Figma "aw 3 1") -->
