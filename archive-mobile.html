@@ -273,6 +273,419 @@
     .arc-card-2 { animation: arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.34s both; }
     .arc-card-3 { animation: arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.40s both; }
     .arc-card-4 { animation: arc-fade-up 0.55s cubic-bezier(0.22,1,0.36,1) 0.46s both; }
+
+    /* ── Overlay 1: product detail ── */
+    .arc-ov1 {
+      position: absolute;
+      inset: 0;
+      width: 474px;
+      height: 814px;
+      z-index: 20;
+      display: none;
+      pointer-events: none;
+    }
+    .arc-ov1.active {
+      display: block;
+      pointer-events: all;
+    }
+    /* blur backdrop panel */
+    .arc-ov1-panel {
+      position: absolute;
+      width: 418px;
+      height: 386px;
+      left: calc(50% - 418px/2);
+      top: calc(50% - 386px/2 + 12px);
+      background: rgba(0,0,0,0.27);
+      box-shadow: 0 0 13.4px 2px #6D61B5;
+      backdrop-filter: blur(12.2px);
+      -webkit-backdrop-filter: blur(12.2px);
+    }
+    /* product image */
+    .arc-ov1-img {
+      position: absolute;
+      width: 178px;
+      height: 190px;
+      left: 42px;
+      top: 240px;
+      object-fit: cover;
+      box-shadow: inset 4.69px 4.69px 75.33px 4.42px #000;
+    }
+    /* color swatch bar */
+    .arc-ov1-swatches {
+      position: absolute;
+      width: 117px;
+      height: 15.02px;
+      left: 72px;
+      top: 402px;
+      background: rgba(160,145,247,0.71);
+    }
+    .arc-ov1-swatch-active {
+      position: absolute;
+      width: 34.09px;
+      height: 12.71px;
+      left: 73.45px;
+      top: 403.16px;
+      background: #7960AD;
+    }
+    .arc-ov1-sw-white {
+      position: absolute;
+      left: 81.53px;
+      top: 405.18px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: 5.98632px;
+      line-height: 9px;
+      color: #fff;
+    }
+    .arc-ov1-sw-black {
+      position: absolute;
+      left: 121.98px;
+      top: calc(50% - 9px/2 + 2.68px);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: 5.98632px;
+      line-height: 9px;
+      color: rgba(253,253,253,0.55);
+    }
+    .arc-ov1-sw-washed {
+      position: absolute;
+      left: 157.51px;
+      top: calc(50% - 9px/2 + 2.68px);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: 5.98632px;
+      line-height: 9px;
+      color: rgba(253,253,253,0.55);
+    }
+    /* serial */
+    .arc-ov1-serial {
+      position: absolute;
+      left: 231px;
+      top: 246px;
+      font-family: 'Century','Times New Roman',Georgia,serif;
+      font-weight: 400;
+      font-size: 10.72px;
+      line-height: 72%;
+      color: #A394FF;
+    }
+    /* product name */
+    .arc-ov1-name {
+      position: absolute;
+      width: 159px;
+      left: 231px;
+      top: 265px;
+      font-family: 'Bona Nova',Georgia,serif;
+      font-weight: 400;
+      font-size: 23.1789px;
+      line-height: 72%;
+      color: #9A937B;
+      margin: 0;
+    }
+    /* price struck */
+    .arc-ov1-price-orig {
+      position: absolute;
+      left: 231px;
+      top: 290.5px;
+      font-family: 'Cantarell',sans-serif;
+      font-weight: 400;
+      font-size: 14.3634px;
+      line-height: 120%;
+      text-decoration: line-through;
+      color: #666;
+    }
+    /* price discounted */
+    .arc-ov1-price-disc {
+      position: absolute;
+      left: 325.7px;
+      top: 289.91px;
+      font-family: 'Cantarell',sans-serif;
+      font-weight: 700;
+      font-size: 14.3627px;
+      line-height: 120%;
+      color: rgba(178,142,255,0.67);
+    }
+    /* divider */
+    .arc-ov1-divider {
+      position: absolute;
+      width: 194px;
+      left: 232px;
+      top: 319px;
+      border: none;
+      border-top: 0.841986px dashed #A3A3A3;
+    }
+    /* Description heading */
+    .arc-ov1-desc-head {
+      position: absolute;
+      left: 231.08px;
+      top: 326px;
+      font-family: 'Bona Nova',Georgia,serif;
+      font-weight: 400;
+      font-size: 17.1765px;
+      line-height: 120%;
+      color: #9383F3;
+      margin: 0;
+    }
+    /* Description text */
+    .arc-ov1-desc-text {
+      position: absolute;
+      width: 189px;
+      left: 231px;
+      top: 349px;
+      font-family: 'Bona Nova',Georgia,serif;
+      font-weight: 400;
+      font-size: 12.2819px;
+      line-height: 130%;
+      color: #969074;
+      margin: 0;
+    }
+    /* Features heading */
+    .arc-ov1-feat-head {
+      position: absolute;
+      left: 42.09px;
+      top: 437px;
+      font-family: 'Bona Nova',Georgia,serif;
+      font-weight: 400;
+      font-size: 20.0969px;
+      line-height: 130%;
+      color: #9383F3;
+      margin: 0;
+    }
+    /* Feature items */
+    .arc-ov1-feat-item {
+      position: absolute;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .arc-ov1-feat-dot {
+      flex-shrink: 0;
+      width: 5.97px;
+      height: 5.97px;
+      border-radius: 50%;
+      background: #BFB4FF;
+      margin-bottom: 2px;
+    }
+    .arc-ov1-feat-text {
+      font-family: 'Bona Nova',Georgia,serif;
+      font-weight: 400;
+      font-size: 15.5142px;
+      line-height: 19px;
+      color: #969074;
+      margin: 0;
+    }
+    .arc-ov1-feat-1 { left: 42px; top: 466.24px; }
+    .arc-ov1-feat-2 { left: 42px; top: 486.53px; }
+    .arc-ov1-feat-3 { left: 42px; top: 506.81px; }
+    /* Order Here heading */
+    .arc-ov1-order-head {
+      position: absolute;
+      left: 43.63px;
+      top: 545px;
+      font-family: 'Bona Nova',Georgia,serif;
+      font-weight: 400;
+      font-size: 17.448px;
+      line-height: 120%;
+      color: #9383F3;
+      margin: 0;
+    }
+    /* Social icons */
+    .arc-ov1-wa {
+      position: absolute;
+      width: 22.28px;
+      height: 22.28px;
+      left: 42px;
+      top: 569.42px;
+      background: url('walogo.png') center/contain no-repeat;
+    }
+    .arc-ov1-ig {
+      position: absolute;
+      width: 22.44px;
+      height: 22.12px;
+      left: 68px;
+      top: 569.58px;
+      background: url('iglogo.png') center/contain no-repeat;
+    }
+    /* vertical dots (ellipse 19-22) */
+    .arc-ov1-vdot {
+      position: absolute;
+      width: 4.91px;
+      height: 4.91px;
+      border-radius: 50%;
+      transform: matrix(0,1,1,0,0,0);
+      left: 47.64px;
+    }
+    .arc-ov1-vdot-1 { top: 310px;    background: #A798FF; }
+    .arc-ov1-vdot-2 { top: 325.05px; background: rgba(221,216,255,0.44); }
+    .arc-ov1-vdot-3 { top: 340.11px; background: rgba(221,216,255,0.44); }
+    .arc-ov1-vdot-4 { top: 355.16px; background: rgba(221,216,255,0.44); }
+    /* ADD TO ARCHIVE button */
+    .arc-ov1-add-btn {
+      position: absolute;
+      left: calc(50% - 160px/2);
+      bottom: 60px;
+      width: 160px;
+      height: 36px;
+      background: #786BC7;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family: 'Bona Nova',Georgia,serif;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      z-index: 5;
+    }
+    /* close overlay button */
+    .arc-ov1-close {
+      position: absolute;
+      right: 22px;
+      top: 22px;
+      width: 28px;
+      height: 28px;
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 25;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .arc-ov1-close svg { width: 18px; height: 18px; display: block; }
+
+    /* ── Overlay 2: full archive view ── */
+    .arc-ov2 {
+      position: absolute;
+      inset: 0;
+      width: 474px;
+      height: 814px;
+      z-index: 30;
+      display: none;
+      background: url('BGMN.png') center/cover no-repeat;
+    }
+    .arc-ov2.active { display: block; }
+    /* logo group */
+    .arc-ov2-logo {
+      position: absolute;
+      width: 146.41px;
+      height: 21px;
+      left: calc(50% - 146.41px/2 + 0.21px);
+      top: 34px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .arc-ov2-logo-mark {
+      flex-shrink: 0;
+      width: 16.16px;
+      height: 18.13px;
+      background: url('Subtract.png') center/contain no-repeat;
+    }
+    .arc-ov2-logo-text {
+      font-family: 'Cantarell',sans-serif;
+      font-weight: 700;
+      font-size: 14.8308px;
+      line-height: 21px;
+      letter-spacing: 0.21em;
+      white-space: nowrap;
+      background: linear-gradient(90deg,#786BC7 0%,#442ADD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    /* hamburger */
+    .arc-ov2-ham {
+      position: absolute;
+      left: 27px;
+      top: 38px;
+      width: 20.22px;
+      height: 12.77px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .arc-ov2-ham-line {
+      display: block;
+      width: 20.22px;
+      height: 0;
+      border-top: 2.12889px solid #7960FF;
+      border-radius: 1px;
+    }
+    /* ARCHIVE heading */
+    .arc-ov2-title {
+      position: absolute;
+      width: 160px;
+      height: 43px;
+      left: calc(50% - 160px/2 - 0.25px);
+      top: 91px;
+      font-family: 'Bona Nova',Georgia,serif;
+      font-weight: 400;
+      font-size: 35.9296px;
+      line-height: 43px;
+      text-align: center;
+      color: #786BC7;
+      margin: 0;
+    }
+    /* description */
+    .arc-ov2-desc {
+      position: absolute;
+      width: 347px;
+      height: 40px;
+      left: calc(50% - 347px/2 + 0.5px);
+      top: 131.2px;
+      font-family: 'Bona Nova',Georgia,serif;
+      font-weight: 400;
+      font-size: 16.302px;
+      line-height: 20px;
+      text-align: center;
+      color: #C2B8FF;
+      margin: 0;
+    }
+    /* image grid */
+    .arc-ov2-img {
+      position: absolute;
+      width: 180.61px;
+      height: 265.06px;
+      object-fit: cover;
+    }
+    .arc-ov2-img-1 { left: 48px;     top: 191px; }     /* aw 3 2 — SESOTHUMB */
+    .arc-ov2-img-2 { left: 245.48px; top: 191px; }     /* aw 3 1 */
+    .arc-ov2-img-3 { left: 48px;     top: 472.94px; }  /* aw 3 3 */
+    .arc-ov2-img-4 { left: 245.48px; top: 472.94px; }  /* aw 3 4 */
+    /* pagination dots */
+    .arc-ov2-dot-1 {
+      position: absolute;
+      width: 13.53px; height: 13.53px;
+      left: 213px; top: 765px;
+      border-radius: 50%;
+      background: #9C8CFF;
+    }
+    .arc-ov2-dot-2 {
+      position: absolute;
+      width: 13.53px; height: 13.53px;
+      left: 244.58px; top: 765px;
+      border-radius: 50%;
+      background: rgba(208,200,255,0.33);
+    }
+    /* overlay fade */
+    @keyframes arc-ov-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .arc-ov1.active, .arc-ov2.active {
+      animation: arc-ov-in 0.3s ease forwards;
+    }
   </style>
 </head>
 <body>
@@ -304,10 +717,89 @@
       <!-- Description -->
       <p class="arc-desc">This archive stores every record and collectible you have unlocked so far.</p>
 
-      <!-- Card 1: K1.png — unlocked (top-left, Figma "aw 3 2") -->
-      <a class="arc-card arc-card-1" href="archive.html" aria-label="Archive entry 1">
+      <!-- Card 1: K1.png — unlocked, opens overlay -->
+      <div class="arc-card arc-card-1" id="arcCard1" role="button" tabindex="0" aria-label="Archive entry 1 — view details" style="cursor:pointer;">
         <img src="K1.png" alt="Archive entry 1" class="arc-card-img" />
-      </a>
+      </div>
+
+      <!-- Overlay 1: product detail -->
+      <div class="arc-ov1" id="arcOv1" aria-hidden="true">
+        <!-- blur backdrop -->
+        <div class="arc-ov1-panel"></div>
+        <!-- close button -->
+        <button class="arc-ov1-close" id="arcOv1Close" aria-label="Close">
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 3L15 15M15 3L3 15" stroke="#7960FF" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <!-- product image -->
+        <img class="arc-ov1-img" src="kp1.png" alt="SESSHOMARU product" />
+        <!-- color swatches -->
+        <div class="arc-ov1-swatches"></div>
+        <div class="arc-ov1-swatch-active"></div>
+        <span class="arc-ov1-sw-white">White</span>
+        <span class="arc-ov1-sw-black">Black</span>
+        <span class="arc-ov1-sw-washed">Washed</span>
+        <!-- vertical dots -->
+        <span class="arc-ov1-vdot arc-ov1-vdot-1"></span>
+        <span class="arc-ov1-vdot arc-ov1-vdot-2"></span>
+        <span class="arc-ov1-vdot arc-ov1-vdot-3"></span>
+        <span class="arc-ov1-vdot arc-ov1-vdot-4"></span>
+        <!-- product info -->
+        <span class="arc-ov1-serial">AW 001</span>
+        <p class="arc-ov1-name">SESSHOMARU</p>
+        <span class="arc-ov1-price-orig">Rp. 499.000</span>
+        <span class="arc-ov1-price-disc">Rp. 399.000</span>
+        <hr class="arc-ov1-divider" />
+        <p class="arc-ov1-desc-head">Description</p>
+        <p class="arc-ov1-desc-text">An original interpretation, brought into the world of FUKAIMORI. Each on its own, together into something larger.</p>
+        <!-- features -->
+        <p class="arc-ov1-feat-head">Features</p>
+        <div class="arc-ov1-feat-item arc-ov1-feat-1">
+          <span class="arc-ov1-feat-dot"></span>
+          <span class="arc-ov1-feat-text">Heavy Cotton Combed 20s</span>
+        </div>
+        <div class="arc-ov1-feat-item arc-ov1-feat-2">
+          <span class="arc-ov1-feat-dot"></span>
+          <span class="arc-ov1-feat-text">Manual Screen Printed</span>
+        </div>
+        <div class="arc-ov1-feat-item arc-ov1-feat-3">
+          <span class="arc-ov1-feat-dot"></span>
+          <span class="arc-ov1-feat-text">A Limited Release, Then History</span>
+        </div>
+        <!-- order -->
+        <p class="arc-ov1-order-head">Order Here</p>
+        <div class="arc-ov1-wa"></div>
+        <div class="arc-ov1-ig"></div>
+        <!-- ADD TO ARCHIVE button -->
+        <button class="arc-ov1-add-btn" id="arcOv1AddBtn">ADD TO ARCHIVE</button>
+      </div>
+
+      <!-- Overlay 2: full archive view -->
+      <div class="arc-ov2" id="arcOv2" aria-hidden="true">
+        <!-- logo -->
+        <div class="arc-ov2-logo">
+          <span class="arc-ov2-logo-mark"></span>
+          <span class="arc-ov2-logo-text">FUKAIMORI</span>
+        </div>
+        <!-- hamburger -->
+        <button class="arc-ov2-ham" aria-label="Menu">
+          <span class="arc-ov2-ham-line"></span>
+          <span class="arc-ov2-ham-line"></span>
+          <span class="arc-ov2-ham-line"></span>
+        </button>
+        <!-- heading -->
+        <h1 class="arc-ov2-title">ARCHIVE</h1>
+        <p class="arc-ov2-desc">This archive stores every record and collectible you have unlocked so far.</p>
+        <!-- image grid -->
+        <img class="arc-ov2-img arc-ov2-img-1" src="SESOTHUMB.png" alt="Sesshomaru" />
+        <img class="arc-ov2-img arc-ov2-img-2" src="KL.png" alt="Locked" />
+        <img class="arc-ov2-img arc-ov2-img-3" src="KL.png" alt="Locked" />
+        <img class="arc-ov2-img arc-ov2-img-4" src="KL.png" alt="Locked" />
+        <!-- pagination dots -->
+        <span class="arc-ov2-dot-1"></span>
+        <span class="arc-ov2-dot-2"></span>
+      </div>
 
       <!-- Card 2: locked (top-right, Figma "aw 3 1") -->
       <div class="arc-card arc-card-2 arc-card--locked" aria-label="Locked" role="img">
@@ -337,6 +829,37 @@
   <script>
     (function () {
       'use strict';
+
+      /* ── Overlay 1 & 2 logic ── */
+      (function initOverlays() {
+        var card1     = document.getElementById('arcCard1');
+        var ov1       = document.getElementById('arcOv1');
+        var ov1Close  = document.getElementById('arcOv1Close');
+        var ov1AddBtn = document.getElementById('arcOv1AddBtn');
+        var ov2       = document.getElementById('arcOv2');
+        if (!card1 || !ov1 || !ov2) return;
+
+        function showOv1() {
+          ov1.classList.add('active');
+          ov1.setAttribute('aria-hidden', 'false');
+        }
+        function hideOv1() {
+          ov1.classList.remove('active');
+          ov1.setAttribute('aria-hidden', 'true');
+        }
+        function showOv2() {
+          hideOv1();
+          ov2.classList.add('active');
+          ov2.setAttribute('aria-hidden', 'false');
+        }
+
+        card1.addEventListener('click', showOv1);
+        card1.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showOv1(); }
+        });
+        if (ov1Close) ov1Close.addEventListener('click', hideOv1);
+        if (ov1AddBtn) ov1AddBtn.addEventListener('click', showOv2);
+      })();
 
       /* ── Scale canvas to COVER viewport ── */
       (function scaler() {
