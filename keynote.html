@@ -338,31 +338,28 @@
       background: url('BGMN.png') center/cover no-repeat;
       pointer-events: none; z-index: 0;
     }
-    /* Logo — Group 143 (Figma exact spec) */
+    /* Logo — copied from index-mobile.html (.mob-brand) */
     .m-logo-group {
       position: absolute;
       width: 146.41px;
       height: 21px;
-      left: calc(50% - 146.41px/2 + 0.21px);
+      left: calc(50% - 146.41px / 2 + 0.21px);
       top: 34px;
-      z-index: 5;
+      z-index: 9;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
     }
     .m-logo-icon {
-      position: absolute;
+      flex-shrink: 0;
       width: 16.16px;
       height: 18.13px;
-      left: 0;
-      top: 1.44px;
-      background: url('Subtract.png') center/contain no-repeat;
+      background: url('Subtract.png') center center / contain no-repeat;
     }
     .m-logo-text {
-      position: absolute;
-      width: 122px;
-      height: 21px;
-      left: 24.41px;
-      top: 0;
-      font-family: 'Cantarell', sans-serif;
-      font-style: normal;
+      font-family: 'Cantarell', system-ui, sans-serif;
       font-weight: 700;
       font-size: 14.8308px;
       line-height: 21px;
@@ -372,7 +369,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-fill-color: transparent;
     }
     /* ARCHIVE NOTE heading */
     .m-kn-title {
