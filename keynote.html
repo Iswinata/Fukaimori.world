@@ -338,24 +338,35 @@
       background: url('BGMN.png') center/cover no-repeat;
       pointer-events: none; z-index: 0;
     }
-    /* Logo */
+    /* Logo — same as index.html mobile */
     .m-logo-group {
-      position: absolute; width: 146.41px; height: 21px;
-      left: calc(50% - 146.41px/2 + 0.21px); top: 34px; z-index: 5;
+      position: absolute;
+      width: 146.41px;
+      height: 21px;
+      left: calc(50% - 146.41px / 2 + 0.21px);
+      top: 34px;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 7px;
     }
     .m-logo-icon {
-      position: absolute; width: 16.16px; height: 18.13px;
-      left: 0; top: 2.13px;
+      flex-shrink: 0;
+      width: 16.16px;
+      height: 18.13px;
       background: url('Subtract.png') center/contain no-repeat;
     }
     .m-logo-text {
-      position: absolute; width: 122px; height: 21px;
-      left: 24.41px; top: 0;
-      font-family: 'Cantarell', sans-serif; font-weight: 700;
-      font-size: 14.8308px; line-height: 21px; letter-spacing: 0.21em;
+      font-family: 'Cantarell', sans-serif;
+      font-weight: 700;
+      font-size: 14.8308px;
+      line-height: 21px;
+      letter-spacing: 0.21em;
+      white-space: nowrap;
       background: linear-gradient(90deg, #786BC7 0%, #442ADD 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; white-space: nowrap;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     /* ARCHIVE NOTE heading */
     .m-kn-title {
