@@ -559,7 +559,7 @@
     }
     .arc-ov1-close svg { width: 18px; height: 18px; display: block; }
 
-    /* ── Overlay 2: full archive view ── */
+    /* ── Overlay 2: blur backdrop panel only (Rectangle 19) ── */
     .arc-ov2 {
       position: absolute;
       inset: 0;
@@ -567,116 +567,23 @@
       height: 814px;
       z-index: 30;
       display: none;
-      background: url('BGMN.png') center/cover no-repeat;
+      pointer-events: none;
     }
-    .arc-ov2.active { display: block; }
-    /* logo group */
-    .arc-ov2-logo {
-      position: absolute;
-      width: 146.41px;
-      height: 21px;
-      left: calc(50% - 146.41px/2 + 0.21px);
-      top: 34px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .arc-ov2-logo-mark {
-      flex-shrink: 0;
-      width: 16.16px;
-      height: 18.13px;
-      background: url('Subtract.png') center/contain no-repeat;
-    }
-    .arc-ov2-logo-text {
-      font-family: 'Cantarell',sans-serif;
-      font-weight: 700;
-      font-size: 14.8308px;
-      line-height: 21px;
-      letter-spacing: 0.21em;
-      white-space: nowrap;
-      background: linear-gradient(90deg,#786BC7 0%,#442ADD 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    /* hamburger */
-    .arc-ov2-ham {
-      position: absolute;
-      left: 27px;
-      top: 38px;
-      width: 20.22px;
-      height: 12.77px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .arc-ov2-ham-line {
+    .arc-ov2.active {
       display: block;
-      width: 20.22px;
-      height: 0;
-      border-top: 2.12889px solid #7960FF;
-      border-radius: 1px;
+      pointer-events: all;
     }
-    /* ARCHIVE heading */
-    .arc-ov2-title {
+    /* Rectangle 19 */
+    .arc-ov2-panel {
       position: absolute;
-      width: 160px;
-      height: 43px;
-      left: calc(50% - 160px/2 - 0.25px);
-      top: 91px;
-      font-family: 'Bona Nova',Georgia,serif;
-      font-weight: 400;
-      font-size: 35.9296px;
-      line-height: 43px;
-      text-align: center;
-      color: #786BC7;
-      margin: 0;
-    }
-    /* description */
-    .arc-ov2-desc {
-      position: absolute;
-      width: 347px;
-      height: 40px;
-      left: calc(50% - 347px/2 + 0.5px);
-      top: 131.2px;
-      font-family: 'Bona Nova',Georgia,serif;
-      font-weight: 400;
-      font-size: 16.302px;
-      line-height: 20px;
-      text-align: center;
-      color: #C2B8FF;
-      margin: 0;
-    }
-    /* image grid */
-    .arc-ov2-img {
-      position: absolute;
-      width: 180.61px;
-      height: 265.06px;
-      object-fit: cover;
-    }
-    .arc-ov2-img-1 { left: 48px;     top: 191px; }     /* aw 3 2 — SESOTHUMB */
-    .arc-ov2-img-2 { left: 245.48px; top: 191px; }     /* aw 3 1 */
-    .arc-ov2-img-3 { left: 48px;     top: 472.94px; }  /* aw 3 3 */
-    .arc-ov2-img-4 { left: 245.48px; top: 472.94px; }  /* aw 3 4 */
-    /* pagination dots */
-    .arc-ov2-dot-1 {
-      position: absolute;
-      width: 13.53px; height: 13.53px;
-      left: 213px; top: 765px;
-      border-radius: 50%;
-      background: #9C8CFF;
-    }
-    .arc-ov2-dot-2 {
-      position: absolute;
-      width: 13.53px; height: 13.53px;
-      left: 244.58px; top: 765px;
-      border-radius: 50%;
-      background: rgba(208,200,255,0.33);
+      width: 418px;
+      height: 386px;
+      left: calc(50% - 418px/2);
+      top: calc(50% - 386px/2 + 12px);
+      background: rgba(0,0,0,0.27);
+      box-shadow: 0 0 13.4px 2px #6D61B5;
+      backdrop-filter: blur(12.2px);
+      -webkit-backdrop-filter: blur(12.2px);
     }
     /* overlay fade */
     @keyframes arc-ov-in {
@@ -775,30 +682,9 @@
         <button class="arc-ov1-add-btn" id="arcOv1AddBtn">ADD TO ARCHIVE</button>
       </div>
 
-      <!-- Overlay 2: full archive view -->
+      <!-- Overlay 2: blur backdrop panel only (Rectangle 19) -->
       <div class="arc-ov2" id="arcOv2" aria-hidden="true">
-        <!-- logo -->
-        <div class="arc-ov2-logo">
-          <span class="arc-ov2-logo-mark"></span>
-          <span class="arc-ov2-logo-text">FUKAIMORI</span>
-        </div>
-        <!-- hamburger -->
-        <button class="arc-ov2-ham" aria-label="Menu">
-          <span class="arc-ov2-ham-line"></span>
-          <span class="arc-ov2-ham-line"></span>
-          <span class="arc-ov2-ham-line"></span>
-        </button>
-        <!-- heading -->
-        <h1 class="arc-ov2-title">ARCHIVE</h1>
-        <p class="arc-ov2-desc">This archive stores every record and collectible you have unlocked so far.</p>
-        <!-- image grid -->
-        <img class="arc-ov2-img arc-ov2-img-1" src="SESOTHUMB.png" alt="Sesshomaru" />
-        <img class="arc-ov2-img arc-ov2-img-2" src="KL.png" alt="Locked" />
-        <img class="arc-ov2-img arc-ov2-img-3" src="KL.png" alt="Locked" />
-        <img class="arc-ov2-img arc-ov2-img-4" src="KL.png" alt="Locked" />
-        <!-- pagination dots -->
-        <span class="arc-ov2-dot-1"></span>
-        <span class="arc-ov2-dot-2"></span>
+        <div class="arc-ov2-panel"></div>
       </div>
 
       <!-- Card 2: locked (top-right, Figma "aw 3 1") -->
