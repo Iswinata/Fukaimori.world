@@ -500,6 +500,30 @@
     .m-frame .m-kn-row {
       animation: m-kn-enter 1.4s cubic-bezier(0.16,1,0.3,1) 0.1s both;
     }
+    /* Back button */
+    .m-kn-back {
+      position: absolute;
+      left: 22px;
+      top: 29px;
+      width: 25px;
+      height: 25px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .m-kn-back svg {
+      width: 25px;
+      height: 25px;
+      display: block;
+    }
     /* Page transition overlay */
     .m-transition {
       position: absolute; inset: 0; background: #000;
@@ -622,6 +646,12 @@
       <!-- Feather particles -->
       <canvas class="m-starfield" aria-hidden="true" style="position:absolute;inset:0;width:474px;height:814px;z-index:2;pointer-events:none;display:block;"></canvas>
       <div class="m-mist" aria-hidden="true"></div>
+      <!-- Back button -->
+      <button class="m-kn-back" id="mKnBack" aria-label="Kembali ke halaman sebelumnya">
+        <svg viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.5 5L8 12.5L15.5 20" stroke="#7960FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
       <!-- Logo -->
       <div class="m-logo-group" role="banner">
         <div class="m-logo-icon" aria-hidden="true"></div>
@@ -729,6 +759,21 @@
       }
       scale();
       window.addEventListener('resize', scale);
+    })();
+
+    /* ── Mobile: back button ── */
+    (function () {
+      var backBtn = document.getElementById('mKnBack');
+      var trans   = document.getElementById('mTransition');
+      if (!backBtn) return;
+      backBtn.addEventListener('click', function () {
+        if (trans) {
+          trans.classList.add('fade-out');
+          setTimeout(function () { history.back(); }, 450);
+        } else {
+          history.back();
+        }
+      });
     })();
 
     /* ── Mobile: card flip toggle ── */
